@@ -1,8 +1,7 @@
-"use client";
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQuery } from "@tanstack/react-query";
 import { type LottieComponentProps } from "lottie-react";
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Suspense, lazy } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +21,7 @@ export default function LazyLottie<T extends Record<string, unknown>>({
   const { data } = useQuery({
     queryKey: [id],
     queryFn: async () => {
-      void import("lottie-react"); // Trigger the library lazy load even if the animationData is not ready
+      void import("lottie-react");
       return getAnimationData();
     },
     enabled: typeof window !== "undefined",
@@ -33,6 +32,9 @@ export default function LazyLottie<T extends Record<string, unknown>>({
       <Skeleton className={cn(`h-[${props.height}px] w-[${props.width}px]`)} />
     );
 
+  // Clone the data object to avoid modifying a non-extensible object
+  const mutableData = { ...data };
+
   return (
     <Suspense
       fallback={
@@ -40,7 +42,7 @@ export default function LazyLottie<T extends Record<string, unknown>>({
           className={cn(`h-[${props.height}px] w-[${props.width}px]`)}
         />
       }>
-      <LazyLottieComponent animationData={data} {...props} />
+      <LazyLottieComponent animationData={mutableData} {...props} />
     </Suspense>
   );
 }
