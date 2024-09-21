@@ -8,3 +8,8 @@ declare type TWrapperProps = {
   children: TNode;
   className?: string | string[];
 };
+
+declare type TInitialeState = {
+  address: string | null;
+  connected: boolean;
+};

@@ -11,10 +11,20 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { argent, braavos } from "@starknet-react/core";
+import { useEffect } from "react";
 
 const routes = ["about", "token", "team", "listings", "blog"];
 
 export default function Header() {
+  const connectors = [argent(), braavos()];
+
+  useEffect(() => {
+    connectors.forEach((connector) => {
+      console.log(connector?.name);
+    });
+  }, []);
+
   return (
     <header className="sticky top-0 left-0 w-full py-4 md:py-6 z-50 backdrop-blur-3xl">
       <Wrapper className={"flex items-center justify-between size-full"}>
