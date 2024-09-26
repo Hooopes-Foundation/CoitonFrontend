@@ -16,3 +16,12 @@ declare type TRoutes = {
   label: string;
   path: any;
 };
+
+declare type TCoitonFlow = {
+  title: string;
+  description: string;
+  gradient: string;
+  color: string;
+  border: string;
+  stack: TNode;
+};

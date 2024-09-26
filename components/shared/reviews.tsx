@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { useInView, motion } from "framer-motion";
 import { useRef } from "react";
 
-import { assets } from "@/assets";
 import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import { reviews, variants } from "@/constants";

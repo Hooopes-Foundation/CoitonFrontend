@@ -37,7 +37,7 @@ export default function Carousel() {
 
   useEffect(() => {
     const imagePromises = slides.map(
-      (slide: any) =>
+      (slide) =>
         new Promise<void>((resolve, reject) => {
           const img = new window.Image(); // Use window.Image
           img.src = slide.image;

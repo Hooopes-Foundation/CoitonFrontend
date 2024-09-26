@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import MaxWrapper from "./max-wrapper";
 import { assets } from "@/assets";
 import Image from "next/image";
@@ -9,7 +15,7 @@ import { useInView, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { variants } from "@/constants";
 
-const coitonFlows = [
+const coitonFlows: TCoitonFlow[] = [
   {
     title: "Browse Properties",
     description:
@@ -72,7 +78,15 @@ const coitonFlows = [
   },
 ];
 
-function Flow({ flow, index, setActiveFlow }: any) {
+function Flow({
+  flow,
+  index,
+  setActiveFlow,
+}: {
+  flow: TCoitonFlow;
+  index: number;
+  setActiveFlow: Dispatch<SetStateAction<TCoitonFlow>>;
+}) {
   const { fadeIn } = variants;
 
   const ref = useRef(null);
@@ -123,7 +137,7 @@ function Flow({ flow, index, setActiveFlow }: any) {
 }
 
 export default function Flows() {
-  const [activeFlow, setActiveFlow] = useState(coitonFlows[0]);
+  const [activeFlow, setActiveFlow] = useState<TCoitonFlow>(coitonFlows[0]);
 
   return (
     <div className="mb-28">
