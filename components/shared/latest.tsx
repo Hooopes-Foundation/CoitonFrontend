@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 import { MoveRight } from "lucide-react";
 import { LiaEthereum } from "react-icons/lia";
@@ -11,6 +11,7 @@ import { dummyProperties, variants } from "@/constants";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Latest() {
   const { fadeIn } = variants;
@@ -96,9 +97,12 @@ export default function Latest() {
                     }
                   )}
                 >
-                  <img
+                  <Image
                     src={property?.image[0]}
                     alt={property?.title}
+                    fill
+                    priority
+                    quality={100}
                     className={cn(
                       "size-full object-cover duration-300 delay-200",
                       {
