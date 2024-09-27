@@ -86,7 +86,7 @@ export default function Support() {
         >
           <div className="flex justify-center bg-white size-full rounded-[inherit] bg-gradient-to-b from-[#F9FFF8] to-[#DEFED9] relative overflow-clip">
             <motion.div
-              className="w-1/2 md:w-[297px] md:h-[359px] lg:absolute cursor-pointer lg:left-[20px] lg:top-[65px] z-[2]"
+              className="lg:absolute cursor-pointer lg:left-[20px] lg:top-[65px] z-[2]"
               style={{
                 rotate: "-3.53deg",
               }}
@@ -101,12 +101,12 @@ export default function Support() {
                 height={359}
                 priority
                 quality={100}
-                className="w-1/2 md:w-[297px] md:h-[359px] -ml-4 lg:-ml-0 object-contain shadow-2xl shadow-black/40 rounded-lg"
+                className="md:w-[297px] md:h-[359px] -ml-4 lg:-ml-0 object-contain shadow-2xl shadow-black/40 rounded-lg"
               />
             </motion.div>
 
             <motion.div
-              className="w-1/2 md:w-[297px] md:h-[359px] lg:absolute cursor-pointer lg:left-[300px] lg:top-[45px] z-[1]"
+              className="lg:absolute cursor-pointer lg:left-[300px] lg:top-[45px] z-[1]"
               style={{
                 rotate: "0.23deg",
               }}
@@ -121,12 +121,12 @@ export default function Support() {
                 height={359}
                 priority
                 quality={100}
-                className="w-1/2 md:w-[297px] md:h-[359px] -ml-16 lg:-ml-0  object-contain shadow-2xl shadow-black/40 rounded-lg"
+                className="md:w-[297px] md:h-[359px] -ml-16 lg:-ml-0  object-contain shadow-2xl shadow-black/40 rounded-lg"
               />
             </motion.div>
 
             <motion.div
-              className="w-1/2 md:w-[297px] md:h-[359px] lg:absolute cursor-pointer lg:right-[20px] lg:top-[65px] z-0"
+              className="lg:absolute cursor-pointer lg:right-[20px] lg:top-[65px] z-0"
               style={{
                 rotate: "2.94deg",
               }}
@@ -141,7 +141,7 @@ export default function Support() {
                 height={359}
                 priority
                 quality={100}
-                className="w-1/2 md:w-[297px] md:h-[359px] -ml-12 lg:-ml-0  object-contain shadow-2xl shadow-black/40 rounded-lg"
+                className="md:w-[297px] md:h-[359px] -ml-12 lg:-ml-0  object-contain shadow-2xl shadow-black/40 rounded-lg"
               />
             </motion.div>
           </div>

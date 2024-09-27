@@ -58,7 +58,7 @@ export default function Banner() {
             <Image
               src={assets.shapes.octShape}
               alt="OCTAGON SHAPE"
-              className="brightness-90 !w-[324px] !h-[310px] md:size-auto"
+              className="brightness-90 !size-72 md:!w-[324px] md:!h-[310px]"
               width={324}
               height={310}
               priority
@@ -101,7 +101,7 @@ export default function Banner() {
               height={627}
               priority
               quality={100}
-              className="brightness-90 !w-[641px] !h-[627px] md:size-auto"
+              className="brightness-90 !size-72 md:!w-[641px] md:!h-[627px]"
             />
           </motion.div>
         </motion.div>
@@ -163,7 +163,7 @@ export default function Banner() {
 
       <div className="relative mt-24 md:mt-36 lg:mt-56 mb-16 md:mb-28">
         <motion.div
-          className="absolute -top-[140px] md:-top-[270px] left-1/2 -z-10 rotate-3 md:rotate-[5deg]"
+          className="absolute -top-[140px] md:-top-[270px] left-1/2 -translate-x-1/2 -z-10 rotate-3 md:rotate-[5deg] w-full"
           variants={fadeIn("up", 0.6)}
           initial="hidden"
           whileInView={"show"}
@@ -188,7 +188,7 @@ export default function Banner() {
           <Image
             src={assets.shapes.flatShape}
             alt="NOODLE SHAPE"
-            className="brightness-90 !w-[699px] !h-[519px] md:size-auto"
+            className="brightness-90 size-72 md:!w-[699px] md:h-[519px] sm:size-auto absolute left-1/2 -translate-x-1/2"
             width={699}
             height={519}
             quality={100}

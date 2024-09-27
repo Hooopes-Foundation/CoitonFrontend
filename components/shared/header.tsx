@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import MaxWrapper from "./max-wrapper";
 import { assets } from "@/assets";
@@ -13,8 +15,13 @@ import {
 } from "@/components/ui/sheet";
 import { FiMenu } from "react-icons/fi";
 import { routes } from "@/constants";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function Header() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   return (
     <header className="sticky top-0 left-0 w-full py-4 md:py-6 z-50 backdrop-blur-3xl">
       <MaxWrapper className="flex items-center justify-between size-full">
@@ -32,27 +39,40 @@ export default function Header() {
           </Link>
         </div>
 
-        <ul className="flex-1 hidden md:flex items-center justify-center gap-12 lg:gap-16">
-          {routes.map((route: TRoutes) => (
-            <li key={route.path} className="relative group">
-              <Link
-                href={route.path}
-                className="text-lg font-medium text-primary capitalize cursor-pointer"
-              >
-                {route.label}
-              </Link>
+        <ul className="flex-1 hidden md:flex items-center justify-center gap-10 lg:gap-12">
+          {routes.map((route: TRoutes) => {
+            const isActive = pathname === route.path;
 
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-primary rounded-lg group-hover:w-[90%] transition-all" />
-            </li>
-          ))}
+            return (
+              <li key={route.path} className="relative group">
+                <Link
+                  href={route.path}
+                  className="text-lg font-medium text-primary capitalize cursor-pointer leading-none px-2"
+                >
+                  {route.label}
+                </Link>
+
+                <span
+                  className={cn(
+                    "absolute -bottom-1 -translate-x-1/2 size-1 bg-primary rounded-lg transition-all duration-300",
+                    {
+                      "left-0 opacity-0 group-hover:left-1/2 group-hover:opacity-100":
+                        !isActive,
+                      "left-1/2 opacity-100": isActive,
+                    }
+                  )}
+                />
+              </li>
+            );
+          })}
         </ul>
 
         <div className="hidden md:flex items-center justify-end max-w-40 lg:max-w-44 w-full">
-          <Link href="/starknet-test">
-            <Button variant={"black"} className="font-medium rounded-full">
-              Get in Touch
-            </Button>
-          </Link>
+          {/* <Link href="/starknet-test"> */}
+          <Button variant={"black"} className="font-medium rounded-full">
+            Get in Touch
+          </Button>
+          {/* </Link> */}
         </div>
 
         <div className="flex md:hidden">
@@ -64,14 +84,13 @@ export default function Header() {
               <SheetHeader className="mt-12">
                 {routes.map((route: TRoutes) => (
                   <SheetClose
-                    className="relative group border-border/50 border-b last:border-b-0 p-2 w-full"
+                    className="relative group border-border/50 border-b last:border-b-0 p-2 w-full text-left"
                     key={route.path}
+                    onClick={() => router.push(route.path)}
                   >
-                    <Link href={route.path} className="text-left">
-                      <p className="text-lg font-medium text-primary capitalize text-left">
-                        {route.label}
-                      </p>
-                    </Link>
+                    <p className="text-lg font-medium text-primary capitalize text-left">
+                      {route.label}
+                    </p>
                   </SheetClose>
                 ))}
               </SheetHeader>
