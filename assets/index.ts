@@ -22,6 +22,9 @@ import prop1 from "./images/prop1.png";
 import prop2 from "./images/prop2.png";
 import prop3 from "./images/prop3.png";
 
+// gif
+import coitonGif from "./videos/coiton.gif";
+
 export const assets = {
   images: {
     testBanner,
@@ -29,9 +32,8 @@ export const assets = {
     prop2,
     prop3,
   },
-  video: {
-    coitonVideo:
-      "https://ipfs.io/ipfs/QmUFyEhZtgGxzYxFNV2qe4mPH1j7TnZt9DaB1Wua6MiLGn",
+  gif: {
+    coitonGif,
   },
   shapes: {
     flatShape,

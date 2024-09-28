@@ -9,7 +9,6 @@ import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import Link from "next/link";
 import { footerLinks } from "@/constants";
-import { Button } from "../ui/button";
 
 export default function Footer() {
   return (
@@ -43,7 +42,7 @@ export default function Footer() {
                     <Link
                       href="/"
                       key={path}
-                      className="text-sm sm:text-base md:text-[15px] leading-[26.46px] sm:font-medium md:font-normal capitalize"
+                      className="text-base md:text-[15px] leading-[26.46px] font-medium md:font-normal capitalize"
                     >
                       {path}
                     </Link>
@@ -74,75 +73,22 @@ export default function Footer() {
             </li>
           </ul>
 
-          <div className="w-full lg:w-[268px] flex items-center justify-center lg:justify-end gap-4">
-            <Button
-              className="rounded-full size-9"
-              size={"icon"}
-              variant={"secondary"}
-            >
-              <Link
-                href="https://www.linkedin.com/in/coiton-nigeria-b59b6831a/"
-                target="_blank"
-                className="size-full flex items-center justify-center"
-              >
-                <FaLinkedinIn size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="rounded-full size-9"
-              size={"icon"}
-              variant={"secondary"}
-            >
-              <Link
-                href="https://x.com/_COiTON"
-                target="_blank"
-                className="size-full flex items-center justify-center"
-              >
-                <FaXTwitter size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="rounded-full size-9"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                href="/"
-                target="_blank"
-                className="size-full flex items-center justify-center"
-              >
-                <FaFacebookF size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="rounded-full size-9"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                href="/"
-                target="_blank"
-                className="size-full flex items-center justify-center"
-              >
-                <SiInstagram size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="rounded-full size-9"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                href="/"
-                target="_blank"
-                className="size-full flex items-center justify-center"
-              >
-                <BsYoutube size={19} className="text-foreground" />
-              </Link>
-            </Button>
+          <div className="w-full lg:w-[268px] flex items-center justify-center lg:justify-end gap-5">
+            <div className="size-[34px] rounded-full bg-background flex items-center justify-center">
+              <FaLinkedinIn size={19} className="text-foreground" />
+            </div>
+            <div className="size-[34px] rounded-full bg-background flex items-center justify-center">
+              <FaFacebookF size={19} className="text-foreground" />
+            </div>
+            <div className="size-[34px] rounded-full bg-background flex items-center justify-center">
+              <SiInstagram size={19} className="text-foreground" />
+            </div>
+            <div className="size-[34px] rounded-full bg-background flex items-center justify-center">
+              <FaXTwitter size={19} className="text-foreground" />
+            </div>
+            <div className="size-[34px] rounded-full bg-background flex items-center justify-center">
+              <BsYoutube size={19} className="text-foreground" />
+            </div>
           </div>
         </MaxWrapper>
       </div>
