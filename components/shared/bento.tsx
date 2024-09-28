@@ -2,7 +2,6 @@
 
 import { MoveRight, X } from "lucide-react";
 import { IoMdCopy } from "react-icons/io";
-import { Button } from "../ui/button";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -11,7 +10,6 @@ import { assets } from "@/assets";
 import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import { variants } from "@/constants";
-import VideoComponent from "./video-comp";
 import CustomButton from "./custom-button";
 
 export default function Bento() {

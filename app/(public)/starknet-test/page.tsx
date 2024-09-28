@@ -12,14 +12,16 @@ export default function StarknetTest() {
   const { connectAsync, connectors } = useConnect();
   const { disconnectAsync } = useDisconnect();
   const { starknetkitConnectModal } = useStarknetkitConnectModal({
-    connectors: connectors as any,
+    // @ts-expect-error WILL COME BACK TO THAT SOON
+    connectors: connectors,
     modalTheme: "light",
   });
 
   const connectWallet = async () => {
     try {
       const { connector } = await starknetkitConnectModal();
-      await connectAsync({ connector: connector as any });
+      // @ts-expect-error WILL COME BACK TO THAT SOON
+      await connectAsync({ connector });
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message || "There was a problem with your request.");

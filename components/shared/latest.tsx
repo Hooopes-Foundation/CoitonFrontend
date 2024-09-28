@@ -1,7 +1,5 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
-
 import { MoveRight } from "lucide-react";
 import { LiaEthereum } from "react-icons/lia";
 import { PiBuildingOfficeLight } from "react-icons/pi";
@@ -12,6 +10,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import CustomButton from "./custom-button";
+import Image from "next/image";
 
 export default function Latest() {
   const { fadeIn } = variants;
@@ -96,7 +95,10 @@ export default function Latest() {
                     }
                   )}
                 >
-                  <img
+                  <Image
+                    fill
+                    priority
+                    quality={100}
                     src={property?.image[0]}
                     alt={property?.title}
                     className={cn(

@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { useInView, motion, useMotionValue, useTransform } from "framer-motion";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-import { assets } from "@/assets";
 import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import { reviews, variants } from "@/constants";
@@ -12,7 +11,7 @@ import { reviews, variants } from "@/constants";
 export default function Reviews() {
   const { fadeIn } = variants;
 
-  const [allReviews, setAllReviews] = useState<typeof reviews>(reviews);
+  const [allReviews, setAllReviews] = useState<TReview[]>(reviews);
 
   const reviewRef = useRef(null);
 
@@ -43,7 +42,7 @@ export default function Reviews() {
         </div>
 
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-6 sm:gap-0">
-          {reviews.map((rv, _key) => (
+          {reviews.map((rv: TReview, _key: number) => (
             <motion.div
               key={_key}
               className={cn(
@@ -57,7 +56,7 @@ export default function Reviews() {
               <div className="size-full rounded-[inherit] p-10 flex flex-col justify-between">
                 <div className="size-[116px] rounded-full bg-secondary relative">
                   <Image
-                    src={rv.image}
+                    src={rv.image!}
                     alt={rv.name}
                     fill
                     priority
@@ -104,9 +103,9 @@ const MobildReviewCard = ({
   setAllReviews,
 }: {
   id: number;
-  singleRv: any;
-  allReviews: typeof reviews;
-  setAllReviews: any;
+  singleRv: TReview;
+  allReviews: TReview[];
+  setAllReviews: Dispatch<SetStateAction<TReview[]>>;
 }) => {
   const [currentIndex, setCurrentIndex] = useState(allReviews.length - 1);
   const [originalReviews] = useState([...allReviews]);
@@ -124,7 +123,7 @@ const MobildReviewCard = ({
 
   const handleDragEnd = () => {
     if (Math.abs(x.get()) > 50) {
-      setAllReviews((prev: any[]) => {
+      setAllReviews((prev: TReview[]) => {
         const newReviews = prev.filter((review) => review.id !== id);
         if (newReviews.length === 0) {
           // If all cards are removed, reset to the original set
@@ -167,7 +166,7 @@ const MobildReviewCard = ({
       <div className="size-full rounded-[inherit] p-10 flex flex-col justify-between">
         <div className="size-[116px] rounded-full bg-secondary relative">
           <Image
-            src={singleRv.image}
+            src={singleRv.image!}
             alt={singleRv.name}
             fill
             priority
