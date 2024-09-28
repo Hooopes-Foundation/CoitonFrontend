@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-import "../assets/styles/globals.css";
+import "@/assets/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { fontSans, fontSerif } from "@/assets/fonts";
 import { siteConfig } from "@/config/site.config";
+import { StarknetProvider } from "@/providers/starknet-provider";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<TParentLayout>) {
+export default function RootLayout({ children }: Readonly<TPropsWithChildren>) {
   return (
     <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
       <body
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: Readonly<TParentLayout>) {
           fontSerif.variable
         )}
       >
-        {children}
+        <StarknetProvider>{children}</StarknetProvider>
       </body>
     </html>
   );
