@@ -4,7 +4,6 @@ import Link from "next/link";
 import MaxWrapper from "./max-wrapper";
 import { assets } from "@/assets";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,

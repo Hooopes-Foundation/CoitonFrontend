@@ -16,3 +16,11 @@ declare type TRoutes = {
   label: string;
   path: any;
 };
+
+declare type TReview = {
+  id: number;
+  feedback: string;
+  name: string;
+  position: string;
+  image?: string;
+};

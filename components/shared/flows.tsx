@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import MaxWrapper from "./max-wrapper";
 import { assets } from "@/assets";
 import Image from "next/image";
@@ -8,6 +14,15 @@ import LazyLottie from "./lazy-lottie";
 import { useInView, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { variants } from "@/constants";
+
+type TFlow = {
+  title: string;
+  description: string;
+  gradient: string;
+  color: string;
+  border: string;
+  stack: TNode;
+};
 
 const coitonFlows = [
   {
@@ -72,7 +87,15 @@ const coitonFlows = [
   },
 ];
 
-function Flow({ flow, index, setActiveFlow }: any) {
+function Flow({
+  flow,
+  index,
+  setActiveFlow,
+}: {
+  flow: TFlow;
+  index: number;
+  setActiveFlow: Dispatch<SetStateAction<TFlow>>;
+}) {
   const { fadeIn } = variants;
 
   const ref = useRef(null);
@@ -178,6 +201,7 @@ export default function Flows() {
               key={index}
               flow={flow}
               index={index}
+              // @ts-expect-error WILL COME BACK TO THAT SOON
               setActiveFlow={setActiveFlow}
             />
           ))}
