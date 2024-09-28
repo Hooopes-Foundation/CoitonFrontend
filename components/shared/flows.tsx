@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MaxWrapper from "./max-wrapper";
 import { assets } from "@/assets";
 import Image from "next/image";
@@ -15,7 +9,7 @@ import { useInView, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { variants } from "@/constants";
 
-const coitonFlows: TCoitonFlow[] = [
+const coitonFlows = [
   {
     title: "Browse Properties",
     description:
@@ -78,15 +72,7 @@ const coitonFlows: TCoitonFlow[] = [
   },
 ];
 
-function Flow({
-  flow,
-  index,
-  setActiveFlow,
-}: {
-  flow: TCoitonFlow;
-  index: number;
-  setActiveFlow: Dispatch<SetStateAction<TCoitonFlow>>;
-}) {
+function Flow({ flow, index, setActiveFlow }: any) {
   const { fadeIn } = variants;
 
   const ref = useRef(null);
@@ -137,12 +123,12 @@ function Flow({
 }
 
 export default function Flows() {
-  const [activeFlow, setActiveFlow] = useState<TCoitonFlow>(coitonFlows[0]);
+  const [activeFlow, setActiveFlow] = useState(coitonFlows[0]);
 
   return (
     <div className="mb-28">
       <MaxWrapper className="flex lg:hidden gap-7">
-        <div className="flex-1 flex flex-col gap-24 md:gap-16 lg:gap-32">
+        <div className="flex-1 flex flex-col gap-10 md:gap-16 lg:gap-32">
           {coitonFlows.map((flow, index) => (
             <div key={index} className="flex flex-col gap-4 md:gap-2 lg:gap-10">
               <div

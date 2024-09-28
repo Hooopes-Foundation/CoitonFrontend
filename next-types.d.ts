@@ -1,9 +1,9 @@
 declare type TNode = React.ReactNode;
 
-declare type TParentLayout = PropsWithChildren<{}>;
+declare type TPropsWithChildren = PropsWithChildren<{}>;
 
-declare type TMaxWrapper = TParentLayout & {
-  children?: string;
+declare type TMaxWrapper = TPropsWithChildren & {
+  className?: string;
 };
 
 declare type TSiteConfig = {
@@ -15,13 +15,4 @@ declare type TSiteConfig = {
 declare type TRoutes = {
   label: string;
   path: any;
-};
-
-declare type TCoitonFlow = {
-  title: string;
-  description: string;
-  gradient: string;
-  color: string;
-  border: string;
-  stack: TNode;
 };
