@@ -43,7 +43,7 @@ export default function Footer() {
                     <Link
                       href="/"
                       key={path}
-                      className="text-sm sm:text-base md:text-[15px] leading-[26.46px] sm:font-medium md:font-normal capitalize"
+                      className="text-sm sm:text-base md:text-[15px] leading-[26.46px] sm:font-medium md:font-normal capitalize md:hover:translate-x-2 transition-transform duration-300"
                     >
                       {path}
                     </Link>

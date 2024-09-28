@@ -11,6 +11,7 @@ import { dummyProperties, variants } from "@/constants";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import CustomButton from "./custom-button";
 
 export default function Latest() {
   const { fadeIn } = variants;
@@ -53,7 +54,7 @@ export default function Latest() {
             </p>
           </motion.div>
 
-          <motion.button
+          <motion.div
             variants={fadeIn("left", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -61,16 +62,17 @@ export default function Latest() {
               once: true,
               amount: 0.7,
             }}
-            className={buttonVariants({
-              variant: "black",
-              className: "px-6 font-medium hidden md:flex",
-            })}
           >
-            See More <MoveRight size={22} className="ml-3" />
-          </motion.button>
+            <CustomButton
+              variant={"black"}
+              className="px-6 font-medium hidden md:flex"
+            >
+              See More <MoveRight size={22} className="ml-3" />
+            </CustomButton>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {dummyProperties.map((property, _index) => (
             <motion.div
               variants={fadInAnimate}
@@ -85,9 +87,7 @@ export default function Latest() {
               custom={_index}
               className="flex flex-col"
             >
-              <div className="relative border-2 border-border/50 bg-secondary backdrop-blur-3xl rounded-3xl w-full aspect-square overflow-hidden">
-                <div className="absolute -z-10 top-0 left-0 bg-gradient-to-b from-[#FFF4DE] via-[#FFF4DE]/50 to-background size-full" />
-
+              <div className="relative border-2 border-border/20 shadow-2xl shadow-black/20 bg-background rounded-3xl w-full aspect-square overflow-hidden">
                 <div
                   className={cn(
                     "bg-background/80 rounded-2xl w-full h-full absolute bottom-0 left-0 z-10 transition-all duration-500 overflow-hidden",

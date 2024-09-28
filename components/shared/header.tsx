@@ -17,6 +17,7 @@ import { FiMenu } from "react-icons/fi";
 import { routes } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import CustomButton from "./custom-button";
 
 export default function Header() {
   const pathname = usePathname();
@@ -68,11 +69,14 @@ export default function Header() {
         </ul>
 
         <div className="hidden md:flex items-center justify-end max-w-40 lg:max-w-44 w-full">
-          {/* <Link href="/starknet-test"> */}
-          <Button variant={"black"} className="font-medium rounded-full">
-            Get in Touch
-          </Button>
-          {/* </Link> */}
+          <Link href="/starknet-test">
+            <CustomButton
+              variant={"black"}
+              className="font-medium rounded-full"
+            >
+              Get in Touch
+            </CustomButton>
+          </Link>
         </div>
 
         <div className="flex md:hidden">
@@ -84,7 +88,7 @@ export default function Header() {
               <SheetHeader className="mt-12">
                 {routes.map((route: TRoutes) => (
                   <SheetClose
-                    className="relative group border-border/50 border-b last:border-b-0 p-2 w-full text-left"
+                    className="relative group border-border/50 border-b last:border-b-0 px-2 py-3 w-full text-left outline-none focus:outline-none"
                     key={route.path}
                     onClick={() => router.push(route.path)}
                   >
@@ -96,9 +100,9 @@ export default function Header() {
               </SheetHeader>
               <SheetFooter className="mt-auto">
                 <SheetClose asChild>
-                  <Button variant={"black"} className="font-medium h-12">
+                  <CustomButton variant={"black"} className="font-medium h-12">
                     Get in Touch
-                  </Button>
+                  </CustomButton>
                 </SheetClose>
               </SheetFooter>
             </SheetContent>

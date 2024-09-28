@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useInView, motion } from "framer-motion";
-import { useRef } from "react";
+import { useInView, motion, useMotionValue, useTransform } from "framer-motion";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { assets } from "@/assets";
 import MaxWrapper from "./max-wrapper";
@@ -11,6 +11,8 @@ import { reviews, variants } from "@/constants";
 
 export default function Reviews() {
   const { fadeIn } = variants;
+
+  const [allReviews, setAllReviews] = useState<typeof reviews>(reviews);
 
   const reviewRef = useRef(null);
 
@@ -40,7 +42,7 @@ export default function Reviews() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-6 sm:gap-0">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-6 sm:gap-0">
           {reviews.map((rv, _key) => (
             <motion.div
               key={_key}
@@ -78,7 +80,113 @@ export default function Reviews() {
             </motion.div>
           ))}
         </div>
+
+        <div className="grid place-items-center md:hidden">
+          {allReviews.map((rv) => (
+            <MobildReviewCard
+              key={rv.id}
+              singleRv={rv}
+              id={rv.id}
+              allReviews={allReviews}
+              setAllReviews={setAllReviews}
+            />
+          ))}
+        </div>
       </div>
     </MaxWrapper>
   );
 }
+
+const MobildReviewCard = ({
+  id,
+  singleRv,
+  allReviews,
+  setAllReviews,
+}: {
+  id: number;
+  singleRv: any;
+  allReviews: typeof reviews;
+  setAllReviews: any;
+}) => {
+  const [currentIndex, setCurrentIndex] = useState(allReviews.length - 1);
+  const [originalReviews] = useState([...allReviews]);
+  const x = useMotionValue(0);
+
+  const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+  const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
+
+  const isFront = id === allReviews[currentIndex]?.id;
+
+  const rotate = useTransform(() => {
+    const offset = isFront ? 0 : id % 2 ? 5 : -5;
+    return `${rotateRaw.get() + offset}deg`;
+  });
+
+  const handleDragEnd = () => {
+    if (Math.abs(x.get()) > 50) {
+      setAllReviews((prev: any[]) => {
+        const newReviews = prev.filter((review) => review.id !== id);
+        if (newReviews.length === 0) {
+          // If all cards are removed, reset to the original set
+          return [...originalReviews];
+        }
+        return newReviews;
+      });
+      x.set(0);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentIndex(allReviews.length - 1);
+  }, [allReviews]);
+
+  return (
+    <motion.div
+      className="w-[350px] h-[430px] bg-background border-2 border-[#c4c0c0] rounded-3xl hover:cursor-grab active:cursor-grabbing origin-bottom flex items-center justify-center"
+      style={{
+        gridRow: 1,
+        gridColumn: 1,
+        x,
+        opacity,
+        rotate,
+        transition: "0.125s transform",
+        boxShadow: isFront
+          ? "0 20px 25px -5px rgba(0 0 0 / 0.2), 0 8px 10px -6px rgba(0 0 0 / 0.2)"
+          : undefined,
+      }}
+      animate={{
+        scale: isFront ? 1 : 0.98,
+      }}
+      drag="x"
+      dragConstraints={{
+        left: 0,
+        right: 0,
+      }}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="size-full rounded-[inherit] p-10 flex flex-col justify-between">
+        <div className="size-[116px] rounded-full bg-secondary relative">
+          <Image
+            src={singleRv.image}
+            alt={singleRv.name}
+            fill
+            priority
+            quality={100}
+            className="object-contain size-full"
+          />
+        </div>
+
+        <p className="text-base font-medium line-clamp-6">
+          “{singleRv.feedback}”
+        </p>
+
+        <div className="flex flex-col items-end ml-auto">
+          <p className="text-base font-medium">{singleRv.name}</p>
+          <span className="text-sm text-muted-foreground">
+            {singleRv.position}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+};

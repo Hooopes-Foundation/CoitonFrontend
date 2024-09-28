@@ -128,7 +128,7 @@ export default function Flows() {
   return (
     <div className="mb-28">
       <MaxWrapper className="flex lg:hidden gap-7">
-        <div className="flex-1 flex flex-col gap-24 md:gap-16 lg:gap-32">
+        <div className="flex-1 flex flex-col gap-10 md:gap-16 lg:gap-32">
           {coitonFlows.map((flow, index) => (
             <div key={index} className="flex flex-col gap-4 md:gap-2 lg:gap-10">
               <div

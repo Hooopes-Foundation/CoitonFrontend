@@ -10,6 +10,7 @@ import Carousel from "./carousel";
 import { buttonVariants } from "../ui/button";
 import Image from "next/image";
 import { useRef } from "react";
+import CustomButton from "./custom-button";
 
 export default function Banner() {
   const { fadeIn } = variants;
@@ -144,7 +145,7 @@ export default function Banner() {
           Blockchain Technology
         </motion.p>
 
-        <motion.button
+        <motion.div
           variants={fadeIn("up", 0.5)}
           initial="hidden"
           whileInView={"show"}
@@ -152,13 +153,11 @@ export default function Banner() {
             once: true,
             amount: 0.7,
           }}
-          className={buttonVariants({
-            className: "mt-4 md:mt-6",
-            size: "lg",
-          })}
         >
-          Get Started <MoveRight size={22} className="ml-2" />
-        </motion.button>
+          <CustomButton className="mt-4 md:mt-6" size={"lg"}>
+            Get Started <MoveRight size={22} className="ml-2" />
+          </CustomButton>
+        </motion.div>
       </div>
 
       <div className="relative mt-24 md:mt-36 lg:mt-56 mb-16 md:mb-28">
@@ -195,12 +194,8 @@ export default function Banner() {
             priority
           />
         </motion.div>
-        <FollowerPointerCard className="hidden lg:flex">
-          <Carousel />
-        </FollowerPointerCard>
-        <div className="flex lg:hidden">
-          <Carousel />
-        </div>
+
+        <Carousel />
       </div>
     </MaxWrapper>
   );

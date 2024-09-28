@@ -12,6 +12,7 @@ import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import { variants } from "@/constants";
 import VideoComponent from "./video-comp";
+import CustomButton from "./custom-button";
 
 export default function Bento() {
   const { fadeIn } = variants;
@@ -52,9 +53,9 @@ export default function Bento() {
               Ready to Start Your Real Estate Journey?
             </h2>
 
-            <Button size={"lg"} className="w-max">
+            <CustomButton size={"lg"} className="w-max">
               Get Started <MoveRight size={20} className="ml-3" />
-            </Button>
+            </CustomButton>
 
             <motion.div
               className="absolute -right-32 md:-right-[320px] lg:-right-[150px] top-12 lg:top-[100px]"
@@ -105,12 +106,12 @@ export default function Bento() {
               Dive Deeper into Coiton
             </h2>
 
-            <Button
+            <CustomButton
               size={"lg"}
-              className="w-max bg-[#9C7800] hover:bg-[#9C7800]/90"
+              className="w-max !bg-[#9C7800] hover:!bg-[#9C7800]/90"
             >
               Download Whitepaper <IoMdCopy size={22} className="ml-3" />
-            </Button>
+            </CustomButton>
 
             <motion.div
               className="absolute -right-[170px] md:-right-[210px] top-10 md:-top-[20px] lg:-top-[50px] md:size-[424px] lg:size-[324px] z-0"
