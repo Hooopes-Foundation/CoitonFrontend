@@ -51,10 +51,6 @@ body {
     @apply border-border;
   }
 
-  *::-webkit-scrollbar {
-    @apply hidden;
-  }
-
   body {
     @apply bg-background text-foreground font-sans;
   }

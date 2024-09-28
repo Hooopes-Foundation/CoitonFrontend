@@ -1,153 +1,123 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { Button } from "../ui/button";
+import { assets } from "@/assets";
+import Image from "next/image";
+import React, { useEffect, useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import { variants } from "@/constants";
+import { Button } from "@/components/ui/button";
 import { MoveLeft, MoveRight } from "lucide-react";
 
-const ONE_SECOND = 1000;
-const AUTO_DELAY = ONE_SECOND * 10;
-const DRAG_BUFFER = 50;
-
-const SPRING_OPTIONS = {
-  type: "spring",
-  mass: 3,
-  stiffness: 500,
-  damping: 100,
-};
-
-const slides = [
-  {
-    image:
-      "https://plus.unsplash.com/premium_photo-1697730288131-6684ca63584b?q=80&w=2971&auto=format&fit=crop",
-    title: "Luxury Villa, Banana Island, Lagos",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1643297551340-19d8ad4f20ad?q=80&w=3132&auto=format&fit=crop",
-    title: "4 Bedroom Duplex, Lekki Phase 1, Lagos",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2970&auto=format&fit=crop",
-    title: "3 Bedroom Apartment, Victoria Island, Lagos",
-  },
-];
-
 export default function Carousel() {
-  const ref = useRef<HTMLDivElement>(null);
+  const { fadeIn } = variants;
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["0 1", "1 1"],
-  });
+  const slides = useMemo(
+    () => [
+      {
+        image:
+          "https://plus.unsplash.com/premium_photo-1697730288131-6684ca63584b?q=80&w=2971&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "Luxury Villa, Banana Island, Lagos",
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1643297551340-19d8ad4f20ad?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "4 Bedroom Duplex, Lekki Phase 1, Lagos",
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        title: "3 Bedroom Apartment, Victoria Island, Lagos",
+      },
+    ],
+    []
+  );
 
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-
-  const [imgIndex, setImgIndex] = useState(0);
-
-  const dragX = useMotionValue(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [preloadedImages, setPreloadedImages] = useState<string[]>([]);
 
   useEffect(() => {
-    const intervalRef = setInterval(() => {
-      const x = dragX.get();
+    const imagePromises = slides.map(
+      (slide) =>
+        new Promise<void>((resolve, reject) => {
+          const img = new window.Image(); // Use window.Image
+          img.src = slide.image;
+          img.onload = () => resolve();
+          img.onerror = () => reject();
+        })
+    );
 
-      if (x === 0) {
-        setImgIndex((pv) => {
-          if (pv === slides.length - 1) {
-            return 0;
-          }
-          return pv + 1;
-        });
-      }
-    }, AUTO_DELAY);
+    Promise.all(imagePromises).then(() => {
+      setPreloadedImages(slides.map((slide) => slide.image));
+    });
+  }, [slides]);
 
-    return () => clearInterval(intervalRef);
-  }, []);
-
-  const onDragEnd = () => {
-    const x = dragX.get();
-
-    if (x <= -DRAG_BUFFER) {
-      setImgIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    } else if (x >= DRAG_BUFFER) {
-      setImgIndex((prevIndex) =>
-        prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-      );
-    }
-  };
-
-  const handleNextSlide = () => {
-    setImgIndex((prevIndex) =>
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
       prevIndex === slides.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  const handlePrevSlide = () => {
-    setImgIndex((prevIndex) =>
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? slides.length - 1 : prevIndex - 1
     );
   };
 
   return (
     <motion.div
-      ref={ref}
-      style={{
-        scale: scaleProgress,
+      variants={fadeIn("up", 0.2)}
+      initial="show"
+      //   whileInView={"show"}
+      viewport={{
+        once: true,
+        amount: 0.7,
       }}
-      className="bg-secondary rounded-2xl md:rounded-3xl w-full aspect-[1.5] relative overflow-hidden"
+      className="bg-secondary rounded-2xl md:rounded-3xl w-full aspect-[1.4] md:aspect-[1.6] relative overflow-hidden"
     >
-      <motion.div
-        drag="x"
-        dragConstraints={{
-          left: 0,
-          right: 0,
-        }}
-        style={{
-          x: dragX,
-        }}
-        animate={{
-          translateX: `-${imgIndex * 100}%`,
-        }}
-        transition={SPRING_OPTIONS}
-        onDragEnd={onDragEnd}
-        className="flex cursor-grab items-center active:cursor-grabbing size-full"
-      >
-        {slides.map((imgSrc, idx) => {
-          return (
-            <motion.div
-              key={idx}
-              style={{
-                backgroundImage: `url(${imgSrc.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-              transition={SPRING_OPTIONS}
-              className="aspect-[1.5] w-full shrink-0 object-cover"
-            />
-          );
-        })}
-      </motion.div>
+      {preloadedImages.length > 0 ? (
+        <motion.img
+          src={preloadedImages[currentIndex]}
+          alt={slides[currentIndex].title}
+          width={1384}
+          height={787}
+          key={currentIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="size-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <Image
+          src={assets.svgs.placeholderSvg}
+          alt=""
+          width={1384}
+          height={787}
+          className="size-full object-cover"
+          loading="lazy"
+        />
+      )}
 
-      <div className="absolute bottom-0 left-0 size-full flex justify-end flex-col pointer-events-none">
-        <div className="h-[262px] text-primary-foreground p-6 md:p-12 bg-gradient-to-b from-transparent to-black/80">
+      <div className="absolute bottom-0 left-0 size-full flex justify-end flex-col">
+        <div className="h-[262px] text-primary-foreground py-5 md:py-10 px-6 md:px-12 bg-gradient-to-b from-transparent to-black/80">
           <div className="flex items-end justify-between size-full mt-auto">
             <p className="w-[210px] md:w-[317px] text-base md:text-2xl lg:text-[23px]">
-              {slides[imgIndex].title}
+              {slides[currentIndex].title}
             </p>
 
-            <div className="flex items-center gap-4 pointer-events-auto">
+            <div className="flex items-center gap-4">
               <Button
                 size={"icon"}
-                className="bg-transparent border border-white"
-                onClick={handlePrevSlide}
+                className="bg-transparent border border-white cursor-none"
+                onClick={handlePrev}
               >
                 <MoveLeft size={20} />
               </Button>
               <Button
                 size={"icon"}
-                className="bg-transparent border border-white"
-                onClick={handleNextSlide}
+                className="bg-transparent border border-white cursor-none"
+                onClick={handleNext}
               >
                 <MoveRight size={20} />
               </Button>

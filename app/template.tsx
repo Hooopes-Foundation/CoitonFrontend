@@ -7,7 +7,7 @@ import Lenis from "lenis";
 
 const queryClient = new QueryClient();
 
-export default function Template({ children }: TPropsWithChildren) {
+export default function Template({ children }: TParentLayout) {
   useEffect(() => {
     const lenis = new Lenis();
 

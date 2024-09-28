@@ -11,8 +11,6 @@ import { assets } from "@/assets";
 import MaxWrapper from "./max-wrapper";
 import Image from "next/image";
 import { variants } from "@/constants";
-import VideoComponent from "./video-comp";
-import CustomButton from "./custom-button";
 
 export default function Bento() {
   const { fadeIn } = variants;
@@ -48,14 +46,14 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-4 aspect-[1.3] md:aspect-[1.8] lg:aspect-auto lg:h-[500px] rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#33FFEE] to-primary text-primary"
         >
-          <div className="size-full rounded-[inherit] bg-[#F2FFFE] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden gap-6 lg:gap-0">
-            <h2 className="text-[40px] md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px] md:max-w-[514px]">
+          <div className="size-full rounded-[inherit] bg-[#F2FFFE] py-6 md:py-12 lg:py-16 px-5 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden gap-6 lg:gap-0">
+            <h2 className="md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px] md:max-w-[514px]">
               Ready to Start Your Real Estate Journey?
             </h2>
 
-            <CustomButton size={"lg"} className="w-max">
+            <Button size={"lg"} className="w-max">
               Get Started <MoveRight size={20} className="ml-3" />
-            </CustomButton>
+            </Button>
 
             <motion.div
               className="absolute -right-32 md:-right-[320px] lg:-right-[150px] top-12 lg:top-[100px]"
@@ -85,7 +83,7 @@ export default function Bento() {
                   height={627}
                   priority
                   quality={100}
-                  className="brightness-90 w-80 md:!w-[641px] h-80 md:!h-[627px] md:size-auto"
+                  className="brightness-90 !w-[641px] !h-[627px] md:size-auto"
                 />
               </motion.div>
             </motion.div>
@@ -101,20 +99,20 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-2 aspect-[1.3] md:aspect-[1.8] lg:aspect-auto lg:h-[500px] lg:max-w-[414px] w-full rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#FFE692] to-[#B69C46] text-[#9C7800]"
         >
-          <div className="size-full rounded-[inherit] bg-[#FFFCF2] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
-            <h2 className="text-[40px] md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px]">
+          <div className="size-full rounded-[inherit] bg-[#FFFCF2] py-6 md:py-12 lg:py-16 px-5 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
+            <h2 className="text-4xl md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px]">
               Dive Deeper into Coiton
             </h2>
 
-            <CustomButton
+            <Button
               size={"lg"}
-              className="w-max !bg-[#9C7800] hover:!bg-[#9C7800]/90"
+              className="w-max bg-[#9C7800] hover:bg-[#9C7800]/90"
             >
               Download Whitepaper <IoMdCopy size={22} className="ml-3" />
-            </CustomButton>
+            </Button>
 
             <motion.div
-              className="absolute -right-[170px] md:-right-[210px] top-10 md:-top-[20px] lg:-top-[50px] md:size-[424px] lg:size-[324px] z-0"
+              className="absolute -right-[170px] md:-right-[210px] -top-[20px] lg:-top-[50px] md:size-[424px] lg:size-[324px] z-0"
               style={{
                 translateX: octTranslateY,
                 translateY: octTranslateX,
@@ -138,7 +136,7 @@ export default function Bento() {
                 <Image
                   src={assets.shapes.octYellowShape}
                   alt="OCTERGON SHAPE"
-                  className="brightness-90 size-80 md:size-auto"
+                  className="brightness-90 size-72 md:size-auto"
                 />
               </motion.div>
             </motion.div>
@@ -155,15 +153,15 @@ export default function Bento() {
           className="col-span-1 lg:col-span-3 aspect-[1.3] md:aspect-[1.8] lg:aspect-auto lg:h-[500px] rounded-2xl md:rounded-[24px] p-px bg-primary text-primary"
         >
           <div className="size-full rounded-[inherit] bg-[rgb(2,66,60)] relative overflow-hidden">
-            <video
-              autoPlay
-              loop
-              muted
-              className="size-full aspect-[1.5] object-cover pointer-events-none"
-            >
-              <source src={assets.video.coitonVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <Image
+              src={assets.gif.coitonGif}
+              alt={"Any"}
+              fill
+              priority
+              quality={100}
+              unoptimized
+              className="size-full object-cover aspect-[1.5]"
+            />
           </div>
         </motion.div>
         <motion.div
@@ -176,7 +174,7 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-3 aspect-[1.3] lg:h-[500px] rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#C0ACFF] to-[#7851F0] text-[#5C41AD]"
         >
-          <div className="size-full rounded-[inherit] bg-[#F9F7FF] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
+          <div className="size-full rounded-[inherit] bg-[#F9F7FF] py-6 md:py-12 lg:py-16 px-5 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
             <div className="lg:w-[458px] flex flex-col gap-3 relative z-[1]">
               <div className="flex items-center gap-4">
                 <div className="h-[38px] w-44 md:w-[248px] rounded-full border border-[#5C41AD] flex items-center justify-center text-[#5C41AD] text-sm md:text-base font-normal md:font-medium">
@@ -205,7 +203,7 @@ export default function Bento() {
                   />
                 </div>
               </div>
-              <h2 className="text-[#5C41AD] font-normal text-[40px] md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[70px]">
+              <h2 className="text-[#5C41AD] font-normal text-4xl md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[70px]">
                 Starknet Becomes Coiton Partner
               </h2>
             </div>
