@@ -46,7 +46,7 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-4 aspect-[1.3] md:aspect-[1.8] lg:aspect-auto lg:h-[500px] rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#33FFEE] to-primary text-primary"
         >
-          <div className="size-full rounded-[inherit] bg-[#F2FFFE] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden gap-6 lg:gap-0">
+          <div className="size-full rounded-[inherit] bg-[#F2FFFE] p-6 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden gap-6 lg:gap-0">
             <h2 className="text-[40px] md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px] md:max-w-[514px]">
               Ready to Start Your Real Estate Journey?
             </h2>
@@ -99,7 +99,7 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-2 aspect-[1.3] md:aspect-[1.8] lg:aspect-auto lg:h-[500px] lg:max-w-[414px] w-full rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#FFE692] to-[#B69C46] text-[#9C7800]"
         >
-          <div className="size-full rounded-[inherit] bg-[#FFFCF2] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
+          <div className="size-full rounded-[inherit] bg-[#FFFCF2] p-6 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
             <h2 className="text-[40px] md:text-5xl lg:text-[64px] leading-[50px] lg:leading-[80px]">
               Dive Deeper into Coiton
             </h2>
@@ -174,7 +174,7 @@ export default function Bento() {
           }}
           className="col-span-1 lg:col-span-3 aspect-[1.3] lg:h-[500px] rounded-2xl md:rounded-[24px] p-px bg-gradient-to-bl from-[#C0ACFF] to-[#7851F0] text-[#5C41AD]"
         >
-          <div className="size-full rounded-[inherit] bg-[#F9F7FF] p-8 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
+          <div className="size-full rounded-[inherit] bg-[#F9F7FF] p-6 md:py-12 lg:py-16 md:px-10 lg:px-12 flex flex-col justify-between relative overflow-hidden">
             <div className="lg:w-[458px] flex flex-col gap-3 relative z-[1]">
               <div className="flex items-center gap-4">
                 <div className="h-[38px] w-44 md:w-[248px] rounded-full border border-[#5C41AD] flex items-center justify-center text-[#5C41AD] text-sm md:text-base font-normal md:font-medium">

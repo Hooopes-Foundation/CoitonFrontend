@@ -43,7 +43,7 @@ export default function PublicLayout({ children }: TPropsWithChildren) {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="absolute -z-10 top-0 left-0 bg-gradient-to-b from-[#FFF4DE] via-[#FFF4DE]/50 to-background min-h-screen w-full" />
-      <motion.div
+      {/* <motion.div
         className="fixed top-0 left-0 hidden md:block pointer-events-none -z-[1]"
         ref={ref}
         style={{ x, y }}
@@ -57,7 +57,7 @@ export default function PublicLayout({ children }: TPropsWithChildren) {
           quality={1000}
           className="object-contain size-6"
         />
-      </motion.div>
+      </motion.div> */}
       <Header />
       <main className="flex flex-1">{children}</main>
       <Footer />
