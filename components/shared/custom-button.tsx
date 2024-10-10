@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ButtonProps, buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Loader } from "lucide-react";
 
 type TCustomButton = {
   children: TNode;
@@ -10,6 +11,8 @@ type TCustomButton = {
   size?: ButtonProps["size"];
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  isLoading?: boolean;
 };
 
 export default function CustomButton({
@@ -18,6 +21,8 @@ export default function CustomButton({
   size,
   className,
   onClick,
+  disabled,
+  isLoading,
 }: TCustomButton) {
   return (
     <motion.div
@@ -29,10 +34,18 @@ export default function CustomButton({
       className={buttonVariants({
         variant: variant,
         size: size,
-        className: cn(className),
+        className: cn(className, {
+          "opacity-50 pointer-events-none": disabled,
+        }),
       })}
     >
-      {children}
+      {isLoading ? (
+        <>
+          <Loader className="animate-spin mr-2 size-5" /> Please wait...
+        </>
+      ) : (
+        children
+      )}
     </motion.div>
   );
 }

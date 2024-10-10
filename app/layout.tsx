@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { fontSans, fontSerif } from "@/assets/fonts";
 import { siteConfig } from "@/config/site.config";
 import { StarknetProvider } from "@/providers/starknet-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<TPropsWithChildren>) {
           fontSerif.variable
         )}
       >
+        <Analytics />
         <StarknetProvider>{children}</StarknetProvider>
       </body>
     </html>

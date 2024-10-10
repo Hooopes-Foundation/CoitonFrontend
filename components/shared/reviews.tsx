@@ -122,7 +122,7 @@ const MobildReviewCard = ({
   });
 
   const handleDragEnd = () => {
-    if (Math.abs(x.get()) > 50) {
+    if (Math.abs(x.get()) > 20) {
       setAllReviews((prev: TReview[]) => {
         const newReviews = prev.filter((review) => review.id !== id);
         if (newReviews.length === 0) {
@@ -141,7 +141,7 @@ const MobildReviewCard = ({
 
   return (
     <motion.div
-      className="w-[350px] h-[430px] bg-background border-2 border-[#c4c0c0] rounded-3xl hover:cursor-grab active:cursor-grabbing origin-bottom flex items-center justify-center"
+      className="w-[330px] h-[400px] md:w-[350px] md:h-[430px] bg-background border-2 border-[#c4c0c0] rounded-3xl hover:cursor-grab active:cursor-grabbing origin-bottom flex items-center justify-center"
       style={{
         gridRow: 1,
         gridColumn: 1,
@@ -163,7 +163,7 @@ const MobildReviewCard = ({
       }}
       onDragEnd={handleDragEnd}
     >
-      <div className="size-full rounded-[inherit] p-10 flex flex-col justify-between">
+      <div className="size-full rounded-[inherit] py-8 px-10 md:p-10 flex flex-col justify-between">
         <div className="size-[116px] rounded-full bg-secondary relative">
           <Image
             src={singleRv.image!}

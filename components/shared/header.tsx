@@ -26,17 +26,31 @@ export default function Header() {
     <header className="sticky top-0 left-0 w-full py-4 md:py-6 z-50 backdrop-blur-3xl">
       <MaxWrapper className="flex items-center justify-between size-full">
         <div className="w-44">
-          <Link href="/" className="size-[38px]">
-            <Image
-              src={assets.svgs.logoIcon}
-              alt="logo"
-              width={38}
-              height={38}
-              priority
-              quality={1000}
-              className="object-contain size-[38px]"
-            />
-          </Link>
+          {pathname === "/" ? (
+            <div className="size-[38px]">
+              <Image
+                src={assets.svgs.logoIcon}
+                alt="logo"
+                width={38}
+                height={38}
+                priority
+                quality={1000}
+                className="object-contain size-[38px]"
+              />
+            </div>
+          ) : (
+            <Link href="/">
+              <Image
+                src={assets.svgs.logoIcon}
+                alt="logo"
+                width={38}
+                height={38}
+                priority
+                quality={1000}
+                className="object-contain size-[38px]"
+              />
+            </Link>
+          )}
         </div>
 
         <ul className="flex-1 hidden md:flex items-center justify-center gap-10 lg:gap-12">
@@ -45,12 +59,18 @@ export default function Header() {
 
             return (
               <li key={route.path} className="relative group">
-                <Link
-                  href={route.path}
-                  className="text-lg font-medium text-primary capitalize cursor-pointer leading-none px-2"
-                >
-                  {route.label}
-                </Link>
+                {isActive ? (
+                  <span className="text-lg font-medium text-primary capitalize cursor-pointer leading-none px-2">
+                    {route.label}
+                  </span>
+                ) : (
+                  <Link
+                    href={route.path}
+                    className="text-lg font-medium text-primary capitalize cursor-pointer leading-none px-2"
+                  >
+                    {route.label}
+                  </Link>
+                )}
 
                 <span
                   className={cn(
@@ -68,19 +88,28 @@ export default function Header() {
         </ul>
 
         <div className="hidden md:flex items-center justify-end max-w-40 lg:max-w-44 w-full">
-          <Link href="/starknet-test">
+          {pathname === "/starknet-test" ? (
             <CustomButton
               variant={"black"}
               className="font-medium rounded-full"
             >
               Get in Touch
             </CustomButton>
-          </Link>
+          ) : (
+            <Link href="/starknet-test">
+              <CustomButton
+                variant={"black"}
+                className="font-medium rounded-full"
+              >
+                Get in Touch
+              </CustomButton>
+            </Link>
+          )}
         </div>
 
         <div className="flex md:hidden">
           <Sheet>
-            <SheetTrigger asChild>
+            <SheetTrigger>
               <FiMenu className="size-7 cursor-pointer" />
             </SheetTrigger>
             <SheetContent className="flex flex-col justify-between">

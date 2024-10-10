@@ -115,12 +115,12 @@ function Flow({
       whileInView={"show"}
       viewport={{
         once: false,
-        amount: 0.7,
+        amount: 0.8,
       }}
       custom={index}
       key={index}
       className={cn(
-        "bg-gradient-to-br rounded-3xl w-full p-px mt-36 last:mb-24",
+        "bg-gradient-to-br rounded-3xl w-full p-px mt-36 last:mb-20",
         flow.gradient
       )}
     >
