@@ -10,11 +10,15 @@ import yusufProfile from "./svgs/yusuf.svg";
 import ikenneProfile from "./svgs/ikenne.svg";
 import frankProfile from "./svgs/frank.svg";
 
-import gateway from "./svgs/gateway.svg";
-import connect from "./svgs/connect.svg";
-import connectBanner from "./svgs/connect-banner.svg";
-import liquidityBanner from "./svgs/liquidity-banner.svg";
-import daoBanner from "./svgs/dao-banner.svg";
+import stepOne from "./svgs/step-one.svg";
+import stepTwo from "./svgs/step-two.svg";
+import stepThree from "./svgs/step-three.svg";
+import stepFour from "./svgs/step-four.svg";
+import stepFive from "./svgs/step-five.svg";
+import stepSix from "./svgs/step-six.svg";
+import propertyManagement from "./svgs/property-management.svg";
+import daoManagement from "./svgs/dao-management.svg";
+import approval from "./svgs/approval.svg";
 
 // images
 import testBanner from "./images/test.jpg";
@@ -52,11 +56,15 @@ export const assets = {
     ikenneProfile,
     frankProfile,
 
-    gateway,
-    connect,
-    connectBanner,
-    liquidityBanner,
-    daoBanner,
+    stepOne,
+    stepTwo,
+    stepThree,
+    stepFour,
+    stepFive,
+    stepSix,
+    propertyManagement,
+    daoManagement,
+    approval,
   },
   shapes: {
     flatShape,

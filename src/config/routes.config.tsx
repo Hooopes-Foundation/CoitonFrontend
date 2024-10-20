@@ -38,27 +38,47 @@ export const routes = createBrowserRouter([
     children: [
       {
         path: "/onboarding",
-        element: views.gateway,
+        element: views.stepOne,
       },
       {
-        path: "/onboarding/connect-wallet",
-        element: views.connect,
+        path: "/onboarding/step-two",
+        element: views.stepTwo,
       },
       {
-        path: "/onboarding/verification",
-        element: views.verification,
+        path: "/onboarding/step-three",
+        element: views.stepThree,
       },
       {
-        path: "/onboarding/liquidity",
-        element: views.liquidity,
+        path: "/onboarding/step-four",
+        element: views.stepFour,
       },
       {
-        path: "/onboarding/wallet-to-dao",
-        element: views.dao,
+        path: "/onboarding/step-five",
+        element: views.stepFive,
       },
       {
-        path: "/onboarding/wallet-to-trading",
-        element: views.trading,
+        path: "/onboarding/step-six",
+        element: views.stepSix,
+      },
+      {
+        path: "/onboarding/account",
+        element: views.account,
+      },
+      {
+        path: "/onboarding/property-management",
+        element: views.propertyManagement,
+      },
+      {
+        path: "/onboarding/get-verified",
+        element: views.getVerified,
+      },
+      {
+        path: "/onboarding/approval",
+        element: views.approval,
+      },
+      {
+        path: "/onboarding/mint",
+        element: views.mint,
       },
     ],
   },

@@ -11,16 +11,16 @@ const terms = [
   "I understand DeFi is a new phenomenon, and understand and undertake any technological and market risks associated with it.",
 ];
 
-export default function VerificationView() {
+export default function StepThree() {
   return (
     <div className="flex h-full">
       <div className="flex w-1/2 items-center justify-center p-6">
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
-            <h4 className="font-sans_medium text-[32px] leading-none text-primary">
+            <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
               Wallet Verification
             </h4>
-            <p className="text-lg font-normal">
+            <p className="font-sans_regular text-lg text-[#475467]">
               By verifying your wallet, you agree to our Terms of Service and
               Privacy Policy.
             </p>
@@ -40,7 +40,7 @@ export default function VerificationView() {
               </div>
             </div>
 
-            <Link to="/onboarding/liquidity" className="w-max">
+            <Link to="/onboarding/step-four" className="w-max">
               <Button className="font-sans_normal gap-4" size={"lg"}>
                 <span>Accept & Verify Wallet</span>
                 <svg
@@ -61,7 +61,13 @@ export default function VerificationView() {
         </div>
       </div>
       <div className="flex w-1/2 items-center p-6">
-        <img src={assets.svgs.connectBanner} className="h-full w-full" />
+        <div className="h-full w-full rounded-[24px] bg-primary">
+          <img
+            src={assets.svgs.stepThree}
+            alt="STEP THREE"
+            className="h-full w-full"
+          />
+        </div>
       </div>
     </div>
   );

@@ -2,23 +2,24 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export default function WalletToDaoView() {
+export default function StepSix() {
   return (
     <div className="flex h-full">
       <div className="flex w-1/2 items-center justify-center p-6">
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
-            <h4 className="font-sans_medium text-[32px] leading-none text-primary">
-              Wallet to DAO
+            <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
+              Wallet to Trading Account
             </h4>
-            <p className="text-lg font-normal">
-              Join our DAO to verify listings and influence platform decisions
-              with your wallet.
+            <p className="font-sans_regular text-lg text-[#475467]">
+              For trading, deposit funds from your wallet into a Trading
+              Account; these funds cannot be used for liquidity a provision
+              (LP’ing).
             </p>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link to="/onboarding/liquidity" className="w-max">
+            <Link to="/onboarding/step-five" className="w-max">
               <Button
                 variant={"ghost"}
                 className="font-sans_normal gap-4"
@@ -27,7 +28,7 @@ export default function WalletToDaoView() {
                 Back
               </Button>
             </Link>
-            <Link to="/onboarding/wallet-to-trading" className="w-max">
+            <Link to="/onboarding/account" className="w-max">
               <Button className="font-sans_normal gap-4" size={"lg"}>
                 <span>Next</span>
                 <svg
@@ -48,7 +49,13 @@ export default function WalletToDaoView() {
         </div>
       </div>
       <div className="flex w-1/2 items-center p-6">
-        <img src={assets.svgs.daoBanner} className="h-full w-full" />
+        <div className="h-full w-full rounded-[24px] bg-primary">
+          <img
+            src={assets.svgs.stepSix}
+            alt="STEP SIX"
+            className="h-full w-full"
+          />
+        </div>
       </div>
     </div>
   );

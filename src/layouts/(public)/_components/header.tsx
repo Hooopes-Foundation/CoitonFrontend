@@ -37,10 +37,10 @@ export default function Header() {
 
   // TODO: CHANGE ROUTE
   const renderBtn =
-    pathname === "/starknet-test" ? (
+    pathname === "/dashboard" ? (
       getInTouch
     ) : (
-      <Link to="/starknet-test">{getInTouch}</Link>
+      <Link to="/dashboard">{getInTouch}</Link>
     );
 
   return (

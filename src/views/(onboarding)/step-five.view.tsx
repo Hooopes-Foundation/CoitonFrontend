@@ -2,28 +2,32 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export default function LiquidityView() {
+export default function StepFive() {
   return (
     <div className="flex h-full">
       <div className="flex w-1/2 items-center justify-center p-6">
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
             <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
-              Wallet to Account (Buy, Sell, Rent)
+              Wallet to DAO
             </h4>
-            <p className="text-lg font-normal">
-              To provide liquidity, deposit directly from your wallet into the
-              LP Pool, not into a Trading Account.
+            <p className="font-sans_regular text-lg text-[#475467]">
+              Join our DAO to verify listings and influence platform decisions
+              with your wallet.
             </p>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link to="/onboarding/verification" className="w-max">
-              <Button variant={"ghost"} size={"lg"}>
+            <Link to="/onboarding/step-four" className="w-max">
+              <Button
+                variant={"ghost"}
+                className="font-sans_normal gap-4"
+                size={"lg"}
+              >
                 Back
               </Button>
             </Link>
-            <Link to="/onboarding/wallet-to-dao" className="w-max">
+            <Link to="/onboarding/step-six" className="w-max">
               <Button className="font-sans_normal gap-4" size={"lg"}>
                 <span>Next</span>
                 <svg
@@ -44,7 +48,13 @@ export default function LiquidityView() {
         </div>
       </div>
       <div className="flex w-1/2 items-center p-6">
-        <img src={assets.svgs.liquidityBanner} className="h-full w-full" />
+        <div className="h-full w-full rounded-[24px] bg-primary">
+          <img
+            src={assets.svgs.stepFive}
+            alt="STEP FIVE"
+            className="h-full w-full"
+          />
+        </div>
       </div>
     </div>
   );

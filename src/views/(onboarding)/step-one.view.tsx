@@ -2,15 +2,15 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export default function GatewayView() {
+export default function StepOne() {
   return (
     <div className="flex h-full items-center justify-center px-4">
       <div className="absolute left-0 top-0 -z-10 min-h-screen w-full bg-gradient-to-b from-[#FFF4DE] via-[#FFF4DE]/50 to-background" />
       <div className="w-full max-w-[720px] rounded-[32px] bg-background">
         <div className="flex h-[339px] w-full items-center justify-center rounded-t-[32px] bg-[#EEFEFB]">
           <img
-            src={assets.svgs.gateway}
-            alt="GATEWAY"
+            src={assets.svgs.stepOne}
+            alt="STEP ONE"
             height={337}
             width={386.83}
             loading="lazy"
@@ -18,7 +18,7 @@ export default function GatewayView() {
         </div>
         <div className="flex flex-col gap-[32px] p-10">
           <div className="flex flex-col gap-2">
-            <h4 className="font-sans_medium text-[32px] text-primary">
+            <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
               Your Gateway to Decentralized Real Estate.
             </h4>
           </div>
@@ -60,7 +60,7 @@ export default function GatewayView() {
               </p>
             </div>
           </div>
-          <Link to="/onboarding/connect-wallet" className="w-max">
+          <Link to="/onboarding/step-two" className="w-max">
             <Button className="gap-2">
               <span>Start Onboarding</span>
               <svg

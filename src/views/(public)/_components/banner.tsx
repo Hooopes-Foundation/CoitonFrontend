@@ -138,7 +138,7 @@ export default function Banner() {
             amount: 0.7,
           }}
         >
-          <Link to="/dashboard">
+          <Link to="/onboarding">
             <Button className="mt-4 md:mt-6" size={"lg"}>
               Get Started <MoveRight size={22} className="ml-2" />
             </Button>

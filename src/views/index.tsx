@@ -1,10 +1,14 @@
 import DashboardView from "./(dashboard)/dashboard.view";
-import ConnectWalletView from "./(onboarding)/connect-wallet.view";
-import WalletToDaoView from "./(onboarding)/dao.view";
-import GatewayView from "./(onboarding)/gateway.view";
-import LiquidityView from "./(onboarding)/liquidity.view";
-import WalletTradingAccountView from "./(onboarding)/trading-account.view";
-import VerificationView from "./(onboarding)/verification.view";
+import GetVerifiedView from "./(onboarding)/account-types/get-verified.view";
+import PropertyManagementView from "./(onboarding)/account-types/property.management.view";
+import AccountTypeView from "./(onboarding)/account.view";
+import Approval from "./(onboarding)/account-types/approval";
+import StepFive from "./(onboarding)/step-five.view";
+import StepFour from "./(onboarding)/step-four.view";
+import StepOne from "./(onboarding)/step-one.view";
+import StepSix from "./(onboarding)/step-six.view";
+import StepThree from "./(onboarding)/step-three.view";
+import StepTwo from "./(onboarding)/step-two.view";
 import AboutView from "./(public)/about.view";
 import BlogView from "./(public)/blog.view";
 import HomeView from "./(public)/home.view";
@@ -12,6 +16,7 @@ import ListingsView from "./(public)/listings.view";
 import TeamsView from "./(public)/team.view";
 import TokenView from "./(public)/token.view";
 import StarknetView from "./(starknet)/starknet.view";
+import MintView from "./(onboarding)/account-types/mint.view";
 
 export const views = {
   home: <HomeView />,
@@ -25,12 +30,19 @@ export const views = {
   test: <StarknetView />,
 
   // onboarding
-  gateway: <GatewayView />,
-  connect: <ConnectWalletView />,
-  verification: <VerificationView />,
-  liquidity: <LiquidityView />,
-  dao: <WalletToDaoView />,
-  trading: <WalletTradingAccountView />,
+  stepOne: <StepOne />,
+  stepTwo: <StepTwo />,
+  stepThree: <StepThree />,
+  stepFour: <StepFour />,
+  stepFive: <StepFive />,
+  stepSix: <StepSix />,
+  account: <AccountTypeView />,
+
+  // onboarding-type
+  propertyManagement: <PropertyManagementView />,
+  getVerified: <GetVerifiedView />,
+  approval: <Approval />,
+  mint: <MintView />,
 
   // dashboard
   dashboard: <DashboardView />,

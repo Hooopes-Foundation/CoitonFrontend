@@ -148,8 +148,8 @@ body,
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 174 42% 22%;
-    --input: 174 42% 22%;
+    --border: 220, 22%, 80%;
+    --input: 220, 22%, 80%;
     --ring: 175 91% 23%;
 
     --radius: 1rem;
@@ -165,8 +165,7 @@ body,
   }
 
   body {
-    @apply font-sans_regular bg-background text-foreground;
-    /* @apply font-sans_regular cursor-[url(https://img.icons8.com/?size=100&id=GKmXaly2KTHV&format=png&color=000000),auto] bg-background text-foreground; */
+    @apply bg-background font-sans_regular text-foreground;
   }
 
   h1,

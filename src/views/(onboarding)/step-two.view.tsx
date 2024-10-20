@@ -2,15 +2,15 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export default function ConnectWalletView() {
+export default function StepTwo() {
   return (
     <div className="flex h-full items-center justify-center px-4">
       <div className="absolute left-0 top-0 -z-10 min-h-screen w-full bg-gradient-to-b from-[#FFF4DE] via-[#FFF4DE]/50 to-background" />
       <div className="w-full max-w-[720px] rounded-[32px] bg-background">
         <div className="flex h-[339px] w-full items-center justify-center rounded-t-[32px] bg-[#F1FEEE]">
           <img
-            src={assets.svgs.connect}
-            alt="CONNECT WALLET"
+            src={assets.svgs.stepTwo}
+            alt="STEP TWO"
             height={241.12}
             width={361.05}
             loading="lazy"
@@ -18,10 +18,10 @@ export default function ConnectWalletView() {
         </div>
         <div className="flex flex-col gap-[32px] p-10">
           <div className="flex flex-col gap-2">
-            <h4 className="font-sans_medium text-[32px] leading-none text-primary">
+            <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
               Connect Your Wallet
             </h4>
-            <p className="text-lg">
+            <p className="font-sans_regular text-lg text-[#475467]">
               Secure your transactions with your crypto wallet.
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function ConnectWalletView() {
               </p>
             </div>
           </div>
-          <Link to="/onboarding/verification" className="w-max">
+          <Link to="/onboarding/step-three" className="w-max">
             <Button className="gap-2">
               <span>Connect Wallet</span>
               <svg
