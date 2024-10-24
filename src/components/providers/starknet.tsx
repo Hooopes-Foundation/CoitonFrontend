@@ -8,8 +8,6 @@ import {
   jsonRpcProvider,
 } from "@starknet-react/core";
 import { env } from "@/lib/envs";
-import { useEffect } from "react";
-import Lenis from "lenis";
 
 export function StarknetProvider({ children }: PARENT_WRAPPER) {
   const chains = [sepolia];
@@ -22,17 +20,6 @@ export function StarknetProvider({ children }: PARENT_WRAPPER) {
     // Randomize the order of the connectors.
     order: "random",
   });
-
-  // useEffect(() => {
-  //   const lenis = new Lenis();
-
-  //   function raf(time: number) {
-  //     lenis.raf(time);
-  //     requestAnimationFrame(raf);
-  //   }
-
-  //   requestAnimationFrame(raf);
-  // }, []);
 
   return (
     <StarknetConfig

@@ -268,7 +268,7 @@ interface FileCardProps {
   progress?: number;
 }
 
-function FileCard({ file, progress, onRemove }: FileCardProps) {
+function FileCard({ file, onRemove }: FileCardProps) {
   return (
     <div className="flex items-center gap-4 rounded-[12px] border border-[#EAECF0] p-3">
       <div className="flex flex-1 items-center gap-3">

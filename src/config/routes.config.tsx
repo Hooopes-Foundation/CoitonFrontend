@@ -92,6 +92,15 @@ export const routes = createBrowserRouter([
     ],
   },
   {
+    element: layouts.listProperty,
+    children: [
+      {
+        path: "/list-property",
+        element: views.listingProperty,
+      },
+    ],
+  },
+  {
     element: layouts.test,
     children: [
       {

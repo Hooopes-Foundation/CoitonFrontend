@@ -17,6 +17,7 @@ import TeamsView from "./(public)/team.view";
 import TokenView from "./(public)/token.view";
 import StarknetView from "./(starknet)/starknet.view";
 import MintView from "./(onboarding)/account-types/mint.view";
+import ListingPropertyView from "./(listing)/listing-property.view";
 
 export const views = {
   home: <HomeView />,
@@ -46,4 +47,5 @@ export const views = {
 
   // dashboard
   dashboard: <DashboardView />,
+  listingProperty: <ListingPropertyView />,
 };

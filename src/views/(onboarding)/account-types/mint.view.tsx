@@ -1,5 +1,4 @@
 import { assets } from "@/assets";
-import { Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { daoMgmtSchema, DAO_MGMT_SCHEMA } from "@/lib/validators";
@@ -8,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,

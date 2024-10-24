@@ -354,7 +354,10 @@ const Sidebar = () => {
           <p className="text-sm text-[#667085]">Balance</p>
 
           <div className="flex h-10 items-center justify-between">
-            <h4 className="font-sans_bold text-xl text-primary">$20,088,000</h4>
+            <h4 className="flex items-center gap-2 font-sans_bold text-xl text-primary">
+              <img src={assets.svgs.starknetIcon} width={24} height={24} />
+              20,088,000
+            </h4>
             <div className="flex size-10 items-center justify-center rounded-full border border-[#EAECF0] bg-background">
               <svg
                 width="13"
