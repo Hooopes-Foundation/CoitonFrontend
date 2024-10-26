@@ -180,7 +180,7 @@ function ConnectWallet() {
 }
 
 function Functions({ functions }: { functions: CategorizedFunctions }) {
-  const [activeTab, setActiveTab] = useState<"read" | "write">("read");
+  const [activeTab, setActiveTab] = useState<"read" | "write">("write");
 
   return (
     <div className="flex flex-col gap-6">
@@ -200,7 +200,7 @@ function Functions({ functions }: { functions: CategorizedFunctions }) {
       </div>
 
       {/* Render the ReadFunctions or WriteFunctions based on activeTab */}
-      <div className="border border-b-0 border-border/30">
+      <div className="border border-border/30">
         {activeTab === "read" ? (
           <ReadFunctions functions={functions.read} />
         ) : (

@@ -14,8 +14,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "react-router-dom";
 
 export default function PropertyManagementView() {
+  const navigate = useNavigate();
+
   // 1. Define your form.
   const form = useForm<PROP_MGMT_SCHEMA>({
     resolver: zodResolver(propMgmtSchema),
@@ -26,6 +29,7 @@ export default function PropertyManagementView() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    navigate("/dashboard");
   }
 
   const { isSubmitting, isValid } = form.formState;

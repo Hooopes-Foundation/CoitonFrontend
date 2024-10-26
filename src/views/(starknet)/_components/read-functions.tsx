@@ -47,10 +47,10 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
   }, [result?.queryData, currentQuery]);
 
   return functions.map((fn) => (
-    <div key={fn.name} className="flex flex-col">
+    <div key={fn.name} className="group flex flex-col">
       <div
         onClick={() => toggleAccordion(fn.name)}
-        className="flex h-[69px] cursor-pointer items-center justify-between border-y border-border/30 px-6 py-4 first:border-t-0 last:border-t-0 hover:bg-secondary/50"
+        className="flex h-[69px] cursor-pointer items-center justify-between border-t border-border/30 px-6 py-4 hover:bg-secondary/50 group-first:border-t-0"
       >
         <span className="flex items-center gap-2">
           <span className="tracking-wide text-[#bf43ca]">{fn.name}</span>
@@ -81,8 +81,8 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
 
       {/* Accordion Content */}
       <div
-        className={cn("h-0 overflow-hidden border-b border-border/30", {
-          "h-max": activeAccordion === fn.name,
+        className={cn("h-0 overflow-hidden border-t-0 border-border/30", {
+          "h-max border-t": activeAccordion === fn.name,
         })}
       >
         <div className="flex w-full flex-col gap-8 bg-background p-6">

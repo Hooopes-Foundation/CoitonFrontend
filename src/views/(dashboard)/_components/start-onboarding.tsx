@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const StartOnboarding = () => {
   return (
-    <div className="flex h-full flex-col items-center justify-center">
+    <div className="flex h-full">
       <Link to="/onboarding">
         <Button size={"lg"}>
           <span>Start Onboarding</span>
