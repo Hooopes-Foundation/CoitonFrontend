@@ -1,13 +1,26 @@
 import { Separator } from "@/components/ui/separator";
 import { memo } from "react";
+import { Button } from "@/components/ui/button.tsx";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="sticky left-0 top-0 flex h-20 w-full items-center justify-between border-b border-[#EAECF0] bg-background px-6 py-3">
+    <div className="sticky left-0 top-0 z-30 flex h-20 w-full items-center justify-between border-b border-[#EAECF0] bg-background px-6 py-3">
       <span>Search</span>
 
       <div className="flex h-full items-center gap-3">
-        <div className="flex size-14 items-center justify-center rounded-full border border-[#d4d6da]">
+        <Link to={"/starknet-test"}>
+
+        <Button variant={"black"}>Test Contract</Button>
+        </Link>
+
+        <Separator className="h-1/2 w-px bg-[#EAECF0]" />
+
+        <Button
+          size={"icon"}
+          variant={"outline"}
+          className="size-14 rounded-full border border-[#d4d6da]"
+        >
           <svg
             width="18"
             height="20"
@@ -20,7 +33,7 @@ const Navbar = () => {
               fill="#1D2939"
             />
           </svg>
-        </div>
+        </Button>
 
         <Separator className="h-1/2 w-px bg-[#EAECF0]" />
 

@@ -100,7 +100,7 @@ const ListingBoard = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-8 px-10 py-6 lg:grid-cols-2 xl:grid-cols-3">
-        {[...new Array(5)].map((_, _index) => (
+        {[...new Array(10)].map((_, _index) => (
           <ListingCard key={_index} />
         ))}
       </div>

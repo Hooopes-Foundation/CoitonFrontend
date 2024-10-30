@@ -80,7 +80,7 @@ export const useQueryData = ({
         setError(null);
       } catch (err: any) {
         setError(err.message);
-        console.error("[Data Processing Error]", err);
+        console.error("[FUNCTION CALL ERROR]", err);
       }
     }
 

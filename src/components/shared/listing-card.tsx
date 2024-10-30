@@ -2,12 +2,12 @@ import { memo } from "react";
 
 const ListingCard = () => {
   return (
-    <div className="group rounded-3xl border bg-white">
+    <div className="group rounded-[24px] border bg-white">
       <div className="relative h-[240px] overflow-hidden rounded-[inherit] bg-secondary">
         <img
           src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="LISTING PROPERTY"
-          className="size-full rounded-[inherit] object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+          className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
         />
         <div className="absolute right-4 top-4 flex items-center gap-2 rounded-[12px] border bg-white px-3 py-2">
           <svg
@@ -93,7 +93,7 @@ const ListingCard = () => {
             </svg>
 
             <span className="tenormal font-sans_light text-[#4D5761]">
-              2,500 sqft
+              200 sqft
             </span>
           </p>
         </div>

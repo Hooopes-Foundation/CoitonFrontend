@@ -24,7 +24,7 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
   const toggleAccordion = (fn: string) =>
     setActiveAccordion(activeAccordion === fn ? "" : fn);
 
-  const handleQuery = (fn: FunctionItem) => {
+  const handleSubmit = (fn: FunctionItem) => {
     const inputs = inputValues[fn.name] || [];
     setCurrentQuery({ funcName: fn.name, inputs });
   };
@@ -88,7 +88,12 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
         <div className="flex w-full flex-col gap-8 bg-background p-6">
           <div className="w-full max-w-[550px]">
             {fn.inputs.length > 0 ? (
-              <>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit(fn);
+                }}
+              >
                 {fn.inputs.map(
                   (input: { name: string; type: string }, index: number) => (
                     <div key={index} className="mb-4 flex flex-col gap-3">
@@ -116,18 +121,18 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
                   disabled={isLoading}
                   isLoading={isLoading}
                   txt="Querying..."
-                  onClick={() => handleQuery(fn)}
+                  type="submit"
                   className="mt-4 w-max rounded px-7 py-3"
                 >
                   Query
                 </Button>
-              </>
+              </form>
             ) : (
               <Button
                 disabled={isLoading}
                 isLoading={isLoading}
                 txt="Querying..."
-                onClick={() => handleQuery(fn)}
+                onClick={() => handleSubmit(fn)}
                 className="mt-4 w-max rounded px-7 py-3"
               >
                 Query

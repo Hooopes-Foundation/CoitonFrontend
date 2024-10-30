@@ -3,9 +3,11 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from "@starknet-react/core";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useContractInstance } from "../test/useContractInstance";
 import { Contract } from "starknet";
+import { contract } from "@/lib/contract";
+import { useFetchAllowance } from "./useFetchAllowance";
 
 export const useWriteData = ({
   funcName,
@@ -14,101 +16,178 @@ export const useWriteData = ({
   funcName: string;
   inputs: any[];
 }) => {
-  const { getContractInstance } = useContractInstance();
+  const { contractAddress } = contract;
+  const { getContractInstance, getErc20Instance } = useContractInstance();
   const contractInstance: Contract = getContractInstance();
+  const erc20Instance: Contract = getErc20Instance();
 
   const [queryData, setQueryData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const registerValidatorCall = useMemo(() => {
-    if (!inputs.length || !contractInstance) return undefined;
+  const { allowance } = useFetchAllowance();
 
-    return {
-      contractCall: [
-        contractInstance.populate("register_validator", [inputs[0]]),
-      ],
-      isValid: true,
-    };
-  }, [inputs[0], contractInstance]);
+  const transactionCall = useMemo(() => {
+    if (!funcName || !inputs) return undefined;
 
-  const registerOrganizationCall = useMemo(() => {
-    if (!inputs.length || !contractInstance) return undefined;
+    try {
+      switch (funcName) {
+        case "register_validator":
+          return inputs.length
+            ? {
+                contractCall: [
+                  contractInstance.populate("register_validator", [inputs[0]]),
+                ],
+                isValid: true,
+              }
+            : undefined;
+        case "register_organization":
+          if (inputs.length < 3) return undefined;
+          const [id, name, region] = inputs;
 
-    let id = inputs[0],
-      name = inputs[1],
-      region = inputs[2];
+          const nameFelt = shortStringToFelt(name)?.output?.toString(10);
+          const regionFelt = shortStringToFelt(region)?.output?.toString(10);
 
-    if (!name || !region || !id) return undefined;
+          return {
+            contractCall: [
+              contractInstance.populate("register_organization", [
+                id,
+                nameFelt!,
+                regionFelt!,
+              ]),
+            ],
+            isValid: true,
+          };
+        case "create_listing":
+          if (inputs.length < 2) return undefined;
+          const [details, hash] = inputs.map(String);
 
-    const nameFelt = shortStringToFelt(name)?.output?.toString(10);
-    const regionFelt = shortStringToFelt(region)?.output?.toString(10);
+          const detailsByte = stringToByteArray(JSON.stringify(details));
+          const hashFelt = shortStringToFelt(hash)?.output?.toString(10);
 
-    return {
-      contractCall: [
-        contractInstance.populate("register_organization", [
-          id,
-          nameFelt!,
-          regionFelt!,
-        ]),
-      ],
-      isValid: true,
-    };
-  }, [inputs, contractInstance]);
+          return {
+            contractCall: [
+              contractInstance.populate("create_listing", [
+                detailsByte,
+                hashFelt!,
+              ]),
+            ],
+            isValid: true,
+          };
+        case "approve_listing":
+          if (inputs.length < 2) return undefined;
+          const [listingId, listingHash] = inputs;
 
-  const createListingCall = useMemo(() => {
-    if (!inputs[0] || !inputs[1] || !contractInstance) return undefined;
+          return {
+            contractCall: [
+              contractInstance.populate("approve_listing", [
+                listingId,
+                listingHash,
+              ]),
+            ],
+            isValid: true,
+          };
+        case "stake_listing_fee":
+          if (!inputs.length) return undefined;
 
-    let details = String(inputs[0]),
-      hash = String(inputs[1]);
+          const amount = inputs[0];
+          const stakingFee = BigInt("20000000000000000000");
+          let allowanceSufficient = false;
 
-    const detailsByte = stringToByteArray(details).data;
+          // Ensure allowance is of BigInt type before comparison
+          const currentAllowance =
+            allowance !== null ? BigInt(allowance) : null;
 
-    if (detailsByte && hash) {
-      console.log(detailsByte, hash);
+          if (currentAllowance !== null) {
+            allowanceSufficient = currentAllowance >= stakingFee;
+          }
+
+          console.log({
+            amount,
+            stakingFee,
+            allowanceSufficient,
+            allowance,
+          });
+
+          if (!allowanceSufficient) {
+            return {
+              contractCall: [
+                erc20Instance.populate("approve", [
+                  contractAddress,
+                  stakingFee,
+                ]),
+              ],
+              isValid: true,
+            };
+          }
+
+          return {
+            contractCall: [
+              contractInstance.populate("stake_listing_fee", [amount]),
+            ],
+            isValid: true,
+          };
+        case "set_erc1155":
+          return inputs.length
+            ? {
+                contractCall: [
+                  contractInstance.populate("set_erc1155", [inputs[0]]),
+                ],
+                isValid: true,
+              }
+            : undefined;
+        case "upgrade":
+          return inputs.length
+            ? {
+                contractCall: [
+                  contractInstance.populate("upgrade", [inputs[0]]),
+                ],
+                isValid: true,
+              }
+            : undefined;
+        default:
+          return undefined;
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : JSON.stringify(err));
+      console.error("[FUNCTION CALL ERROR]", err);
     }
-
-    return {
-      contractCall: [
-        contractInstance.populate("create_listing", [detailsByte, hash]),
-      ],
-      isValid: true,
-    };
-  }, [inputs, contractInstance]);
-
-  const getTransactionCall = () => {
-    switch (funcName) {
-      case "register_validator":
-        return registerValidatorCall;
-      case "register_organization":
-        return registerOrganizationCall;
-      case "create_listing":
-        return createListingCall;
-      default:
-        return undefined;
-    }
-  };
-
-  const currentCall = getTransactionCall();
+  }, [funcName, inputs, contractInstance]);
 
   const transaction = useSendTransaction({
-    calls: currentCall?.isValid ? currentCall.contractCall : undefined,
+    calls: transactionCall?.isValid ? transactionCall.contractCall : undefined,
   });
 
   const receipt = useTransactionReceipt({
-    hash: transaction.data?.transaction_hash,
+    hash: transaction?.data?.transaction_hash,
     watch: true,
   });
 
-  useEffect(() => {
-    if (receipt?.data) {
+  // Execute function that will be called manually
+  const execute = async () => {
+    if (!transactionCall?.isValid) return;
+
+    try {
+      setError(null);
+      const tx = await transaction.sendAsync();
+      setQueryData({ transactionHash: tx?.transaction_hash });
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : JSON.stringify(e));
       setQueryData(null);
-    } else if (receipt?.data) {
-      setQueryData(receipt.data);
     }
-  }, [receipt?.data]);
+  };
+
+  // Update state based on receipt status
+  if (receipt?.isError && !error) {
+    setError(receipt?.error?.message || "Transaction failed.");
+    setQueryData(null);
+  } else if (receipt?.isSuccess && receipt?.data?.value) {
+    setQueryData(receipt.data.value);
+  }
 
   return {
-    result: { funcName, queryData, transaction },
-    isLoading: receipt?.isLoading || transaction?.isPending,
-    error: transaction?.error ?? receipt?.error,
+    result: { funcName, queryData },
+    isLoading: transaction.isPending || receipt?.isLoading,
+    error: transaction?.error || error,
+    execute,
   };
 };
