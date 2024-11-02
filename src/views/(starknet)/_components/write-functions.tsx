@@ -61,6 +61,7 @@ const WriteFunctions = ({ functions }: { functions: FunctionItem[] }) => {
   return functions.map((fn) => (
     <div key={fn.name} className="group flex flex-col">
       <div
+        role="button"
         onClick={() => toggleAccordion(fn.name)}
         className="flex h-[69px] cursor-pointer items-center justify-between border-t border-border/30 px-6 py-4 hover:bg-secondary/50 group-first:border-t-0"
       >
@@ -69,7 +70,7 @@ const WriteFunctions = ({ functions }: { functions: FunctionItem[] }) => {
           <span className="space-x-2 tracking-wide">
             ({" "}
             {fn.inputs.length > 0 && (
-              <i className="space-x-2 text-[#b91c1c]">
+              <i className="space-x-2 text-destructive">
                 {fn.inputs.map((input: { name: string }, index: number) => (
                   <span key={index}>
                     {input.name}

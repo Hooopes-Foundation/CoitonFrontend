@@ -143,51 +143,52 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
           <div className="min-w-[550px]">
             {activeAccordion === fn.name &&
               queryResults[fn.name] !== undefined && (
-                <pre className="w-full rounded border border-blue-500 bg-blue-500/10 px-5 py-4 font-sans_italic text-blue-500">
+                <pre className="w-full whitespace-pre-wrap rounded border border-blue-500 bg-blue-500/10 px-5 py-4 font-sans_italic text-blue-500">
                   {(() => {
                     const result = queryResults[fn.name];
 
-                    if (
-                      typeof result === "string" ||
-                      typeof result === "number"
-                    ) {
-                      // Render string or number directly
-                      return <span>{result}</span>;
-                    }
+                    return JSON.stringify(result, null, 2);
+                    // if (
+                    //   typeof result === "string" ||
+                    //   typeof result === "number"
+                    // ) {
+                    //   // Render string or number directly
+                    //   return <span>{result}</span>;
+                    // }
 
-                    if (Array.isArray(result)) {
-                      // Render an empty array message or map over array items
-                      return result.length === 0 ? (
-                        <span>No results found.</span>
-                      ) : (
-                        result.map((item, index) => (
-                          <div key={index} className="mb-4">
-                            {typeof item === "object" ? (
-                              // Map over object properties within the array
-                              Object.entries(item).map(([key, value]) => (
-                                <div key={key}>
-                                  <strong>{key}:</strong>{" "}
-                                  {JSON.stringify(value)}
-                                </div>
-                              ))
-                            ) : (
-                              <span>{JSON.stringify(item)}</span>
-                            )}
-                          </div>
-                        ))
-                      );
-                    }
+                    // if (Array.isArray(result)) {
+                    //   // Render an empty array message or map over array items
+                    //   return result.length === 0 ? (
+                    //     <span>No results found.</span>
+                    //   ) : (
+                    //     result.map((item, index) => (
+                    //       <div key={index} className="mb-4">
+                    //         {typeof item === "object" ? (
+                    //           // Map over object properties within the array
+                    //           Object.entries(item).map(([key, value]) => (
+                    //             <div key={key}>
+                    //               <strong>{key}:</strong>{" "}
+                    //               {JSON.stringify(value)}
+                    //             </div>
+                    //           ))
+                    //         ) : (
+                    //           <span>{JSON.stringify(item)}</span>
+                    //         )}
+                    //       </div>
+                    //     ))
+                    //   );
+                    // }
 
-                    if (typeof result === "object" && result !== null) {
-                      // Render single object properties
-                      return Object.entries(result).map(([key, value]) => (
-                        <div key={key}>
-                          <strong>{key}:</strong> {JSON.stringify(value)}
-                        </div>
-                      ));
-                    }
+                    // if (typeof result === "object" && result !== null) {
+                    //   // Render single object properties
+                    //   return Object.entries(result).map(([key, value]) => (
+                    //     <div key={key}>
+                    //       <strong>{key}:</strong> {JSON.stringify(value)}
+                    //     </div>
+                    //   ));
+                    // }
 
-                    return null; // In case none of the conditions match
+                    // return null; // In case none of the conditions match
                   })()}
                 </pre>
               )}

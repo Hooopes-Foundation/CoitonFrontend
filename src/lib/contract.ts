@@ -5,13 +5,23 @@ export const contract = {
   contractAddress: env.contract as `0x${string}`,
   erc20Address: env.erc20 as `0x${string}`,
   contractAbi: [
-    { type: "impl", name: "DaoImpl", interface_name: "cairo::dao::IDao" },
+    {
+      type: "impl",
+      name: "DaoImpl",
+      interface_name: "cairo::dao::IDao",
+    },
     {
       type: "struct",
       name: "core::integer::u256",
       members: [
-        { name: "low", type: "core::integer::u128" },
-        { name: "high", type: "core::integer::u128" },
+        {
+          name: "low",
+          type: "core::integer::u128",
+        },
+        {
+          name: "high",
+          type: "core::integer::u128",
+        },
       ],
     },
     {
@@ -22,17 +32,32 @@ export const contract = {
           name: "data",
           type: "core::array::Array::<core::bytes_31::bytes31>",
         },
-        { name: "pending_word", type: "core::felt252" },
-        { name: "pending_word_len", type: "core::integer::u32" },
+        {
+          name: "pending_word",
+          type: "core::felt252",
+        },
+        {
+          name: "pending_word_len",
+          type: "core::integer::u32",
+        },
       ],
     },
     {
       type: "struct",
       name: "cairo::dao::Listing",
       members: [
-        { name: "id", type: "core::integer::u256" },
-        { name: "details", type: "core::byte_array::ByteArray" },
-        { name: "hash", type: "core::felt252" },
+        {
+          name: "id",
+          type: "core::integer::u256",
+        },
+        {
+          name: "details",
+          type: "core::byte_array::ByteArray",
+        },
+        {
+          name: "hash",
+          type: "core::felt252",
+        },
         {
           name: "owner",
           type: "core::starknet::contract_address::ContractAddress",
@@ -43,10 +68,22 @@ export const contract = {
       type: "struct",
       name: "cairo::dao::Organization",
       members: [
-        { name: "id", type: "core::integer::u256" },
-        { name: "name", type: "core::felt252" },
-        { name: "region", type: "core::felt252" },
-        { name: "validator", type: "core::integer::u256" },
+        {
+          name: "id",
+          type: "core::integer::u256",
+        },
+        {
+          name: "name",
+          type: "core::felt252",
+        },
+        {
+          name: "region",
+          type: "core::felt252",
+        },
+        {
+          name: "validator",
+          type: "core::integer::u256",
+        },
         {
           name: "domain",
           type: "core::starknet::contract_address::ContractAddress",
@@ -60,7 +97,12 @@ export const contract = {
         {
           type: "function",
           name: "register_validator",
-          inputs: [{ name: "validator", type: "core::integer::u256" }],
+          inputs: [
+            {
+              name: "validator",
+              type: "core::integer::u256",
+            },
+          ],
           outputs: [],
           state_mutability: "external",
         },
@@ -68,8 +110,14 @@ export const contract = {
           type: "function",
           name: "create_listing",
           inputs: [
-            { name: "details", type: "core::byte_array::ByteArray" },
-            { name: "hash", type: "core::felt252" },
+            {
+              name: "details",
+              type: "core::byte_array::ByteArray",
+            },
+            {
+              name: "hash",
+              type: "core::felt252",
+            },
           ],
           outputs: [],
           state_mutability: "external",
@@ -78,8 +126,14 @@ export const contract = {
           type: "function",
           name: "approve_listing",
           inputs: [
-            { name: "_id", type: "core::integer::u256" },
-            { name: "hash", type: "core::felt252" },
+            {
+              name: "_id",
+              type: "core::integer::u256",
+            },
+            {
+              name: "hash",
+              type: "core::felt252",
+            },
           ],
           outputs: [],
           state_mutability: "external",
@@ -88,14 +142,22 @@ export const contract = {
           type: "function",
           name: "version",
           inputs: [],
-          outputs: [{ type: "core::integer::u16" }],
+          outputs: [
+            {
+              type: "core::integer::u16",
+            },
+          ],
           state_mutability: "view",
         },
         {
           type: "function",
           name: "get_unapproved_listings",
           inputs: [],
-          outputs: [{ type: "core::array::Array::<cairo::dao::Listing>" }],
+          outputs: [
+            {
+              type: "core::array::Array::<cairo::dao::Listing>",
+            },
+          ],
           state_mutability: "view",
         },
         {
@@ -103,15 +165,26 @@ export const contract = {
           name: "get_owner",
           inputs: [],
           outputs: [
-            { type: "core::starknet::contract_address::ContractAddress" },
+            {
+              type: "core::starknet::contract_address::ContractAddress",
+            },
           ],
           state_mutability: "view",
         },
         {
           type: "function",
           name: "hash",
-          inputs: [{ name: "operand", type: "core::felt252" }],
-          outputs: [{ type: "core::felt252" }],
+          inputs: [
+            {
+              name: "operand",
+              type: "core::felt252",
+            },
+          ],
+          outputs: [
+            {
+              type: "core::felt252",
+            },
+          ],
           state_mutability: "view",
         },
         {
@@ -119,7 +192,9 @@ export const contract = {
           name: "get_erc20",
           inputs: [],
           outputs: [
-            { type: "core::starknet::contract_address::ContractAddress" },
+            {
+              type: "core::starknet::contract_address::ContractAddress",
+            },
           ],
           state_mutability: "view",
         },
@@ -128,7 +203,9 @@ export const contract = {
           name: "get_erc721",
           inputs: [],
           outputs: [
-            { type: "core::starknet::contract_address::ContractAddress" },
+            {
+              type: "core::starknet::contract_address::ContractAddress",
+            },
           ],
           state_mutability: "view",
         },
@@ -137,7 +214,9 @@ export const contract = {
           name: "get_erc1155",
           inputs: [],
           outputs: [
-            { type: "core::starknet::contract_address::ContractAddress" },
+            {
+              type: "core::starknet::contract_address::ContractAddress",
+            },
           ],
           state_mutability: "view",
         },
@@ -145,13 +224,17 @@ export const contract = {
           type: "function",
           name: "get_listings",
           inputs: [],
-          outputs: [{ type: "core::array::Array::<cairo::dao::Listing>" }],
+          outputs: [
+            {
+              type: "core::array::Array::<cairo::dao::Listing>",
+            },
+          ],
           state_mutability: "view",
         },
         {
           type: "function",
           name: "stake_listing_fee",
-          inputs: [{ name: "amount", type: "core::felt252" }],
+          inputs: [],
           outputs: [],
           state_mutability: "external",
         },
@@ -159,9 +242,18 @@ export const contract = {
           type: "function",
           name: "register_organization",
           inputs: [
-            { name: "validator", type: "core::integer::u256" },
-            { name: "name", type: "core::felt252" },
-            { name: "region", type: "core::felt252" },
+            {
+              name: "validator",
+              type: "core::integer::u256",
+            },
+            {
+              name: "name",
+              type: "core::felt252",
+            },
+            {
+              name: "region",
+              type: "core::felt252",
+            },
           ],
           outputs: [],
           state_mutability: "external",
@@ -170,7 +262,11 @@ export const contract = {
           type: "function",
           name: "get_organizations",
           inputs: [],
-          outputs: [{ type: "core::array::Array::<cairo::dao::Organization>" }],
+          outputs: [
+            {
+              type: "core::array::Array::<cairo::dao::Organization>",
+            },
+          ],
           state_mutability: "view",
         },
         {
@@ -182,7 +278,11 @@ export const contract = {
               type: "core::starknet::contract_address::ContractAddress",
             },
           ],
-          outputs: [{ type: "cairo::dao::Organization" }],
+          outputs: [
+            {
+              type: "cairo::dao::Organization",
+            },
+          ],
           state_mutability: "view",
         },
         {

@@ -179,7 +179,7 @@ export default function StarknetView() {
 }
 
 function Functions({ functions }: { functions: CategorizedFunctions }) {
-  const [activeTab, setActiveTab] = useState<"read" | "write">("write");
+  const [activeTab, setActiveTab] = useState<"read" | "write">("read");
 
   // const yourJsonData = {
   //   id: 1,

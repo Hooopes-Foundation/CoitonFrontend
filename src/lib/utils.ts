@@ -9,7 +9,6 @@ import {
   strToFeltArr,
   strToShortStringFelt,
 } from "./cairoStringUtils.sekaiStudio";
-import { byteArray, ByteArray } from "starknet";
 
 const FELT_MAX_VAL = new BN(
   "3618502788666131106986593281521497120414687020801267626233049500247285301248",
@@ -165,9 +164,21 @@ export function stringToByteArray(str: string): string {
 }
 
 // Function to convert Starknet ByteArray back to original value
-export function byteArrayToString(data: ByteArray) {
-  const jsonString = byteArray.stringFromByteArray(data);
-  return JSON.parse(jsonString);
+export function byteArrayToString(data: string) {
+  if (!Array.isArray(data)) {
+    console.error("Invalid input: Expected a byte array");
+    return null;
+  }
+
+  try {
+    // Convert byte array to string
+    const jsonString = String.fromCharCode(...data);
+
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error("Error converting byte array to string:", error);
+    return null;
+  }
 }
 
 export function generateRandomListings() {

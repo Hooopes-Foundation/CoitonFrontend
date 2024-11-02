@@ -87,9 +87,6 @@ export const useWriteData = ({
             isValid: true,
           };
         case "stake_listing_fee":
-          if (!inputs.length) return undefined;
-
-          const amount = inputs[0];
           const stakingFee = BigInt("20000000000000000000");
           let allowanceSufficient = false;
 
@@ -101,12 +98,7 @@ export const useWriteData = ({
             allowanceSufficient = currentAllowance >= stakingFee;
           }
 
-          console.log({
-            amount,
-            stakingFee,
-            allowanceSufficient,
-            allowance,
-          });
+          console.log({ allowance });
 
           if (!allowanceSufficient) {
             return {
@@ -121,9 +113,7 @@ export const useWriteData = ({
           }
 
           return {
-            contractCall: [
-              contractInstance.populate("stake_listing_fee", [amount]),
-            ],
+            contractCall: [contractInstance.populate("stake_listing_fee", [])],
             isValid: true,
           };
         case "set_erc1155":

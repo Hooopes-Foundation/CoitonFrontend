@@ -1,5 +1,4 @@
 import { contract } from "@/lib/contract";
-import { feltToShortString } from "@/lib/utils";
 import { useWalletStore } from "@/store/wallet.store";
 import { useReadContract } from "@starknet-react/core";
 
@@ -18,9 +17,7 @@ export const useFetchAllowance = () => {
   });
 
   // Compute allowance from the transaction data
-  const allowance = transaction?.data
-    ? Number(feltToShortString(String(transaction?.data)).output)
-    : null;
+  const allowance = transaction?.data ? String(transaction?.data) : null;
 
   // Return the allowance value
   return { allowance };
