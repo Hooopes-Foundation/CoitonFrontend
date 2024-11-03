@@ -16,7 +16,9 @@ const WriteFunctions = ({ functions }: { functions: FunctionItem[] }) => {
   const [inputValues, setInputValues] = useState<{ [key: string]: string[] }>(
     {},
   );
-  const [queryResults, setQueryResults] = useState<{ [key: string]: string }>({});
+  const [queryResults, setQueryResults] = useState<{ [key: string]: string }>(
+    {},
+  );
   const [listingData, setListingData] = useState({
     listing: null as CREATE_LISTING | null,
     isGenerating: false as boolean,
@@ -228,47 +230,7 @@ const WriteFunctions = ({ functions }: { functions: FunctionItem[] }) => {
                   {(() => {
                     const result = queryResults[fn.name];
 
-                    if (
-                      typeof result === "string" ||
-                      typeof result === "number"
-                    ) {
-                      // Render string or number directly
-                      return <span>{result}</span>;
-                    }
-
-                    if (Array.isArray(result)) {
-                      // Render an empty array message or map over array items
-                      return result.length === 0 ? (
-                        <span>No results found.</span>
-                      ) : (
-                        result.map((item, index) => (
-                          <div key={index} className="mb-4">
-                            {typeof item === "object" ? (
-                              // Map over object properties within the array
-                              Object.entries(item).map(([key, value]) => (
-                                <div key={key}>
-                                  <strong>{key}:</strong>{" "}
-                                  {JSON.stringify(value)}
-                                </div>
-                              ))
-                            ) : (
-                              <span>{JSON.stringify(item)}</span>
-                            )}
-                          </div>
-                        ))
-                      );
-                    }
-
-                    if (typeof result === "object" && result !== null) {
-                      // Render single object properties
-                      return Object.entries(result).map(([key, value]) => (
-                        <div key={key}>
-                          <strong>{key}:</strong> {JSON.stringify(value)}
-                        </div>
-                      ));
-                    }
-
-                    return null; // In case none of the conditions match
+                    return JSON.stringify(result, bigintReplacer, 2); // In case none of the conditions match
                   })()}
                 </pre>
               )}
