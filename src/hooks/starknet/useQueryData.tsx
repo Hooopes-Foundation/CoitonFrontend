@@ -55,6 +55,9 @@ export const useQueryData = ({
                     owner: toHex(String(lst.owner)),
                   }))
                 : [];
+
+            console.log(transaction?.data);
+
             break;
           case "get_organizations":
             refinedData = transaction?.data

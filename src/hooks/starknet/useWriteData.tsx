@@ -77,6 +77,8 @@ export const useWriteData = ({
           if (inputs.length < 2) return undefined;
           const [listingId, listingHash] = inputs;
 
+          console.log({ listingId, listingHash });
+
           return {
             contractCall: [
               contractInstance.populate("approve_listing", [

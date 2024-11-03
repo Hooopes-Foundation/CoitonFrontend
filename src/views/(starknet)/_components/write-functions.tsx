@@ -10,13 +10,13 @@ import { toast } from "sonner";
 const WriteFunctions = ({ functions }: { functions: FunctionItem[] }) => {
   const [currentQuery, setCurrentQuery] = useState<{
     funcName: string;
-    inputs: any[];
+    inputs: string[];
   } | null>(null);
   const [activeAccordion, setActiveAccordion] = useState("");
   const [inputValues, setInputValues] = useState<{ [key: string]: string[] }>(
     {},
   );
-  const [queryResults, setQueryResults] = useState<{ [key: string]: any }>({});
+  const [queryResults, setQueryResults] = useState<{ [key: string]: string }>({});
   const [listingData, setListingData] = useState({
     listing: null as CREATE_LISTING | null,
     isGenerating: false as boolean,

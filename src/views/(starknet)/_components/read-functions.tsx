@@ -122,7 +122,7 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
                   isLoading={isLoading}
                   txt="Querying..."
                   type="submit"
-                  className="mt-4 w-max rounded px-7 py-3"
+                  className="mt-4 w-max rounded px-7 py-3 motion-preset-confetti"
                 >
                   Query
                 </Button>
@@ -133,7 +133,7 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
                 isLoading={isLoading}
                 txt="Querying..."
                 onClick={() => handleSubmit(fn)}
-                className="mt-4 w-max rounded px-7 py-3"
+                className="mt-4 w-max rounded px-7 py-3 motion-preset-confetti"
               >
                 Query
               </Button>
@@ -147,7 +147,7 @@ const ReadFunctions = ({ functions }: { functions: FunctionItem[] }) => {
                   {(() => {
                     const result = queryResults[fn.name];
 
-                    return JSON.stringify(result, null, 2);
+                    return JSON.stringify(result, bigintReplacer, 2);
                     // if (
                     //   typeof result === "string" ||
                     //   typeof result === "number"
