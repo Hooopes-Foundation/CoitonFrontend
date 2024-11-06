@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { FiCheckCircle } from "react-icons/fi";
 import { FiClock } from "react-icons/fi";
 import { LuMailWarning } from "react-icons/lu";
+import { motion } from "framer-motion";
+import { variants } from "@/static";
 
 const updates = [
   {
@@ -20,12 +22,14 @@ const updates = [
 ];
 
 export default function DashboardView() {
+  const { fadeIn } = variants;
+
   return (
     <div className="flex-1 space-y-6 p-6">
       <div className="h-[240px] w-full rounded-3xl bg-gradient-to-l from-[#0D857C] to-[#0EB9AC] p-[1px]">
-        <div className="flex size-full rounded-[inherit] bg-gradient-to-r from-[#056F67] to-[#0AADA1] text-white">
-          <div className="w-full px-12">
-            <div className="h-full w-1/2 border-x border-[#0FAB9F]">
+        <div className="flex size-full overflow-hidden rounded-[inherit] bg-gradient-to-r from-[#056F67] to-[#0AADA1] text-white">
+          <div className="w-1/2 px-12">
+            <div className="size-full border-x border-[#0FAB9F]">
               <div className="flex size-full items-center justify-center">
                 <div className="flex w-full flex-col gap-1 border-y border-[#0FAB9F] p-4">
                   <p className="font-serif_regular text-xl italic leading-none md:text-[38px]">
@@ -37,6 +41,39 @@ export default function DashboardView() {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="relative h-full w-1/2">
+            <img
+              className="absolute bottom-0 right-0 z-[1] w-[550px]"
+              src={assets.svgs.dashboardHeader}
+              width={671}
+              height={447}
+            />
+            <motion.img
+              variants={fadeIn("up", 0.6)}
+              initial="show"
+              whileInView={"show"}
+              viewport={{
+                once: true,
+                amount: 0.7,
+              }}
+              animate={{
+                rotate: 10,
+                translateY: [-5, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "mirror",
+                duration: 3,
+                ease: "easeInOut",
+              }}
+              src={assets.shapes.flatShape}
+              alt="NOODLE SHAPE"
+              className="absolute -bottom-[200px] -left-28 z-0"
+              width={699}
+              height={519}
+            />
           </div>
         </div>
       </div>

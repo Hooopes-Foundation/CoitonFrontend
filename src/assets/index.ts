@@ -23,6 +23,8 @@ import propertyManagement from "./svgs/property-management.svg";
 import daoManagement from "./svgs/dao-management.svg";
 import approval from "./svgs/approval.svg";
 
+import dashboardHeader from "./svgs/dashboard-header.svg";
+
 // images
 import testBanner from "./images/test.jpg";
 import prop1 from "./images/prop1.png";
@@ -79,6 +81,8 @@ export const assets = {
     propertyManagement,
     daoManagement,
     approval,
+
+    dashboardHeader,
   },
   shapes: {
     flatShape,
