@@ -1,5 +1,8 @@
 // svgs
 import logoIcon from "./svgs/logo.svg";
+import bookmarkIcon from "./svgs/bookmarkIcon.svg";
+import homeIcon from "./svgs/homeIcon.svg";
+import moneyIcon from "./svgs/moneyIcon.svg";
 import starknetIcon from "./svgs/starknet.svg";
 import earnReward from "./svgs/earn-returns.svg";
 import buyToken from "./svgs/buy-token.svg";
@@ -26,6 +29,10 @@ import prop1 from "./images/prop1.png";
 import prop2 from "./images/prop2.png";
 import prop3 from "./images/prop3.png";
 
+import tokenBlue from "./images/token-blue.png";
+import tokenGreen from "./images/token-green.png";
+import tokenPink from "./images/token-pink.png";
+
 // shapes
 import flatShape from "./images/flat.png";
 import flatPurpleShape from "./images/flat-purple.png";
@@ -43,9 +50,16 @@ export const assets = {
     prop1,
     prop2,
     prop3,
+
+    tokenBlue,
+    tokenGreen,
+    tokenPink,
   },
   svgs: {
     logoIcon,
+    bookmarkIcon,
+    homeIcon,
+    moneyIcon,
     starknetIcon,
     earnReward,
     buyToken,
