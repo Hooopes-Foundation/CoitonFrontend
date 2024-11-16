@@ -263,7 +263,7 @@ export default function DashboardView() {
         </div>
       </div>
 
-      <ListingBoard />
+      <ListingBoard data={[...new Array(2)]} />
     </div>
   );
 }

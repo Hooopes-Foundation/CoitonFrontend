@@ -8,6 +8,7 @@ import { assets } from "@/assets";
 import { variants } from "@/static";
 import MaxWrapper from "@/components/shared/max-wrapper";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Bento() {
   const { fadeIn } = variants;
@@ -99,12 +100,17 @@ export default function Bento() {
               Dive Deeper into Coiton
             </h2>
 
-            <Button
-              size={"lg"}
-              className="w-max !bg-[#9C7800] hover:!bg-[#9C7800]/90"
+            <Link
+              to="https://hooopesteams-organization.gitbook.io/hooopes-team"
+              target="_blank"
             >
-              Download Whitepaper <IoMdCopy size={22} className="ml-3" />
-            </Button>
+              <Button
+                size={"lg"}
+                className="w-max !bg-[#9C7800] hover:!bg-[#9C7800]/90"
+              >
+                View Whitepaper <IoMdCopy size={22} className="ml-3" />
+              </Button>
+            </Link>
 
             <motion.div
               className="absolute -right-[170px] top-10 z-0 md:-right-[210px] md:-top-[20px] md:size-[424px] lg:-top-[50px] lg:size-[324px]"

@@ -13,7 +13,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { FiMenu } from "react-icons/fi";
-import { env } from "@/lib/envs";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -30,8 +29,11 @@ export default function Header() {
   );
 
   const getInTouch = (
-    <Button variant={"black"} className="h-12 rounded-full font-sans_medium">
-      {env.dev ? "Test Contract" : "Get in Touch"}
+    <Button
+      variant={"black"}
+      className="h-12 rounded-full px-6 font-sans_medium"
+    >
+      Launch App
     </Button>
   );
 

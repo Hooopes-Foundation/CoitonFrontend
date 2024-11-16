@@ -13,16 +13,18 @@ import AboutView from "./(public)/about.view";
 import BlogView from "./(public)/blog.view";
 import HomeView from "./(public)/home.view";
 import ListingsView from "./(public)/listings.view";
-import TeamsView from "./(public)/team.view";
 import TokenView from "./(public)/token.view";
 import StarknetView from "./(starknet)/starknet.view";
 import MintView from "./(onboarding)/account-types/mint.view";
 import ListingPropertyView from "./(listing)/listing-property.view";
+import PropertiesWiew from "./(dashboard)/properties.view";
+import DaoGovernanceView from "./(dashboard)/daoGovernance.view";
+import ProposalsView from "./(dashboard)/proposals.view";
+import ProposalDetailsView from "./(dashboard)/proposalDetails.view";
 
 export const views = {
   home: <HomeView />,
   about: <AboutView />,
-  team: <TeamsView />,
   listings: <ListingsView />,
   token: <TokenView />,
   blog: <BlogView />,
@@ -47,5 +49,9 @@ export const views = {
 
   // dashboard
   dashboard: <DashboardView />,
+  proposals: <ProposalsView />,
+  proposalDetails: <ProposalDetailsView />,
+  daoGovernance: <DaoGovernanceView />,
+  properties: <PropertiesWiew />,
   listingProperty: <ListingPropertyView />,
 };

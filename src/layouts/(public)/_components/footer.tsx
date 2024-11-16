@@ -9,6 +9,31 @@ import { Link } from "react-router-dom";
 import { footer_routes } from "@/static";
 import { assets } from "@/assets";
 
+const socials = [
+  {
+    icon: FaLinkedinIn,
+    label: "LinkedIn",
+    url: "https://www.linkedin.com/in/coiton-nigeria-b59b6831a/",
+  },
+  {
+    icon: FaXTwitter,
+    label: "X (Twitter)",
+    url: "https://x.com/_COiTON",
+  },
+  {
+    icon: FaFacebookF,
+    label: "Facebook",
+  },
+  {
+    icon: SiInstagram,
+    label: "Instagram",
+  },
+  {
+    icon: BsYoutube,
+    label: "YouTube",
+  },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-[#062623] text-primary-foreground">
@@ -39,7 +64,7 @@ export default function Footer() {
                     <Link
                       to="/"
                       key={path}
-                      className="md:font-sans_regular sm:font-sans_medium text-sm capitalize leading-[26.46px] transition-transform duration-300 sm:text-base md:text-[15px] md:hover:translate-x-2"
+                      className="text-sm capitalize leading-[26.46px] transition-transform duration-300 sm:font-sans_medium sm:text-base md:font-sans_regular md:text-[15px] md:hover:translate-x-2"
                     >
                       {path}
                     </Link>
@@ -47,108 +72,48 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
-            <div className="flex w-full flex-col gap-4 md:w-max md:max-w-[168px] md:gap-6">
-              <p className="font-sans_bold text-lg">Our Office</p>
-
-              <ul className="flex flex-col md:gap-2">
-                <p className="md:font-sans_regular sm:font-sans_medium text-sm capitalize leading-[26.46px] transition-transform duration-300 sm:text-base md:text-[15px] md:hover:translate-x-2">
-                  29 Abadek Avenue by MTN, off Akin Ogunlewe Rd, Igbogbo
-                  Ikorodu, Igbogbo, Lagos
-                </p>
-              </ul>
-            </div>
+            <div className="flex w-full flex-col gap-4 md:w-[168px] md:gap-6" />
           </div>
         </MaxWrapper>
       </div>
       <div className="border-t py-8">
         <MaxWrapper className="flex flex-col justify-center gap-4 md:items-center lg:flex-row lg:justify-between">
           <div className="w-full text-center lg:w-[268px] lg:text-left">
-            <p className="font-sans_light md:font-sans_regular text-sm md:text-[15px]">
+            <p className="font-sans_light text-sm md:font-sans_regular md:text-[15px]">
               © 2024 Coiton All rights reserved.
             </p>
           </div>
 
           <ul className="flex flex-1 items-start justify-center gap-8">
-            <li className="font-sans_light md:font-sans_regular text-sm md:text-[15px]">
+            <li className="font-sans_light text-sm md:font-sans_regular md:text-[15px]">
               Privacy
             </li>
-            <li className="font-sans_light md:font-sans_regular text-sm md:text-[15px]">
+            <li className="font-sans_light text-sm md:font-sans_regular md:text-[15px]">
               Security
             </li>
-            <li className="font-sans_light md:font-sans_regular text-sm md:text-[15px]">
+            <li className="font-sans_light text-sm md:font-sans_regular md:text-[15px]">
               Terms
             </li>
           </ul>
 
           <div className="flex w-full items-center justify-center gap-4 lg:w-[268px] lg:justify-end">
-            <Button
-              className="size-9 rounded-full"
-              size={"icon"}
-              variant={"secondary"}
-            >
-              <Link
-                to="https://www.linkedin.com/in/coiton-nigeria-b59b6831a/"
-                target="_blank"
-                className="flex size-full items-center justify-center"
+            {socials.map((link) => (
+              <Button
+                disabled={!link.url}
+                className="size-9 rounded-full"
+                variant={"secondary"}
+                size={"icon"}
+                key={link.label}
               >
-                <FaLinkedinIn size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="size-9 rounded-full"
-              size={"icon"}
-              variant={"secondary"}
-            >
-              <Link
-                to="https://x.com/_COiTON"
-                target="_blank"
-                className="flex size-full items-center justify-center"
-              >
-                <FaXTwitter size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="size-9 rounded-full"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                to="/"
-                target="_blank"
-                className="flex size-full items-center justify-center"
-              >
-                <FaFacebookF size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="size-9 rounded-full"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                to="/"
-                target="_blank"
-                className="flex size-full items-center justify-center"
-              >
-                <SiInstagram size={19} className="text-foreground" />
-              </Link>
-            </Button>
-            <Button
-              className="size-9 rounded-full"
-              size={"icon"}
-              variant={"secondary"}
-              disabled
-            >
-              <Link
-                to="/"
-                target="_blank"
-                className="flex size-full items-center justify-center"
-              >
-                <BsYoutube size={19} className="text-foreground" />
-              </Link>
-            </Button>
+                <Link
+                  to={link?.url ?? "/"}
+                  target={link?.url && "_blank"}
+                  className="flex size-full items-center justify-center"
+                >
+                  <link.icon size={19} className="text-foreground" />
+                </Link>
+              </Button>
+            ))}
           </div>
         </MaxWrapper>
       </div>

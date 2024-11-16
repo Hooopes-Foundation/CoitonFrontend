@@ -125,8 +125,8 @@ export default function Banner() {
           }}
           className="font-sans_regular text-base text-primary md:text-[23px]"
         >
-          Bringing Nigeria&apos;s $2.4 Trillion Real Estate Market On-Chain with
-          Blockchain Technology
+          Bringing $2.4 Trillion Real Estate Market On-Chain with Blockchain
+          Technology Globally.
         </motion.p>
 
         <motion.div

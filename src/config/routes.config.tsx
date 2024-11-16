@@ -19,10 +19,6 @@ export const routes = createBrowserRouter([
         element: views.token,
       },
       {
-        path: "/team",
-        element: views.team,
-      },
-      {
         path: "/listings",
         element: views.listings,
       },
@@ -88,6 +84,28 @@ export const routes = createBrowserRouter([
       {
         path: "/dashboard",
         element: views.dashboard,
+      },
+      {
+        path: "/properties",
+        element: views.properties,
+      },
+      {
+        path: "/dao-governance",
+        element: views.daoGovernance,
+      },
+      {
+        path: "/proposals",
+        element: layouts.proposals,
+        children: [
+          {
+            path: "/proposals",
+            element: views.proposals,
+          },
+          {
+            path: "/proposals/:id",
+            element: views.proposalDetails,
+          },
+        ],
       },
     ],
   },

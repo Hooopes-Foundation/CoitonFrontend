@@ -79,110 +79,8 @@ const sidebarLinks = [
         />
       </svg>
     ),
-    label: "My Properties",
-    path: "/properties",
-  },
-  {
-    icon: (className: string) => (
-      <svg
-        className={className}
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M10 14H3V21H10V14Z"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10 3H3V10H10V3Z"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 4H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 9H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 15H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 20H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    label: "Buy/Rent",
-    path: "/acquire",
-  },
-  {
-    icon: (className: string) => (
-      <svg
-        className={className}
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M10 14H3V21H10V14Z"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10 3H3V10H10V3Z"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 4H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 9H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 15H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 20H21"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    label: "Transaction history",
-    path: "/history",
+    label: "Property Management",
+    path: "/property-management",
   },
   {
     icon: (className: string) => (
@@ -202,8 +100,29 @@ const sidebarLinks = [
         />
       </svg>
     ),
-    label: "Governance",
-    path: "/governance",
+    label: "DAO Governance",
+    path: "/dao-governance",
+  },
+  {
+    icon: (className: string) => (
+      <svg
+        className={className}
+        width="26"
+        height="26"
+        viewBox="0 0 26 26"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.7768 6.43476C15.5454 6.67082 15.4158 6.98819 15.4158 7.31874C15.4158 7.64929 15.5454 7.96666 15.7768 8.20272L17.7973 10.2232C18.0333 10.4546 18.3507 10.5842 18.6813 10.5842C19.0118 10.5842 19.3292 10.4546 19.5652 10.2232L24.3261 5.46238C24.9611 6.86562 25.1534 8.42906 24.8773 9.94434C24.6012 11.4596 23.8699 12.8548 22.7808 13.9439C21.6916 15.033 20.2965 15.7643 18.7812 16.0404C17.2659 16.3165 15.7025 16.1242 14.2992 15.4892L5.57311 24.2154C5.07072 24.7178 4.38934 25 3.67886 25C2.96838 25 2.287 24.7178 1.78462 24.2154C1.28224 23.713 1 23.0316 1 22.3211C1 21.6107 1.28224 20.9293 1.78462 20.4269L10.5108 11.7008C9.87577 10.2975 9.6835 8.73407 9.95959 7.21879C10.2357 5.70351 10.967 4.30835 12.0561 3.21925C13.1452 2.13014 14.5404 1.39881 16.0557 1.12273C17.5709 0.846639 19.1344 1.0389 20.5376 1.6739L15.7894 6.42213L15.7768 6.43476Z"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    label: "Waitlist",
+    path: "/waitlist",
   },
   {
     icon: (className: string) => (
@@ -292,11 +211,62 @@ const sidebarLinks = [
     label: "Trading",
     path: "/trading",
   },
+  {
+    icon: (className: string) => (
+      <svg
+        className={className}
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 14H3V21H10V14Z"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 3H3V10H10V3Z"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 4H21"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 9H21"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 15H21"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 20H21"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    label: "Account",
+    path: "/account",
+  },
 ];
 
 const Sidebar = () => {
   return (
-    <div className="sticky left-0 top-0 flex h-screen w-full max-w-[312px] flex-col justify-between border-r border-[#EAECF0] bg-background pt-10">
+    <div className="sticky left-0 top-0 flex h-screen w-full max-w-[322px] flex-col justify-between border-r border-[#EAECF0] bg-background pt-10">
       <div className="flex flex-col gap-6">
         <div className="flex h-14 items-center pl-[32px]">
           <img

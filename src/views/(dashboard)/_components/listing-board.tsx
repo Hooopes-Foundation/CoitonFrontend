@@ -8,8 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ListingCard from "@/components/shared/listing-card";
+import MerchantTable from "./merchant-table";
 
-const ListingBoard = () => {
+const ListingBoard = ({
+  type = "prpty",
+  data,
+}: {
+  type?: "dao" | "prpty";
+  data?: any[];
+}) => {
   return (
     <div className="rounded-[24px] border">
       <div className="flex items-center rounded-t-[inherit] border-b bg-white p-6">
@@ -99,11 +106,28 @@ const ListingBoard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 px-10 py-6 lg:grid-cols-2 xl:grid-cols-3">
-        {[...new Array(10)].map((_, _index) => (
-          <ListingCard key={_index} />
-        ))}
-      </div>
+      {type === "dao" ? (
+        data && data?.length > 0 ? (
+          <div className="mx-auto max-w-[1350px] p-6">
+            <MerchantTable />
+          </div>
+        ) : (
+          <div className="flex aspect-[3.2] w-full items-center justify-center">
+            <p>Nothing to display yet</p>
+          </div>
+        )
+      ) : (
+        type === "prpty" &&
+        (data && data?.length > 0 ? (
+          <div className="grid grid-cols-1 gap-8 px-10 py-6 lg:grid-cols-2 xl:grid-cols-3">
+            {data && data?.map((_, _index) => <ListingCard key={_index} />)}
+          </div>
+        ) : (
+          <div className="flex aspect-[3.2] w-full items-center justify-center">
+            <p>No properties yet</p>
+          </div>
+        ))
+      )}
     </div>
   );
 };

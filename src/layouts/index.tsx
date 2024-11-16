@@ -1,4 +1,5 @@
 import DashboardLayout from "./(dashboard)/DashboardLayout";
+import ProposalsLayout from "./(dashboard)/ProposalsLayout";
 import ListPropertyLayout from "./(list-property)/ListPropertyLayout";
 import OnboardingLayout from "./(onboarding)/OnboardingLayout";
 import RootLayout from "./(public)/RootLayout";
@@ -9,5 +10,6 @@ export const layouts = {
   test: <TestLayout />,
   onboarding: <OnboardingLayout />,
   dashboard: <DashboardLayout />,
+  proposals: <ProposalsLayout />,
   listProperty: <ListPropertyLayout />,
 };

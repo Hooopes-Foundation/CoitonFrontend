@@ -26,7 +26,6 @@ export const variants = {
 export const nav_routes: ROUTES[] = [
   { label: "About", path: "/about" },
   { label: "Token", path: "/token" },
-  { label: "Team", path: "/team" },
   { label: "Listings", path: "/listings" },
   { label: "Blog", path: "/blog" },
 ];
