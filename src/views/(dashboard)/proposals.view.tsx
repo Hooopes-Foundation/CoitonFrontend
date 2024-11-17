@@ -111,6 +111,9 @@ export default function ProposalsView() {
                 <div className="flex items-center gap-3">
                   <div className="size-12 rounded-full bg-secondary"></div>
                   <p className="text-[#0E0E0E]">{proposal.name}</p>
+                  <div className="rounded-full border border-[#6F6F6F] px-2 py-1 text-xs text-[#6F6F6F]">
+                    Core
+                  </div>
                 </div>
 
                 <div
