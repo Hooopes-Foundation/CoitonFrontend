@@ -73,30 +73,33 @@ export default function ProposalsView() {
         <p className="mb-10 text-xl text-[#929292]">
           Create your DAOs proposals
         </p>
-        <Button className="mt-auto w-full" size={"lg"}>
-          <svg
-            className="size-6"
-            viewBox="0 0 25 25"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.47632 17.3999C4.48992 4.94492 13.3128 1.412 20.3739 2.62407C20.659 6.75175 18.6394 8.29738 14.7931 9.01115C15.5358 9.78721 16.8482 10.7638 16.7066 11.9846C16.6059 12.8533 16.0159 13.2796 14.836 14.1321C12.2502 16.0003 9.25474 17.1784 5.47632 17.3999Z"
-              className="stroke-white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M4.40039 22.3999C4.40039 15.8999 8.24887 12.5817 10.9004 10.3999"
-              className="stroke-white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Create
-        </Button>
+
+        <Link to="/proposals/new">
+          <Button className="mt-auto w-full" size={"lg"}>
+            <svg
+              className="size-6"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.47632 17.3999C4.48992 4.94492 13.3128 1.412 20.3739 2.62407C20.659 6.75175 18.6394 8.29738 14.7931 9.01115C15.5358 9.78721 16.8482 10.7638 16.7066 11.9846C16.6059 12.8533 16.0159 13.2796 14.836 14.1321C12.2502 16.0003 9.25474 17.1784 5.47632 17.3999Z"
+                className="stroke-white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4.40039 22.3999C4.40039 15.8999 8.24887 12.5817 10.9004 10.3999"
+                className="stroke-white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Create
+          </Button>
+        </Link>
       </div>
 
       <div className="flex flex-1 flex-col gap-6">

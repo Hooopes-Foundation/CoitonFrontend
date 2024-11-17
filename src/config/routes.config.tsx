@@ -105,6 +105,10 @@ export const routes = createBrowserRouter([
             path: "/proposals/:id",
             element: views.proposalDetails,
           },
+          {
+            path: "/proposals/new",
+            element: views.createProposal,
+          },
         ],
       },
     ],

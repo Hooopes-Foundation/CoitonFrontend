@@ -21,6 +21,7 @@ import PropertiesWiew from "./(dashboard)/properties.view";
 import DaoGovernanceView from "./(dashboard)/daoGovernance.view";
 import ProposalsView from "./(dashboard)/proposals.view";
 import ProposalDetailsView from "./(dashboard)/proposalDetails.view";
+import CreateProposalView from "./(dashboard)/createProposal.view";
 
 export const views = {
   home: <HomeView />,
@@ -51,6 +52,7 @@ export const views = {
   dashboard: <DashboardView />,
   proposals: <ProposalsView />,
   proposalDetails: <ProposalDetailsView />,
+  createProposal: <CreateProposalView />,
   daoGovernance: <DaoGovernanceView />,
   properties: <PropertiesWiew />,
   listingProperty: <ListingPropertyView />,
