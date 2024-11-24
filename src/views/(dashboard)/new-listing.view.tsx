@@ -1,4 +1,3 @@
-import { useState } from "react";
 import StepIndicator from "./_components/step-indicator";
 import { createListingSteps } from "@/static";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
@@ -12,6 +11,7 @@ import PropertyImages from "./_components/steps/property-image";
 import PropertyDocuments from "./_components/steps/property-documents";
 import { toast } from "sonner";
 import { stringToByteArray } from "@/lib/utils";
+import { useCreateListingFormStore } from "@/store/listing.store";
 
 export interface IPropsToPass {
   prev?: () => void;
@@ -20,14 +20,18 @@ export interface IPropsToPass {
 }
 
 export default function NewListingWiew() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const currentStep = useCreateListingFormStore((state) => state.currentStep);
+  const setCurrentStep = useCreateListingFormStore(
+    (state) => state.setCurrentStep,
+  );
+  const direction = useCreateListingFormStore((state) => state.direction);
+  const setDirection = useCreateListingFormStore((state) => state.setDirection);
 
   const form = useForm<CREATE_LISTING_SCHEMA>({
     resolver: zodResolver(createListingSchema),
   });
 
-  const { handleSubmit, reset, trigger } = form;
+  const { handleSubmit, trigger } = form;
 
   const processForm: SubmitHandler<CREATE_LISTING_SCHEMA> = (data) => {
     toast.success("Data submitted successfully");
@@ -49,15 +53,15 @@ export default function NewListingWiew() {
       if (currentStep === createListingSteps.length - 1) {
         await handleSubmit(processForm)();
       }
-      setCurrentStep((step) => step + 1);
-      setDirection((dir) => dir + 1);
+      setCurrentStep((prevStep) => prevStep + 1);
+      setDirection((prevDir) => prevDir + 1);
     }
   };
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep((step) => step - 1);
-      setDirection((dir) => dir - 1);
+      setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
+      setDirection((prevDir) => prevDir - 1);
     }
   };
 
