@@ -13,21 +13,21 @@ import AboutView from "./(public)/about.view";
 import BlogView from "./(public)/blog.view";
 import HomeView from "./(public)/home.view";
 import ListingsView from "./(public)/listings.view";
-import TokenView from "./(public)/token.view";
 import StarknetView from "./(starknet)/starknet.view";
 import MintView from "./(onboarding)/account-types/mint.view";
-import ListingPropertyView from "./(listing)/listing-property.view";
-import PropertiesWiew from "./(dashboard)/properties.view";
-import DaoGovernanceView from "./(dashboard)/daoGovernance.view";
+import ManagementView from "./(dashboard)/management.view";
+import NewListingView from "./(dashboard)/new-listing.view";
+import GovernanceView from "./(dashboard)/governance.view";
 import ProposalsView from "./(dashboard)/proposals.view";
-import ProposalDetailsView from "./(dashboard)/proposalDetails.view";
-import CreateProposalView from "./(dashboard)/createProposal.view";
+import ProposalDetailsView from "./(dashboard)/proposal-details.view";
+import CreateProposalView from "./(dashboard)/create-proposal.view";
+import PropertyDetailsView from "./(dashboard)/property-details.view";
+import ProfileView from "./(dashboard)/profile.view";
 
 export const views = {
   home: <HomeView />,
   about: <AboutView />,
   listings: <ListingsView />,
-  token: <TokenView />,
   blog: <BlogView />,
 
   // test
@@ -50,10 +50,12 @@ export const views = {
 
   // dashboard
   dashboard: <DashboardView />,
+  management: <ManagementView />,
+  newListing: <NewListingView />,
+  governance: <GovernanceView />,
   proposals: <ProposalsView />,
   proposalDetails: <ProposalDetailsView />,
   createProposal: <CreateProposalView />,
-  daoGovernance: <DaoGovernanceView />,
-  properties: <PropertiesWiew />,
-  listingProperty: <ListingPropertyView />,
+  propertyDetails: <PropertyDetailsView />,
+  profile: <ProfileView />,
 };

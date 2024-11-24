@@ -2,7 +2,7 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import ListingBoard from "./_components/listing-board";
 
-export default function DaoGovernanceView() {
+export default function GovernanceView() {
   return (
     <div className="flex-1 space-y-6 p-6">
       <div className="relative flex h-[363px] w-full items-center overflow-clip rounded-xl border-[2.5px] border-[#D6D6D6] bg-[#FCFCFC] p-[1px]">

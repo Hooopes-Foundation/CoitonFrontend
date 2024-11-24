@@ -7,6 +7,7 @@ declare type SITE_CONFIG = {
 declare type ROUTES = {
   label: string;
   path: any;
+  comingSoon?: boolean;
 };
 
 declare type CLIENTS_FEEDBACK = {

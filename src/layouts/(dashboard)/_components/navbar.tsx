@@ -1,7 +1,9 @@
 import { Separator } from "@/components/ui/separator";
-import { memo } from "react";
+import { Fragment, memo } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
+import { env } from "@/lib/envs";
+import { truncateAddr } from "@/lib/utils";
 
 const Navbar = () => {
   return (
@@ -9,12 +11,15 @@ const Navbar = () => {
       <span>Search</span>
 
       <div className="flex h-full items-center gap-3">
-        <Link to={"/starknet-test"}>
+        {!env.dev && (
+          <Fragment>
+            <Link to={"/starknet-test"}>
+              <Button variant={"black"}>Test Contract</Button>
+            </Link>
 
-        <Button variant={"black"}>Test Contract</Button>
-        </Link>
-
-        <Separator className="h-1/2 w-px bg-[#EAECF0]" />
+            <Separator className="h-1/2 w-px bg-[#EAECF0]" />
+          </Fragment>
+        )}
 
         <Button
           size={"icon"}
@@ -40,11 +45,11 @@ const Navbar = () => {
         <div role="button" className="flex items-center gap-4">
           <div className="size-14 rounded-full bg-[#D9D9D9]"></div>
           <div className="flex flex-col justify-center">
-            <p className="font-sans_medium text-lg leading-none">
-              David Odinegun
-            </p>
+            <p className="font-sans_medium text-lg leading-none">David</p>
             <span className="font-sans_regular text-base text-[#475467]">
-              davedoesart@gmail.com
+              {truncateAddr(
+                "0x015e6F87ECe3fa3f77B480298FCcEA638Da577EA970A974e5233b7357e4C06cC",
+              )}
             </span>
           </div>
           <svg

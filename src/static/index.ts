@@ -1,4 +1,8 @@
 import { assets } from "@/assets";
+import { HiOutlineUser } from "react-icons/hi2";
+import { TbListDetails } from "react-icons/tb";
+import { IoImagesOutline } from "react-icons/io5";
+import { PiFilePdfDuotone } from "react-icons/pi";
 
 export const variants = {
   fadeIn: (direction: "up" | "down" | "left" | "right", delay: number) => {
@@ -25,7 +29,7 @@ export const variants = {
 
 export const nav_routes: ROUTES[] = [
   { label: "About", path: "/about" },
-  { label: "Token", path: "/token" },
+  { label: "Token", path: "/token", comingSoon: true },
   { label: "Listings", path: "/listings" },
   { label: "Blog", path: "/blog" },
 ];
@@ -116,5 +120,43 @@ export const feedbacks: CLIENTS_FEEDBACK[] = [
     name: "Frank Emmanuel",
     position: "Property Developer",
     image: assets.svgs.frankProfile,
+  },
+];
+
+export const createListingSteps = [
+  {
+    title: "Property Owner Information",
+    subtitle: "Provide your full name and email address.",
+    icon: HiOutlineUser,
+    fields: ["email", "phone", "social", "occupation"],
+  },
+  {
+    title: "Property Details",
+    subtitle: "Enter detailed information about the property.",
+    icon: TbListDetails,
+    fields: [
+      "location",
+      "state",
+      "postalCode",
+      "price",
+      "bedrooms",
+      "bathrooms",
+      "parkingSpot",
+      "constructionSqft",
+      "landSqft",
+      "description",
+    ],
+  },
+  {
+    title: "Property Images",
+    subtitle: "Upload high-quality images of the property.",
+    icon: IoImagesOutline,
+    fields: ["images"],
+  },
+  {
+    title: "Ownership Documentation",
+    subtitle: "Submit a valid document for DAO approval.",
+    icon: PiFilePdfDuotone,
+    fields: ["documents"],
   },
 ];

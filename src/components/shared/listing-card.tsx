@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 const ListingCard = () => {
   return (
@@ -32,14 +33,14 @@ const ListingCard = () => {
           $300,000
         </h4>
 
-        <div className="flex flex-col gap-2">
-          <p className="font-sans_medium text-xl leading-none text-[#1D2939]">
+        <Link to="/property/5552467" className="flex flex-col gap-2">
+          <span className="font-sans_medium text-xl leading-none text-[#1D2939]">
             Villa in Rizal, Phillippines
-          </p>
+          </span>
           <span className="font-sans_light text-base leading-none text-[#475467]">
             Palawan Ecolodge Amihan
           </span>
-        </div>
+        </Link>
 
         <div className="flex items-center justify-between">
           <p className="flex flex-1 items-center justify-start gap-2 border-r">
