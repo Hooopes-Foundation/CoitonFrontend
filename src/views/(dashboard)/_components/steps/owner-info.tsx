@@ -9,15 +9,18 @@ import { Input } from "@/components/ui/input";
 import { ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPropsToPass } from "../../new-listing.view";
+import { useWalletStore } from "@/store/wallet.store";
 
 const OwnerInfo = ({
   form: {
     control,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   },
   next,
 }: IPropsToPass) => {
+  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
+
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -99,7 +102,13 @@ const OwnerInfo = ({
       />
 
       <div className="mt-4 flex w-full items-center">
-        <Button type="button" size={"lg"} className="w-full" onClick={next}>
+        <Button
+          disabled={!isWalletConnected || isSubmitting}
+          type="button"
+          size={"lg"}
+          className="w-full"
+          onClick={next}
+        >
           <span>Next</span>
           <ArrowDown className="size-5" />
         </Button>

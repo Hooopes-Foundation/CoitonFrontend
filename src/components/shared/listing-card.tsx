@@ -1,13 +1,19 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
 
-const ListingCard = () => {
+const ListingCard = ({ listing }: { listing: any }) => {
+  console.log(listing);
+
   return (
     <div className="group rounded-[24px] border bg-white">
       <div className="relative h-[240px] overflow-hidden rounded-[inherit] bg-secondary">
         <img
-          src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="LISTING PROPERTY"
+          src={
+            listing?.details?.banner ??
+            listing?.details?.images[0] ??
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          }
+          alt={listing?.details?.title}
           className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
         />
         <div className="absolute right-4 top-4 flex items-center gap-2 rounded-[12px] border bg-white px-3 py-2">
@@ -30,15 +36,15 @@ const ListingCard = () => {
 
       <div className="flex flex-col gap-6 p-6">
         <h4 className="font-sans_bold text-2xl leading-none tracking-wide text-primary">
-          $300,000
+          ${Number(listing?.details?.price).toLocaleString()}
         </h4>
 
-        <Link to="/property/5552467" className="flex flex-col gap-2">
+        <Link to={`/property/${listing?.id}`} className="flex flex-col gap-2">
           <span className="font-sans_medium text-xl leading-none text-[#1D2939]">
-            Villa in Rizal, Phillippines
+            {listing?.details?.title}
           </span>
           <span className="font-sans_light text-base leading-none text-[#475467]">
-            Palawan Ecolodge Amihan
+            {listing?.details?.location}
           </span>
         </Link>
 
@@ -58,7 +64,7 @@ const ListingCard = () => {
             </svg>
 
             <span className="font-sans_normal text-sm text-[#4D5761]">
-              Beds: 4
+              Beds: {listing?.details?.size?.bedrooms}
             </span>
           </p>
           <p className="flex flex-1 items-center justify-center gap-2">
@@ -76,7 +82,7 @@ const ListingCard = () => {
             </svg>
 
             <span className="font-sans_normal text-sm text-[#4D5761]">
-              Baths: 3
+              Baths: {listing?.details?.size?.bathrooms}
             </span>
           </p>
           <p className="flex flex-1 items-center justify-end gap-2 border-l">
@@ -94,7 +100,7 @@ const ListingCard = () => {
             </svg>
 
             <span className="tenormal font-sans_light text-[#4D5761]">
-              200 sqft
+              {listing?.details?.size?.area} sqft
             </span>
           </p>
         </div>

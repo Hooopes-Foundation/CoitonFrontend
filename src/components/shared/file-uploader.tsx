@@ -88,10 +88,19 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @example disabled
    */
   disabled?: boolean;
+
+  /**
+   * Title to show on the uploader.
+   * @type string
+   * @default ""
+   * @example Drag and drop here
+   */
+  title?: string;
 }
 
 export function FileUploader(props: FileUploaderProps) {
   const {
+    title,
     value: valueProp,
     onValueChange,
     onUpload,
@@ -214,15 +223,21 @@ export function FileUploader(props: FileUploaderProps) {
                   />
                 </div>
                 <p className="font-sans_medium text-base text-primary">
-                  Drop the files here
+                  Release to drop hrer.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
                 <div className="flex flex-col">
                   <p className="font-sans_medium text-base text-primary">
-                    Drag {`'n'`} drop files here, or click to <br /> select pdf
-                    files
+                    {title ? (
+                      title
+                    ) : (
+                      <>
+                        Drag {"'n'"} drop files here, or click to <br />
+                        select required files
+                      </>
+                    )}
                   </p>
                   <p className="mb-4 mt-2 font-sans_regular text-xs text-muted-foreground">
                     {maxFiles > 1

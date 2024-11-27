@@ -5,23 +5,26 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Loader } from "lucide-react";
 import { FileUploader } from "@/components/shared/file-uploader";
 import { IPropsToPass } from "../../new-listing.view";
+import { useWalletStore } from "@/store/wallet.store";
 
 const PropertyDocuments = ({
   form: {
     control,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   },
   prev,
 }: IPropsToPass) => {
+  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
+
   return (
     <div className="flex flex-col gap-4">
       <FormField
         control={control}
-        name="documents"
+        name="propertyDocuments"
         render={({ field }) => (
           <FormItem>
             <FormControl>
@@ -30,8 +33,8 @@ const PropertyDocuments = ({
                 onValueChange={field.onChange}
                 maxFiles={10}
                 maxSize={100 * 1024 * 1024}
-                className={errors.documents ? "border-red-500" : ""}
-                {...register("documents")}
+                className={errors.propertyDocuments ? "border-red-500" : ""}
+                {...register("propertyDocuments")}
               />
             </FormControl>
             <FormMessage />
@@ -45,13 +48,28 @@ const PropertyDocuments = ({
           size={"lg"}
           className="max-w-[103px]"
           onClick={prev}
+          disabled={!isWalletConnected || isSubmitting}
           variant="ghost"
         >
           Back
         </Button>
-        <Button type="submit" size={"lg"} className="flex-1">
-          <span>Submit</span>
-          <ArrowDown className="size-5" />
+        <Button
+          type="submit"
+          size={"lg"}
+          className="flex-1"
+          disabled={!isWalletConnected || isSubmitting}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader className="size-5 animate-spin" />
+              <span>Please wait...</span>
+            </>
+          ) : (
+            <>
+              <span>Submit</span>
+              <ArrowDown className="size-5" />
+            </>
+          )}
         </Button>
       </div>
     </div>

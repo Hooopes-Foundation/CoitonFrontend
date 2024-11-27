@@ -120,7 +120,10 @@ const ListingBoard = ({
         type === "prpty" &&
         (data && data?.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 px-10 py-6 lg:grid-cols-2 xl:grid-cols-3">
-            {data && data?.map((_, _index) => <ListingCard key={_index} />)}
+            {data &&
+              data?.map((listing, _index) => (
+                <ListingCard listing={listing} key={_index} />
+              ))}
           </div>
         ) : (
           <div className="flex aspect-[3.2] w-full items-center justify-center">

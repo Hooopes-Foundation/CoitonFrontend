@@ -8,12 +8,13 @@ type CreateListingFormStore = {
 };
 
 export const useCreateListingFormStore = create<CreateListingFormStore>(
-  (set) => ({
+  (setFn) => ({
     currentStep: 0,
     direction: 0,
+
     setCurrentStep: (updateFn) =>
-      set((state) => ({ currentStep: updateFn(state.currentStep) })),
+      setFn((state) => ({ currentStep: updateFn(state.currentStep) })),
     setDirection: (updateFn) =>
-      set((state) => ({ direction: updateFn(state.direction) })),
+      setFn((state) => ({ direction: updateFn(state.direction) })),
   }),
 );

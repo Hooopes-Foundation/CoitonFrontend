@@ -94,6 +94,10 @@ export const routes = createBrowserRouter([
         element: views.governance,
       },
       {
+        path: "/trading",
+        element: views.trading,
+      },
+      {
         path: "/property/:id",
         element: views.propertyDetails,
       },

@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 import { env } from "@/lib/envs";
 import { truncateAddr } from "@/lib/utils";
+import { useWalletStore } from "@/store/wallet.store";
 
 const Navbar = () => {
+  const walletAddress = useWalletStore((state) => state.walletAddress);
+
   return (
     <div className="sticky left-0 top-0 z-30 flex h-20 w-full items-center justify-between border-b border-[#EAECF0] bg-background px-6 py-3">
       <span>Search</span>
@@ -47,9 +50,9 @@ const Navbar = () => {
           <div className="flex flex-col justify-center">
             <p className="font-sans_medium text-lg leading-none">David</p>
             <span className="font-sans_regular text-base text-[#475467]">
-              {truncateAddr(
-                "0x015e6F87ECe3fa3f77B480298FCcEA638Da577EA970A974e5233b7357e4C06cC",
-              )}
+              {walletAddress
+                ? truncateAddr(walletAddress)
+                : "No wallet connected"}
             </span>
           </div>
           <svg

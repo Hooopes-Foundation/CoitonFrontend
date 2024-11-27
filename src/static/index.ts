@@ -1,8 +1,9 @@
 import { assets } from "@/assets";
 import { HiOutlineUser } from "react-icons/hi2";
-import { TbListDetails } from "react-icons/tb";
+import { MdOutlineFeaturedPlayList } from "react-icons/md";
+import { RiListCheck2 } from "react-icons/ri";
 import { IoImagesOutline } from "react-icons/io5";
-import { PiFilePdfDuotone } from "react-icons/pi";
+import { HiOutlineDocumentText } from "react-icons/hi2";
 
 export const variants = {
   fadeIn: (direction: "up" | "down" | "left" | "right", delay: number) => {
@@ -125,38 +126,161 @@ export const feedbacks: CLIENTS_FEEDBACK[] = [
 
 export const createListingSteps = [
   {
-    title: "Property Owner Information",
+    title: "Owner/Agent Information",
     subtitle: "Provide your full name and email address.",
     icon: HiOutlineUser,
     fields: ["email", "phone", "social", "occupation"],
   },
   {
-    title: "Property Details",
-    subtitle: "Enter detailed information about the property.",
-    icon: TbListDetails,
+    title: "Property Basics",
+    subtitle: "Enter your property's address, type, and price.",
+    icon: MdOutlineFeaturedPlayList,
     fields: [
+      "propertyType",
+      "listingType",
+      "title",
       "location",
-      "state",
-      "postalCode",
       "price",
-      "bedrooms",
-      "bathrooms",
-      "parkingSpot",
-      "constructionSqft",
-      "landSqft",
       "description",
     ],
   },
   {
-    title: "Property Images",
-    subtitle: "Upload high-quality images of the property.",
-    icon: IoImagesOutline,
-    fields: ["images"],
+    title: "Property Features",
+    subtitle: "Add amenities, utilities, and other features.",
+    icon: RiListCheck2,
+    fields: [
+      "bedrooms",
+      "bathrooms",
+      "sizeSqft",
+      "landArea",
+      "parkingSpaces",
+      "yearBuilt",
+      "amenities",
+    ],
   },
   {
-    title: "Ownership Documentation",
+    title: "Property Media",
+    subtitle: "Upload photos and/or videos of your property.",
+    icon: IoImagesOutline,
+    fields: ["banner", "photos"],
+  },
+  {
+    title: "Legal Documents",
     subtitle: "Submit a valid document for DAO approval.",
-    icon: PiFilePdfDuotone,
-    fields: ["documents"],
+    icon: HiOutlineDocumentText,
+    fields: ["propertyDocuments"],
+  },
+];
+
+export const listingTypes = ["rent", "sale"] as const;
+
+export const propertyTypes = [
+  "Single-family Home",
+  "Multi-family Home",
+  "Condominium",
+  "Townhouse",
+  "Apartment",
+  "Co-op",
+  "Loft",
+  "Duplex",
+  "Triplex",
+  "Quadruplex",
+  "Studio",
+  "Penthouse",
+  "Villa",
+  "Cottage",
+  "Cabin",
+  "Ranch",
+  "Farm",
+  "Land",
+  "Commercial Property",
+  "Industrial Property",
+  "Retail Space",
+  "Office Space",
+  "Mixed-use Property",
+  "Hotel",
+  "Motel",
+  "Resort",
+  "Mobile Home",
+  "Modular Home",
+  "Tiny House",
+  "Boat House",
+  "Farmhouse",
+  "Luxury Home",
+  "Historic Property",
+  "New Construction",
+  "Vacation Home",
+  "Investment Property",
+  "Bungalow",
+  "Castle",
+  "Manor",
+  "Eco-friendly Home",
+  "Prefab Home",
+  "Houseboat",
+  "Log Cabin",
+  "Beachfront Property",
+  "Mountain Property",
+  "Agricultural Land",
+  "Warehouse",
+  "Data Center",
+  "Storage Unit",
+  "Parking Lot",
+  "Healthcare Facility",
+  "Assisted Living Facility",
+  "Senior Living Community",
+  "Mixed Development Complex",
+  "Recreational Property",
+  "Sports Facility",
+  "RV Lot",
+  "Timeshare",
+  "Student Housing",
+  "Guest House",
+] as const;
+
+export const initialCreateListing = {
+  email: "email@gmail.com",
+  phone: "1234567890",
+  social: "https://twitter.com/_COiTON",
+  occupation: "Real-Estate Trading Platform",
+  propertyType: propertyTypes[0],
+  listingType: listingTypes[0],
+  title: "Villa in Rizal, Phillippines",
+  location: {
+    name: "Lagos State, Nigeria",
+    latitude: "6.5269033",
+    longitude: "3.5774005",
+  },
+  price: "999",
+  description: `Escape to your own private oasis in the heart of Lagos State, Nigeria. This stunning bungalow is tucked away behind the wall of China, offering seclusion and tranquility from the bustling city life.\n\nStep inside to find a spacious living area with high ceilings and ample natural light streaming in through large windows. The kitchen features modern appliances and plenty of storage space, perfect for whipping up delicious meals.\n\nThe master bedroom boasts an en-suite bathroom and walk-in closet, providing a luxurious retreat at the end of the day. Two additional bedrooms offer flexibility for guests or a home office.\n\nOutside, you'll discover a lush garden with colorful flowers and mature trees, creating a serene outdoor space for relaxing or entertaining. Enjoy al fresco dining on the patio or unwind in the shade of the pergola.\n\nDon't miss this rare opportunity to own a piece of paradise in Lagos State. Schedule a viewing today before it's too late!`,
+  bedrooms: "4",
+  bathrooms: "4",
+  sizeSqft: "254",
+  landArea: "32",
+  parkingSpaces: "4",
+  yearBuilt: new Date("2024-08-31T23:00:00.000Z"),
+  amenities: [
+    "amenity 1",
+    "amenity 2",
+    "amenity 3",
+    "amenity 4",
+    "amenity 5",
+    "amenity 6",
+    "amenity 7",
+    "amenity 8",
+  ],
+};
+
+export const connectorsInfo = [
+  {
+    id: "argentX",
+    name: "Argent X",
+    installLink:
+      "https://chromewebstore.google.com/detail/argent-x-starknet-wallet/dlcobpjiigpikoobohmabehhmhfoodbb",
+  },
+  {
+    id: "braavos",
+    name: "Braavos",
+    installLink:
+      "https://chromewebstore.google.com/detail/braavos-starknet-wallet/jnlgamecbpmbajjfhmmmlhejkemejdma",
   },
 ];

@@ -386,3 +386,55 @@ export function serializeData(data: any): any {
   // For all other data types, return the value as is
   return data;
 }
+
+export const onUpload = async (files: File[]) => {
+  const uploadedFiles: string[] = [];
+
+  try {
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
+        },
+        body: formData,
+      };
+
+      const response = await fetch(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        options,
+      );
+      const pinataResponse = await response.json();
+      const fileUrl = pinataResponse.IpfsHash;
+
+      if (!pinataResponse) {
+        throw new Error("Failed to upload file(s) to Pinata");
+      }
+
+      uploadedFiles.push(fileUrl);
+    }
+
+    return uploadedFiles; // Return the array of uploaded files
+  } catch (error) {
+    console.error("Error uploading file(s) to Pinata:", error);
+    throw new Error("Failed to upload file(s) to Pinata");
+  }
+};
+
+/**
+ * Converts a string into a URL-friendly slug.
+ * @param {string} text - The text to be slugified.
+ * @returns {string} - The slugified string.
+ */
+export const slugify = (text: string): string => {
+  if (!text) return ""; // Handle empty or undefined input
+  return text
+    .toLowerCase() // Convert to lowercase
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/[^\w-]+/g, "") // Remove non-word characters
+    .replace(/--+/g, "-") // Replace multiple hyphens with a single hyphen
+    .trim(); // Remove trailing or leading spaces
+};

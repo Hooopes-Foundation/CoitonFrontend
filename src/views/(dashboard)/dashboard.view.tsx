@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { FiCheckCircle } from "react-icons/fi";
 import { FiClock } from "react-icons/fi";
 import { LuMailWarning } from "react-icons/lu";
-import { motion } from "framer-motion";
-import { variants } from "@/static";
+// import { motion } from "framer-motion";
+// import { variants } from "@/static";
+import { useFetchListings } from "@/hooks/starknet/useFetchListings";
 
 const updates = [
   {
@@ -22,11 +23,13 @@ const updates = [
 ];
 
 export default function DashboardView() {
-  const { fadeIn } = variants;
+  // const { fadeIn } = variants;
+
+  const { listings } = useFetchListings();
 
   return (
     <div className="flex-1 space-y-6 p-6">
-      <div className="h-[240px] w-full rounded-3xl bg-gradient-to-l from-[#0D857C] to-[#0EB9AC] p-[1px]">
+      {/* <div className="h-[240px] w-full rounded-3xl bg-gradient-to-l from-[#0D857C] to-[#0EB9AC] p-[1px]">
         <div className="flex size-full overflow-hidden rounded-[inherit] bg-gradient-to-r from-[#056F67] to-[#0AADA1] text-white">
           <div className="w-1/2 px-12">
             <div className="size-full border-x border-[#0FAB9F]">
@@ -76,7 +79,12 @@ export default function DashboardView() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
+      <img
+        src={assets.svgs.dashboardBanner}
+        alt=""
+        className="object-contain"
+      />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
         <div className="relative flex h-[422px] w-full flex-col justify-between overflow-hidden rounded-3xl border border-[#E8E3F7] bg-[#F9F7FF]">
@@ -263,7 +271,7 @@ export default function DashboardView() {
         </div>
       </div>
 
-      <ListingBoard data={[...new Array(2)]} />
+      <ListingBoard data={listings} />
     </div>
   );
 }

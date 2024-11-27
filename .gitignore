@@ -25,3 +25,6 @@ dist-ssr
 
 .env
 .env.local
+.txt
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo

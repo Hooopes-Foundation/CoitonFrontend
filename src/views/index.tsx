@@ -23,6 +23,7 @@ import ProposalDetailsView from "./(dashboard)/proposal-details.view";
 import CreateProposalView from "./(dashboard)/create-proposal.view";
 import PropertyDetailsView from "./(dashboard)/property-details.view";
 import ProfileView from "./(dashboard)/profile.view";
+import TradingView from "./(dashboard)/trading.view";
 
 export const views = {
   home: <HomeView />,
@@ -53,6 +54,7 @@ export const views = {
   management: <ManagementView />,
   newListing: <NewListingView />,
   governance: <GovernanceView />,
+  trading: <TradingView />,
   proposals: <ProposalsView />,
   proposalDetails: <ProposalDetailsView />,
   createProposal: <CreateProposalView />,

@@ -8,23 +8,9 @@ import { toast } from "sonner";
 import { Connector } from "starknetkit";
 import ReadFunctions from "./_components/read-functions";
 import WriteFunctions from "./_components/write-functions";
+import { connectorsInfo } from "@/static";
 
 function ConnectWallet() {
-  const connectorsInfo = [
-    {
-      id: "argentX",
-      name: "Argent X",
-      installLink:
-        "https://chromewebstore.google.com/detail/argent-x-starknet-wallet/dlcobpjiigpikoobohmabehhmhfoodbb",
-    },
-    {
-      id: "braavos",
-      name: "Braavos",
-      installLink:
-        "https://chromewebstore.google.com/detail/braavos-starknet-wallet/jnlgamecbpmbajjfhmmmlhejkemejdma",
-    },
-  ];
-
   const { address, status } = useAccount();
   const { connectors, connectAsync, connector } = useConnect();
   const { disconnectAsync } = useDisconnect();
@@ -237,6 +223,7 @@ function Functions({ functions }: { functions: CategorizedFunctions }) {
 
   return (
     <div className="flex flex-col gap-6">
+      <Link to="/dashboard">Back</Link>
       <div className="flex w-full border-b border-border/30">
         {(["read", "write"] as const).map((tab) => (
           <p

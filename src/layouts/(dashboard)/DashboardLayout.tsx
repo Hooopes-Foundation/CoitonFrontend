@@ -6,8 +6,65 @@ import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useEffect } from "react";
+import { Connector } from "starknetkit";
+import { toast } from "sonner";
+import { useAccount, useConnect } from "@starknet-react/core";
+import { useWalletStore } from "@/store/wallet.store";
 
 export default function DashboardLayout() {
+  const { address, status } = useAccount();
+  const { connectors, connectAsync } = useConnect();
+
+  const currentConnector = useWalletStore((state) => state.currentConnector);
+  const setWalletAddress = useWalletStore((state) => state.setWalletAddress);
+  const setCurrentConnector = useWalletStore(
+    (state) => state.setCurrentConnector,
+  );
+  const setIsWalletConnected = useWalletStore(
+    (state) => state.setIsWalletConnected,
+  );
+
+  async function connectWallet(connector: Connector) {
+    try {
+      if (connector.available()) {
+        connectAsync({ connector });
+        setIsWalletConnected(true);
+        setCurrentConnector({
+          id: connector?.id,
+          name: connector?.name,
+          icon: connector?.icon,
+        });
+      }
+    } catch (err: unknown) {
+      console.log("[SOMETHING WENT WRONG]", err);
+      toast.error(
+        err instanceof Error ? err.message : "[SOMETHING WENT WRONG]",
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (address) {
+      setWalletAddress(address);
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (status === "disconnected") {
+      const storedConnector = currentConnector ? currentConnector?.id : null;
+
+      if (storedConnector) {
+        const matchingConnector = connectors.find(
+          (connector) => connector.id === storedConnector,
+        );
+        if (matchingConnector) {
+          connectWallet(matchingConnector);
+        }
+      }
+    }
+  }, []);
+
   return (
     <div className="flex flex-1 bg-[#F9FAFB]">
       <Sidebar />
