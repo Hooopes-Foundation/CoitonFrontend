@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPropsToPass } from "../../new-listing.view";
-import { useWalletStore } from "@/store/wallet.store";
 
 const OwnerInfo = ({
   form: {
@@ -19,8 +18,6 @@ const OwnerInfo = ({
   },
   next,
 }: IPropsToPass) => {
-  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
-
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -103,7 +100,7 @@ const OwnerInfo = ({
 
       <div className="mt-4 flex w-full items-center">
         <Button
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           type="button"
           size={"lg"}
           className="w-full"

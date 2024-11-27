@@ -1,5 +1,5 @@
 import StepIndicator from "./_components/step-indicator";
-import { createListingSteps, initialCreateListing } from "@/static";
+import { createListingSteps } from "@/static";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CREATE_LISTING_SCHEMA, createListingSchema } from "@/lib/validators";
@@ -13,7 +13,6 @@ import PropertyBasics from "./_components/steps/property-basics";
 import PropertyFeatures from "./_components/steps/property-features";
 import PropertyMedia from "./_components/steps/property-media";
 import { useCreateListing, useStakeListingFee } from "@/hooks/useCreateListing";
-// import { useWalletStore } from "@/store/wallet.store";
 import { useState } from "react";
 import { onUpload } from "@/lib/utils";
 import { Info } from "lucide-react";
@@ -25,7 +24,6 @@ export interface IPropsToPass {
 }
 
 export default function NewListingWiew() {
-  // const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
   const currentStep = useCreateListingFormStore((state) => state.currentStep);
   const setCurrentStep = useCreateListingFormStore(
     (state) => state.setCurrentStep,
@@ -37,7 +35,7 @@ export default function NewListingWiew() {
 
   const form = useForm<CREATE_LISTING_SCHEMA>({
     resolver: zodResolver(createListingSchema),
-    defaultValues: initialCreateListing,
+    // defaultValues: initialCreateListing,
   });
 
   const { handleSubmit, trigger, getValues } = form;
@@ -162,9 +160,6 @@ export default function NewListingWiew() {
       </div>
 
       <div className="relative flex flex-1">
-        {/* {!isWalletConnected && (
-          <div className="absolute z-10 size-full bg-background/50 backdrop-blur"></div>
-        )} */}
         <div className="flex h-full w-[500px] flex-col gap-10 p-10">
           <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
             List your property

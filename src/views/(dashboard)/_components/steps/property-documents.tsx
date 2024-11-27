@@ -8,7 +8,6 @@ import {
 import { ArrowDown, Loader } from "lucide-react";
 import { FileUploader } from "@/components/shared/file-uploader";
 import { IPropsToPass } from "../../new-listing.view";
-import { useWalletStore } from "@/store/wallet.store";
 
 const PropertyDocuments = ({
   form: {
@@ -18,8 +17,6 @@ const PropertyDocuments = ({
   },
   prev,
 }: IPropsToPass) => {
-  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
-
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -48,7 +45,7 @@ const PropertyDocuments = ({
           size={"lg"}
           className="max-w-[103px]"
           onClick={prev}
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           variant="ghost"
         >
           Back
@@ -57,7 +54,7 @@ const PropertyDocuments = ({
           type="submit"
           size={"lg"}
           className="flex-1"
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <>

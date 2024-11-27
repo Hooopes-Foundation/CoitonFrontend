@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { listingTypes, propertyTypes } from "@/static";
-import { useWalletStore } from "@/store/wallet.store";
 
 const PropertyBasics = ({
   form: {
@@ -33,7 +32,6 @@ const PropertyBasics = ({
   next,
   prev,
 }: IPropsToPass) => {
-  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
   const [suggestions, setSuggestions] = useState<
     { name: string; latitude: number; longitude: number }[]
   >([]);
@@ -290,14 +288,14 @@ const PropertyBasics = ({
           size={"lg"}
           className="max-w-[103px]"
           onClick={prev}
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           variant="ghost"
         >
           Back
         </Button>
         <Button
           type="button"
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           onClick={next}
           size={"lg"}
           className="flex-1"

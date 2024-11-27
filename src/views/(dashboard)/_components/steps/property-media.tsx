@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { PiFlagBannerFoldDuotone } from "react-icons/pi";
-import { useWalletStore } from "@/store/wallet.store";
 
 const PropertyMedia = ({
   form: {
@@ -23,8 +22,6 @@ const PropertyMedia = ({
   next,
   prev,
 }: IPropsToPass) => {
-  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
-
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -112,13 +109,13 @@ const PropertyMedia = ({
           size={"lg"}
           className="max-w-[103px]"
           onClick={prev}
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           variant="ghost"
         >
           Back
         </Button>
         <Button
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           type="button"
           onClick={next}
           size={"lg"}

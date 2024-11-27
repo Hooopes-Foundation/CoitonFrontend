@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { TagsInput } from "@/components/ui/tag-input";
-import { useWalletStore } from "@/store/wallet.store";
 
 const PropertyFeatures = ({
   form: {
@@ -29,8 +28,6 @@ const PropertyFeatures = ({
   next,
   prev,
 }: IPropsToPass) => {
-  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
-
   return (
     <div className="flex flex-col gap-4">
       <div className="flex w-full items-center gap-4">
@@ -216,13 +213,13 @@ const PropertyFeatures = ({
           size={"lg"}
           className="max-w-[103px]"
           onClick={prev}
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           variant="ghost"
         >
           Back
         </Button>
         <Button
-          disabled={!isWalletConnected || isSubmitting}
+          disabled={isSubmitting}
           type="button"
           onClick={next}
           size={"lg"}
