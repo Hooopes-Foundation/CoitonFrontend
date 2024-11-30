@@ -1,4 +1,3 @@
-import { assets } from "@/assets";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { daoMgmtSchema, DAO_MGMT_SCHEMA } from "@/lib/validators";
@@ -34,7 +33,7 @@ export default function MintView() {
     <div className="flex h-full">
       <div className="flex w-1/2 items-center p-6">
         <div className="flex h-full w-full items-center justify-center rounded-[24px] bg-primary p-5">
-          <div className="pointer-events-none flex w-full max-w-[455px] select-none flex-col gap-10 rounded-[35px] border-[3px] border-[#055E57] p-5 text-white">
+          <div className="pointer-events-none flex w-full max-w-[455px] select-none flex-col gap-5 rounded-[35px] border-[3px] border-[#055E57] p-5 text-white">
             <div className="grid aspect-square w-full place-content-center rounded-[inherit] bg-white">
               <svg
                 width="346"
@@ -52,7 +51,7 @@ export default function MintView() {
                     stroke="url(#paint0_linear_858_7808)"
                     stroke-width="8.43839"
                   />
-                  <g clip-path="url(#clip0_858_7808)">
+                  <g clipPath="url(#clip0_858_7808)">
                     <path
                       d="M159.627 221.995C154.262 221.995 148.821 221.239 143.408 219.656C128.027 215.15 115.253 204.7 107.442 190.219C99.6369 175.738 97.7239 158.968 102.063 142.997C103.206 138.794 107.407 136.354 111.455 137.534C115.503 138.722 117.852 143.083 116.716 147.286C113.479 159.198 114.906 171.7 120.729 182.496C126.551 193.292 136.075 201.087 147.546 204.448C151.58 205.628 155.642 206.189 159.641 206.189C179.111 206.189 197.056 192.831 202.594 172.434C203.738 168.231 207.938 165.791 211.986 166.971C216.034 168.159 218.383 172.52 217.247 176.724C209.816 204.081 185.758 221.995 159.641 221.995H159.627Z"
                       fill="white"
@@ -133,24 +132,7 @@ export default function MintView() {
 
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-1">
-                <p className="font-sans_bold text-2xl leading-none">
-                  Coiton Token
-                </p>
-                <span className="font-sans_regular text-base">Issue 1219</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="font-sans_regular text-base">Price</span>
-                <div className="flex items-center gap-2">
-                  <img
-                    src={assets.svgs.starknetIcon}
-                    alt="icon"
-                    width={35}
-                    height={35}
-                  />
-                  <p className="font-sans_bold text-2xl leading-none">
-                    0.01 Strk
-                  </p>
-                </div>
+                <p className="font-sans_bold text-2xl leading-none">COiTON</p>
               </div>
             </div>
           </div>

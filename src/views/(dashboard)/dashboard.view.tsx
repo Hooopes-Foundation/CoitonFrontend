@@ -8,7 +8,6 @@ import { FiClock } from "react-icons/fi";
 import { LuMailWarning } from "react-icons/lu";
 // import { motion } from "framer-motion";
 // import { variants } from "@/static";
-import { useFetchListings } from "@/hooks/starknet/useFetchListings";
 
 const updates = [
   {
@@ -24,8 +23,6 @@ const updates = [
 
 export default function DashboardView() {
   // const { fadeIn } = variants;
-
-  const { listings } = useFetchListings();
 
   return (
     <div className="flex-1 space-y-6 p-6">
@@ -271,7 +268,7 @@ export default function DashboardView() {
         </div>
       </div>
 
-      <ListingBoard data={listings} />
+      <ListingBoard />
     </div>
   );
 }

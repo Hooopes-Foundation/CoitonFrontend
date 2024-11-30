@@ -51,6 +51,8 @@ export const useStakeListingFee = () => {
   const { allowance } = useFetchAllowance();
 
   const stakingFeeCalls = useMemo(() => {
+    console.log({ allowance });
+
     const stakingFee = BigInt("20000000000000000000");
     let allowanceSufficient = false;
 

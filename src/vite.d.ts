@@ -2,6 +2,7 @@
 declare type SITE_CONFIG = {
   title: string;
   description: string;
+  url: string;
 };
 
 declare type ROUTES = {
@@ -119,12 +120,63 @@ declare interface WALLET_STORE {
   walletAddress: string | undefined;
   isWalletConnected: boolean | undefined;
   currentConnector: WALLET_CONNECTOR | undefined;
+
+  credential:
+    | {
+        type: string;
+        email: string;
+        handle: {
+          twitter: string;
+          telegram: string;
+        };
+      }
+    | {
+        type: string;
+        email: string;
+        licence: string;
+        organization: {
+          name: string;
+          region: string;
+          country: {
+            name: string;
+            latitude: number;
+            longitude: number;
+          };
+        };
+      }
+    | undefined;
 }
 
 declare interface WALLET_STORE_ACTIONS {
   setWalletAddress: (address: string | undefined) => void;
   setIsWalletConnected: (isConnected: boolean | undefined) => void;
   setCurrentConnector: (connector: WALLET_CONNECTOR | undefined) => void;
+  setCredential: (
+    credential:
+      | {
+          type: string;
+          email: string;
+          handle: {
+            twitter: string;
+            telegram: string;
+          };
+        }
+      | {
+          type: string;
+          email: string;
+          licence: string;
+          organization: {
+            name: string;
+            region: string;
+            country: {
+              name: string;
+              latitude: number;
+              longitude: number;
+            };
+          };
+        }
+      | undefined,
+  ) => void;
 }
 
 declare interface CONTRACT_STORE {

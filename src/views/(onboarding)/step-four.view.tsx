@@ -9,17 +9,21 @@ export default function StepFour() {
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
             <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
-              Wallet to Account (Buy, Sell, Rent)
+              Wallet to DAO
             </h4>
             <p className="font-sans_regular text-lg text-[#475467]">
-              To provide liquidity, deposit directly from your wallet into the
-              LP Pool, not into a Trading Account.
+              Join our DAO to verify listings and influence platform decisions
+              with your wallet.
             </p>
           </div>
 
           <div className="flex items-center gap-4">
             <Link to="/onboarding/step-three" className="w-max">
-              <Button variant={"ghost"} size={"lg"}>
+              <Button
+                variant={"ghost"}
+                className="font-sans_normal gap-4"
+                size={"lg"}
+              >
                 Back
               </Button>
             </Link>
@@ -46,8 +50,8 @@ export default function StepFour() {
       <div className="flex w-1/2 items-center p-6">
         <div className="h-full w-full rounded-[24px] bg-primary">
           <img
-            src={assets.svgs.stepFour}
-            alt="STEP FOUR"
+            src={assets.svgs.stepFive}
+            alt="STEP FIVE"
             className="h-full w-full"
           />
         </div>

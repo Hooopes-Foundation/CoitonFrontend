@@ -9,11 +9,12 @@ export default function StepFive() {
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
             <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
-              Wallet to DAO
+              Wallet to Trading Account
             </h4>
             <p className="font-sans_regular text-lg text-[#475467]">
-              Join our DAO to verify listings and influence platform decisions
-              with your wallet.
+              For trading, deposit funds from your wallet into a Trading
+              Account; these funds cannot be used for liquidity a provision
+              (LP’ing).
             </p>
           </div>
 
@@ -27,7 +28,7 @@ export default function StepFive() {
                 Back
               </Button>
             </Link>
-            <Link to="/onboarding/step-six" className="w-max">
+            <Link to="/onboarding/account" className="w-max">
               <Button className="font-sans_normal gap-4" size={"lg"}>
                 <span>Next</span>
                 <svg
@@ -50,8 +51,8 @@ export default function StepFive() {
       <div className="flex w-1/2 items-center p-6">
         <div className="h-full w-full rounded-[24px] bg-primary">
           <img
-            src={assets.svgs.stepFive}
-            alt="STEP FIVE"
+            src={assets.svgs.stepSix}
+            alt="STEP SIX"
             className="h-full w-full"
           />
         </div>

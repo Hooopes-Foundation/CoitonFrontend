@@ -91,6 +91,20 @@ export const contract = {
       ],
     },
     {
+      type: "enum",
+      name: "core::bool",
+      variants: [
+        {
+          name: "False",
+          type: "()",
+        },
+        {
+          name: "True",
+          type: "()",
+        },
+      ],
+    },
+    {
       type: "interface",
       name: "cairo::dao::IDao",
       items: [
@@ -308,6 +322,90 @@ export const contract = {
           ],
           outputs: [],
           state_mutability: "external",
+        },
+        {
+          type: "function",
+          name: "set_erc721",
+          inputs: [
+            {
+              name: "address",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+          outputs: [],
+          state_mutability: "external",
+        },
+        {
+          type: "function",
+          name: "withdraw",
+          inputs: [
+            {
+              name: "amount",
+              type: "core::integer::u256",
+            },
+          ],
+          outputs: [],
+          state_mutability: "external",
+        },
+        {
+          type: "function",
+          name: "register_user",
+          inputs: [
+            {
+              name: "details",
+              type: "core::byte_array::ByteArray",
+            },
+          ],
+          outputs: [],
+          state_mutability: "external",
+        },
+        {
+          type: "function",
+          name: "get_user",
+          inputs: [
+            {
+              name: "address",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+          outputs: [
+            {
+              type: "core::byte_array::ByteArray",
+            },
+          ],
+          state_mutability: "view",
+        },
+        {
+          type: "function",
+          name: "is_user_registered",
+          inputs: [
+            {
+              name: "address",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+          outputs: [
+            {
+              type: "core::bool",
+            },
+          ],
+          state_mutability: "view",
+        },
+        {
+          type: "function",
+          name: "has_staked",
+          inputs: [
+            {
+              name: "address",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+          outputs: [
+            {
+              type: "core::bool",
+            },
+          ],
+          state_mutability: "view",
         },
       ],
     },

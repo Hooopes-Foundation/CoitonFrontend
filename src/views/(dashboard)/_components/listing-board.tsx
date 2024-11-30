@@ -9,14 +9,53 @@ import {
 } from "@/components/ui/select";
 import ListingCard from "@/components/shared/listing-card";
 import MerchantTable from "./merchant-table";
+import { countryOptions, propertyTypes, status } from "@/static";
+import { useReadContract } from "@starknet-react/core";
+import { contract } from "@/lib/contract";
+import { byteArrayToString } from "@/lib/utils";
+import { toHex } from "@/lib/dontpanicdao";
 
-const ListingBoard = ({
-  type = "prpty",
-  data,
-}: {
-  type?: "dao" | "prpty";
-  data?: any[];
-}) => {
+const ListingBoard = ({ type = "prpty" }: { type?: "dao" | "prpty" }) => {
+  const { contractAbi, contractAddress } = contract;
+
+  const unAppTx = useReadContract({
+    address: contractAddress,
+    functionName: "get_unapproved_listings",
+    abi: contractAbi,
+    args: [],
+    watch: true,
+  });
+
+  const appTx = useReadContract({
+    address: contractAddress,
+    functionName: "get_listings",
+    abi: contractAbi,
+    args: [],
+    watch: true,
+  });
+
+  const unapprovedListings =
+    unAppTx?.data?.length > 0
+      ? unAppTx?.data?.map((lst: any) => ({
+          id: Number(lst.id),
+          details: byteArrayToString(lst.details.split(",")),
+          hash: String(lst.hash),
+          owner: toHex(String(lst.owner)),
+        }))
+      : [];
+
+  console.log(unapprovedListings);
+
+  const approvedListings =
+    appTx?.data?.length > 0
+      ? appTx?.data?.map((lst: any) => ({
+          id: Number(lst.id),
+          details: byteArrayToString(lst.details.split(",")),
+          hash: String(lst.hash),
+          owner: toHex(String(lst.owner)),
+        }))
+      : [];
+
   return (
     <div className="rounded-[24px] border">
       <div className="flex items-center rounded-t-[inherit] border-b bg-white p-6">
@@ -39,16 +78,19 @@ const ListingBoard = ({
                   />
                 </svg>
 
-                <SelectValue placeholder="Location" />
+                <SelectValue placeholder="Country" />
               </div>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="lagos">Lagos</SelectItem>
-                <SelectItem value="abuja">Abuja</SelectItem>
-                <SelectItem value="kaduna">Kaduna</SelectItem>
-                <SelectItem value="jos">Jos</SelectItem>
-                <SelectItem value="village">Village</SelectItem>
+                {countryOptions.map((country, _index) => (
+                  <SelectItem
+                    key={`key: ${country.code}-${_index}`}
+                    value={country.code}
+                  >
+                    {country.name}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -73,8 +115,14 @@ const ListingBoard = ({
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="house">House</SelectItem>
-                <SelectItem value="ctoa">Can't Think Of Any</SelectItem>
+                {propertyTypes.map((property, _index) => (
+                  <SelectItem
+                    key={`key: ${property.value}-${_index}`}
+                    value={property.value}
+                  >
+                    {property.label}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -99,7 +147,14 @@ const ListingBoard = ({
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="ijak">I'm just a kid</SelectItem>
+                {status.map((stat, _index) => (
+                  <SelectItem
+                    key={`key: ${stat.value}-${_index}`}
+                    value={stat.value}
+                  >
+                    {stat.label}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -107,9 +162,9 @@ const ListingBoard = ({
       </div>
 
       {type === "dao" ? (
-        data && data?.length > 0 ? (
+        unapprovedListings?.length > 0 ? (
           <div className="mx-auto max-w-[1350px] p-6">
-            <MerchantTable />
+            <MerchantTable unapprovedListings={unapprovedListings} />
           </div>
         ) : (
           <div className="flex aspect-[3.2] w-full items-center justify-center">
@@ -118,12 +173,11 @@ const ListingBoard = ({
         )
       ) : (
         type === "prpty" &&
-        (data && data?.length > 0 ? (
+        (approvedListings?.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 px-10 py-6 lg:grid-cols-2 xl:grid-cols-3">
-            {data &&
-              data?.map((listing, _index) => (
-                <ListingCard listing={listing} key={_index} />
-              ))}
+            {approvedListings?.map((listing: any, _index: number) => (
+              <ListingCard listing={listing} key={_index} />
+            ))}
           </div>
         ) : (
           <div className="flex aspect-[3.2] w-full items-center justify-center">

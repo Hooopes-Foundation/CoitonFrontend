@@ -201,7 +201,7 @@ const PropertyFeatures = ({
             />
             <FormMessage />
             <FormDescription>
-              Input your property amenity and press enter
+              To add an amenity, click <kbd>Enter ⮐</kbd> after each one
             </FormDescription>
           </FormItem>
         )}

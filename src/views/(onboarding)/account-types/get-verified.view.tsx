@@ -1,7 +1,7 @@
 import { assets } from "@/assets";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { daoMgmtSchema, DAO_MGMT_SCHEMA } from "@/lib/validators";
+import { DAO_MGMT_SCHEMA, propMgmtSchema } from "@/lib/validators";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,22 +18,85 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from "lucide-react";
 import { FileUploader } from "@/components/shared/file-uploader";
 import { useNavigate } from "react-router-dom";
+import { useContractInstance } from "@/hooks/test/useContractInstance";
+import { Contract } from "starknet";
+import { useEffect, useMemo } from "react";
+import { stringToByteArray } from "@/lib/utils";
+import {
+  useSendTransaction,
+  useTransactionReceipt,
+} from "@starknet-react/core";
+import { toast } from "sonner";
 
 export default function GetVerifiedView() {
   const navigate = useNavigate();
+  const { getContractInstance } = useContractInstance();
+  const contractInstance: Contract = getContractInstance();
 
-  // 1. Define your form.
+  const initialValues = {
+    email: "abdullahisalihuinusa@gmail.com",
+    handles: {
+      twitter: "https://twitter.com/i_abdulsalihu",
+      telegram: "t.me/i_abdulsalihu",
+    },
+  };
+
   const form = useForm<DAO_MGMT_SCHEMA>({
-    resolver: zodResolver(daoMgmtSchema),
+    resolver: zodResolver(propMgmtSchema),
+    defaultValues: initialValues,
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: DAO_MGMT_SCHEMA) {
-    console.log(values);
-    navigate("/onboarding/approval");
+  const { handleSubmit, control, getValues, formState } = form;
+  const { email, files } = getValues();
+  const { isSubmitting, isValid } = formState;
+
+  const calls = useMemo(() => {
+    if (!email || !files.length) return [];
+
+    const details = {
+      type: "dao",
+      email,
+      licence: files,
+    };
+
+    const userDetails = stringToByteArray(JSON.stringify(details));
+
+    return [contractInstance.populate("register_user", [userDetails])];
+  }, [email, files]);
+
+  const {
+    sendAsync,
+    data: writeData,
+    isPending: writeIsPending,
+  } = useSendTransaction({ calls });
+
+  const {
+    isLoading: waitIsLoading,
+    isError: waitIsError,
+    error: waitError,
+    status: waitStatus,
+  } = useTransactionReceipt({ hash: writeData?.transaction_hash, watch: true });
+
+  async function onSubmit(values: DAO_MGMT_SCHEMA) {
+    try {
+      console.log(values);
+
+      await sendAsync();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
+    }
   }
 
-  const { isSubmitting, isValid } = form.formState;
+  useEffect(() => {
+    if (waitStatus === "success") {
+      toast.success("Registration successful!");
+      navigate("/onboarding/approval");
+    } else if (waitIsError && waitError) {
+      toast.error(waitError.message || "Transaction failed");
+    }
+  }, [waitStatus, waitIsError, waitError, navigate]);
 
   return (
     <div className="flex h-full">
@@ -52,11 +115,11 @@ export default function GetVerifiedView() {
           <div className="flex flex-col gap-4 p-6">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-6"
               >
                 <FormField
-                  control={form.control}
+                  control={control}
                   name="files"
                   disabled={isSubmitting}
                   render={({ field }) => (
@@ -76,7 +139,7 @@ export default function GetVerifiedView() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={control}
                   name="email"
                   disabled={isSubmitting}
                   render={({ field }) => (
@@ -110,7 +173,12 @@ export default function GetVerifiedView() {
                     Back
                   </Button>
                   <Button
-                    disabled={isSubmitting || !isValid}
+                    disabled={
+                      isSubmitting ||
+                      !isValid ||
+                      waitIsLoading ||
+                      writeIsPending
+                    }
                     type="submit"
                     className="gap-2"
                   >

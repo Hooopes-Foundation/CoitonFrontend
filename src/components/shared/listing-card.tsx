@@ -2,8 +2,6 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 
 const ListingCard = ({ listing }: { listing: any }) => {
-  console.log(listing);
-
   return (
     <div className="group rounded-[24px] border bg-white">
       <div className="relative h-[240px] overflow-hidden rounded-[inherit] bg-secondary">

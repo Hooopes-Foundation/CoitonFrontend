@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { listingTypes, propertyTypes } from "@/static";
+import { countryOptions, listingTypes, propertyTypes } from "@/static";
 
 const PropertyBasics = ({
   form: {
@@ -36,28 +36,22 @@ const PropertyBasics = ({
     { name: string; latitude: number; longitude: number }[]
   >([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
 
-  // Ref to store the debounce timer
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Fetch suggestions when user stops typing
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value;
 
     if (debounceTimer.current) {
-      // Clear the existing debounce timer
       clearTimeout(debounceTimer.current);
     }
 
-    // If the input is empty, clear suggestions and return early
     if (inputValue === "") {
       setSuggestions([]);
       setIsLoading(false);
       return;
     }
 
-    // Set a new debounce timer
     debounceTimer.current = setTimeout(async () => {
       if (inputValue.trim().length < 2) {
         setSuggestions([]);
@@ -78,7 +72,6 @@ const PropertyBasics = ({
     }, 300);
   };
 
-  // Handle selection of a location
   const handleSelectLocation = (location: {
     name: string;
     latitude: number;
@@ -88,9 +81,9 @@ const PropertyBasics = ({
       name: location.name,
       latitude: String(location.latitude),
       longitude: String(location.longitude),
-    }); // Update the form's location value
-    setSuggestions([]); // Clear suggestions after selection
-    setIsLoading(false); // Ensure loading state is cleared when selection is made
+    });
+    setSuggestions([]);
+    setIsLoading(false);
   };
 
   return (
@@ -115,9 +108,9 @@ const PropertyBasics = ({
                     <SelectValue placeholder="Property Type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {propertyTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
+                    {propertyTypes.map((property) => (
+                      <SelectItem key={property.value} value={property.value}>
+                        {property.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -181,6 +174,40 @@ const PropertyBasics = ({
                 })}
                 {...register("title")}
               />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="country"
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormControl>
+              <Select
+                {...register("country")}
+                onValueChange={(value) => field.onChange(value)}
+              >
+                <SelectTrigger
+                  className={cn("text-base", {
+                    "border-red-500 focus-visible:ring-red-500": errors.country,
+                  })}
+                >
+                  <SelectValue placeholder="Country" />
+                </SelectTrigger>
+                <SelectContent>
+                  {countryOptions.map((country, _index) => (
+                    <SelectItem
+                      key={`key: ${country.code}-${_index}`}
+                      value={country.code}
+                    >
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormControl>
             <FormMessage />
           </FormItem>

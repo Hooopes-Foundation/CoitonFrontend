@@ -10,11 +10,14 @@ export const useWalletStore = create<WALLET_STATE>()(
       isWalletConnected: false,
       currentConnector: undefined,
 
+      credential: undefined,
+
       setWalletAddress: (address) => set({ walletAddress: address }),
       setIsWalletConnected: (isConnected) =>
         set({ isWalletConnected: isConnected }),
       setCurrentConnector: (connector) => set({ currentConnector: connector }),
+      setCredential: (credential) => set({ credential }),
     }),
-    { name: "wallet_storage" }
-  )
+    { name: "wallet_storage" },
+  ),
 );

@@ -1,31 +1,22 @@
 import { Separator } from "@/components/ui/separator";
-import { Fragment, memo } from "react";
-import { Button } from "@/components/ui/button.tsx";
+import { memo } from "react";
 import { Link } from "react-router-dom";
-import { env } from "@/lib/envs";
 import { truncateAddr } from "@/lib/utils";
 import { useWalletStore } from "@/store/wallet.store";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const walletAddress = useWalletStore((state) => state.walletAddress);
+  const isWalletConnected = useWalletStore((state) => state.isWalletConnected);
 
   return (
     <div className="sticky left-0 top-0 z-30 flex h-20 w-full items-center justify-between border-b border-[#EAECF0] bg-background px-6 py-3">
       <span>Search</span>
 
       <div className="flex h-full items-center gap-3">
-        {!env.dev && (
-          <Fragment>
-            <Link to={"/starknet-test"}>
-              <Button variant={"black"}>Test Contract</Button>
-            </Link>
-
-            <Separator className="h-1/2 w-px bg-[#EAECF0]" />
-          </Fragment>
-        )}
-
         <Button
           size={"icon"}
+          disabled
           variant={"outline"}
           className="size-14 rounded-full border border-[#d4d6da]"
         >
@@ -45,29 +36,36 @@ const Navbar = () => {
 
         <Separator className="h-1/2 w-px bg-[#EAECF0]" />
 
-        <div role="button" className="flex items-center gap-4">
-          <div className="size-14 rounded-full bg-[#D9D9D9]"></div>
-          <div className="flex flex-col justify-center">
-            <p className="font-sans_medium text-lg leading-none">David</p>
-            <span className="font-sans_regular text-base text-[#475467]">
-              {walletAddress
-                ? truncateAddr(walletAddress)
-                : "No wallet connected"}
-            </span>
-          </div>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        {isWalletConnected ? (
+          <Link
+            to={`/profile/${walletAddress}`}
+            role="button"
+            className="flex items-center gap-4"
           >
-            <path
-              d="M13.354 6.35403L8.35403 11.354C8.30759 11.4005 8.25245 11.4374 8.19175 11.4626C8.13105 11.4877 8.06599 11.5007 8.00028 11.5007C7.93457 11.5007 7.86951 11.4877 7.80881 11.4626C7.74811 11.4374 7.69296 11.4005 7.64653 11.354L2.64653 6.35403C2.55271 6.26021 2.5 6.13296 2.5 6.00028C2.5 5.8676 2.55271 5.74035 2.64653 5.64653C2.74035 5.55271 2.8676 5.5 3.00028 5.5C3.13296 5.5 3.26021 5.55271 3.35403 5.64653L8.00028 10.2934L12.6465 5.64653C12.693 5.60007 12.7481 5.56322 12.8088 5.53808C12.8695 5.51294 12.9346 5.5 13.0003 5.5C13.066 5.5 13.131 5.51294 13.1917 5.53808C13.2524 5.56322 13.3076 5.60007 13.354 5.64653C13.4005 5.69298 13.4373 5.74813 13.4625 5.80883C13.4876 5.86953 13.5006 5.93458 13.5006 6.00028C13.5006 6.06598 13.4876 6.13103 13.4625 6.19173C13.4373 6.25242 13.4005 6.30757 13.354 6.35403Z"
-              fill="black"
-            />
-          </svg>
-        </div>
+            <div className="size-14 rounded-full bg-[#D9D9D9]"></div>
+            <div className="flex flex-col justify-center">
+              <span className="font-sans_regular text-base text-[#475467]">
+                {walletAddress
+                  ? truncateAddr(walletAddress)
+                  : "No wallet connected"}
+              </span>
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.354 6.35403L8.35403 11.354C8.30759 11.4005 8.25245 11.4374 8.19175 11.4626C8.13105 11.4877 8.06599 11.5007 8.00028 11.5007C7.93457 11.5007 7.86951 11.4877 7.80881 11.4626C7.74811 11.4374 7.69296 11.4005 7.64653 11.354L2.64653 6.35403C2.55271 6.26021 2.5 6.13296 2.5 6.00028C2.5 5.8676 2.55271 5.74035 2.64653 5.64653C2.74035 5.55271 2.8676 5.5 3.00028 5.5C3.13296 5.5 3.26021 5.55271 3.35403 5.64653L8.00028 10.2934L12.6465 5.64653C12.693 5.60007 12.7481 5.56322 12.8088 5.53808C12.8695 5.51294 12.9346 5.5 13.0003 5.5C13.066 5.5 13.131 5.51294 13.1917 5.53808C13.2524 5.56322 13.3076 5.60007 13.354 5.64653C13.4005 5.69298 13.4373 5.74813 13.4625 5.80883C13.4876 5.86953 13.5006 5.93458 13.5006 6.00028C13.5006 6.06598 13.4876 6.13103 13.4625 6.19173C13.4373 6.25242 13.4005 6.30757 13.354 6.35403Z"
+                fill="black"
+              />
+            </svg>
+          </Link>
+        ) : (
+          <Button>Connect Wallet</Button>
+        )}
       </div>
     </div>
   );

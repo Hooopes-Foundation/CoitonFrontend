@@ -185,4 +185,8 @@ body,
   h3 {
     @apply text-4xl;
   }
+
+  kbd {
+    @apply rounded-[3px] border bg-gray-200 px-1 py-0.5 text-[10px];
+  }
 }

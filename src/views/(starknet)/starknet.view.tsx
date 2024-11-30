@@ -9,6 +9,7 @@ import { Connector } from "starknetkit";
 import ReadFunctions from "./_components/read-functions";
 import WriteFunctions from "./_components/write-functions";
 import { connectorsInfo } from "@/static";
+import { Button } from "@/components/ui/button";
 
 function ConnectWallet() {
   const { address, status } = useAccount();
@@ -113,12 +114,9 @@ function ConnectWallet() {
           return (
             <div key={connectorInfo.id} className="flex h-[58px] items-center">
               {connector ? (
-                <button
-                  className="flex cursor-pointer items-center justify-center rounded-none border border-border/30 px-5 py-1.5 font-semibold tracking-wide hover:bg-secondary/80"
-                  onClick={() => handleConnectWallet(connector)}
-                >
+                <Button onClick={() => handleConnectWallet(connector)}>
                   Connect {connectorInfo.name} wallet
-                </button>
+                </Button>
               ) : (
                 <Link
                   to={connectorInfo.installLink}

@@ -214,7 +214,7 @@ export default function GovernanceView() {
         <div className="h-full flex-1 rounded-3xl bg-primary"></div>
       </div>
 
-      <ListingBoard type="dao" data={[...new Array(1)]} />
+      <ListingBoard type="dao" />
     </div>
   );
 }

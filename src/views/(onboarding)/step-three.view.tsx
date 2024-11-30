@@ -1,15 +1,6 @@
 import { assets } from "@/assets";
 import { Button } from "@/components/ui/button";
-import { Dot } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const terms = [
-  "I am not a person or company who is a resident of, or is located, incorporated or has a registered agent in, the United States or a restricted location.",
-  "I will not in the future access this site or trade on Coiton while located in the United States or a restricted location.",
-  "I am not using, and will not in the future use, a VPN to mask my physical location from a restricted location.",
-  "I am lawfully permitted to access this site and trade on Coiton under the laws of jurisdiction in which I reside and am located.",
-  "I understand DeFi is a new phenomenon, and understand and undertake any technological and market risks associated with it.",
-];
 
 export default function StepThree() {
   return (
@@ -18,31 +9,23 @@ export default function StepThree() {
         <div className="flex w-full max-w-[480px] flex-col gap-[32px]">
           <div className="flex flex-col gap-2">
             <h4 className="whitespace-nowrap font-sans_bold text-[32px] leading-none text-primary">
-              Wallet Verification
+              Wallet to Account (Buy, Sell, Rent)
             </h4>
             <p className="font-sans_regular text-lg text-[#475467]">
-              By verifying your wallet, you agree to our Terms of Service and
-              Privacy Policy.
+              To provide liquidity, deposit directly from your wallet into the
+              LP Pool, not into a Trading Account.
             </p>
           </div>
 
-          <div className="flex flex-col gap-10 px-5">
-            <div className="flex flex-col gap-2">
-              <p className="text-lg font-medium">Terms</p>
-
-              <div className="flex flex-col gap-4">
-                {terms.map((t) => (
-                  <li key={t} className="flex items-start gap-2 text-[#475467]">
-                    <Dot className="size-6" />
-                    <span className="flex-1 text-sm font-normal">{t}</span>
-                  </li>
-                ))}
-              </div>
-            </div>
-
+          <div className="flex items-center gap-4">
+            <Link to="/onboarding/step-two" className="w-max">
+              <Button variant={"ghost"} size={"lg"}>
+                Back
+              </Button>
+            </Link>
             <Link to="/onboarding/step-four" className="w-max">
               <Button className="font-sans_normal gap-4" size={"lg"}>
-                <span>Accept & Verify Wallet</span>
+                <span>Next</span>
                 <svg
                   width="12"
                   height="11"
@@ -63,8 +46,8 @@ export default function StepThree() {
       <div className="flex w-1/2 items-center p-6">
         <div className="h-full w-full rounded-[24px] bg-primary">
           <img
-            src={assets.svgs.stepThree}
-            alt="STEP THREE"
+            src={assets.svgs.stepFour}
+            alt="STEP FOUR"
             className="h-full w-full"
           />
         </div>

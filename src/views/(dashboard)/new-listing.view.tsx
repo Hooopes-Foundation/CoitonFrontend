@@ -1,5 +1,5 @@
 import StepIndicator from "./_components/step-indicator";
-import { createListingSteps } from "@/static";
+import { createListingSteps, initialCreateListing } from "@/static";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CREATE_LISTING_SCHEMA, createListingSchema } from "@/lib/validators";
@@ -12,18 +12,31 @@ import { useCreateListingFormStore } from "@/store/listing.store";
 import PropertyBasics from "./_components/steps/property-basics";
 import PropertyFeatures from "./_components/steps/property-features";
 import PropertyMedia from "./_components/steps/property-media";
-import { useCreateListing, useStakeListingFee } from "@/hooks/useCreateListing";
-import { useState } from "react";
-import { onUpload } from "@/lib/utils";
-import { Info } from "lucide-react";
+import { useMemo, useState } from "react";
+import { onUpload, stringToByteArray } from "@/lib/utils";
+import { useContractInstance } from "@/hooks/test/useContractInstance";
+import { Contract } from "starknet";
+import { useGetHash } from "@/hooks/useGetHash";
+import {
+  useAccount,
+  useReadContract,
+  useSendTransaction,
+} from "@starknet-react/core";
+import TokenInfo from "./_components/token-info";
+import { contract } from "@/lib/contract";
 
 export interface IPropsToPass {
   prev?: () => void;
   next?: () => void;
   form: UseFormReturn<CREATE_LISTING_SCHEMA>;
 }
-
 export default function NewListingWiew() {
+  const { contractAbi, contractAddress } = contract;
+  const { getContractInstance } = useContractInstance();
+  const contractInstance: Contract = getContractInstance();
+
+  const { address } = useAccount();
+
   const currentStep = useCreateListingFormStore((state) => state.currentStep);
   const setCurrentStep = useCreateListingFormStore(
     (state) => state.setCurrentStep,
@@ -35,12 +48,38 @@ export default function NewListingWiew() {
 
   const form = useForm<CREATE_LISTING_SCHEMA>({
     resolver: zodResolver(createListingSchema),
-    // defaultValues: initialCreateListing,
+    defaultValues: initialCreateListing,
+  });
+
+  const hasStakedTx = useReadContract({
+    abi: contractAbi,
+    address: contractAddress,
+    functionName: "has_staked",
+    args: [address],
+    watch: true,
   });
 
   const { handleSubmit, trigger, getValues } = form;
-  const { listingTx } = useCreateListing({ listing });
-  const { stakingFeeTx } = useStakeListingFee();
+
+  const { hash } = useGetHash(getValues("title"));
+
+  const createListingCalls = useMemo(() => {
+    if (!listing || !hash) return undefined;
+
+    const listingByte = stringToByteArray(JSON.stringify(listing));
+    // const hashFelt = shortStringToFelt(hash)?.output?.toString(10);
+
+    return [contractInstance.populate("create_listing", [listingByte, hash])];
+  }, [contractInstance, listing, hash]);
+
+  const listingTx = useSendTransaction({
+    calls: createListingCalls,
+  });
+
+  // const listingReceipt = useTransactionReceipt({
+  //   hash: listingTx?.data?.transaction_hash,
+  //   watch: true,
+  // });
 
   const processForm: SubmitHandler<CREATE_LISTING_SCHEMA> = async (data) => {
     const bannerFile = getValues("banner");
@@ -56,42 +95,54 @@ export default function NewListingWiew() {
 
     // Upload the files
     try {
-      // Only pass the raw `File` object for the banner
-      toast.loading("Uploading banner");
-      const bannerUploadResult = await onUpload([bannerFile]);
-      toast.dismiss();
+      if (hasStakedTx?.data) {
+        if (listing === undefined) {
+          // Only pass the raw `File` object for the banner
+          toast.loading("Uploading banner");
+          const bannerUploadResult = await onUpload([bannerFile]);
+          toast.dismiss();
 
-      toast.loading("Uploading property media");
-      const photosUploadResult = await onUpload(photosFiles);
-      toast.dismiss();
+          toast.loading("Uploading property media");
+          const photosUploadResult = await onUpload(photosFiles);
+          toast.dismiss();
 
-      toast.loading("Uploading property documents");
-      const documentsUploadResult = await onUpload(documentsFiles);
-      toast.dismiss();
+          toast.loading("Uploading property documents");
+          const documentsUploadResult = await onUpload(documentsFiles);
+          toast.dismiss();
 
-      // Build the form data object with IPFS URLs
-      const formData = {
-        ...data,
-        banner: {
-          path: bannerUploadResult[0], // IPFS URL
-          preview: URL.createObjectURL(bannerFile), // Local preview
-        },
-        photos: photosFiles.map((photo, index) => ({
-          path: photosUploadResult[index], // IPFS URL
-          preview: URL.createObjectURL(photo), // Local preview
-        })),
-        propertyDocuments: documentsFiles.map((doc, index) => ({
-          path: documentsUploadResult[index], // IPFS URL
-          preview: URL.createObjectURL(doc), // Local preview
-        })),
-      };
-      setListing(formData);
-      await listingTx.sendAsync();
+          // Build the form data object with IPFS URLs
+          const formData = {
+            ...data,
+            banner: {
+              path: bannerUploadResult[0], // IPFS URL
+              preview: URL.createObjectURL(bannerFile), // Local preview
+            },
+            photos: photosFiles.map((photo, index) => ({
+              path: photosUploadResult[index], // IPFS URL
+              preview: URL.createObjectURL(photo), // Local preview
+            })),
+            propertyDocuments: documentsFiles.map((doc, index) => ({
+              path: documentsUploadResult[index], // IPFS URL
+              preview: URL.createObjectURL(doc), // Local preview
+            })),
+          };
+          setListing(formData);
+          console.log(formData);
+
+          await listingTx.sendAsync();
+        } else {
+          console.log(listing);
+
+          await listingTx.sendAsync();
+        }
+      } else {
+        toast.error("You need a listing fee.");
+      }
     } catch (error: unknown) {
-      console.error("Error during file upload:", error);
-      toast.error(
+      console.error(
         error instanceof Error ? error.message : "Something went wrong",
       );
+      toast.error("Something went wrong, please try again.");
     } finally {
       toast.dismiss();
     }
@@ -142,22 +193,7 @@ export default function NewListingWiew() {
 
   return (
     <div className="flex flex-col p-6">
-      <div className="flex w-full items-center gap-4 border border-l-4 border-l-blue-500 bg-blue-500/10 p-4">
-        <Info className="size-5 text-blue-500" />
-
-        <div className="flex flex-1 items-center gap-2">
-          <p className="text-base italic tracking-wide text-blue-500">
-            20 STARK Listing Fee Required
-          </p>
-          <p
-            role="button"
-            onClick={async () => await stakingFeeTx.sendAsync()}
-            className="ml-auto text-base tracking-wide text-blue-500 underline"
-          >
-            Stake Fee
-          </p>
-        </div>
-      </div>
+      <TokenInfo />
 
       <div className="relative flex flex-1">
         <div className="flex h-full w-[500px] flex-col gap-10 p-10">

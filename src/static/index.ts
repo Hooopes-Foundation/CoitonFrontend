@@ -4,6 +4,7 @@ import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { RiListCheck2 } from "react-icons/ri";
 import { IoImagesOutline } from "react-icons/io5";
 import { HiOutlineDocumentText } from "react-icons/hi2";
+import countries from "world-countries";
 
 export const variants = {
   fadeIn: (direction: "up" | "down" | "left" | "right", delay: number) => {
@@ -139,6 +140,7 @@ export const createListingSteps = [
       "propertyType",
       "listingType",
       "title",
+      "country",
       "location",
       "price",
       "description",
@@ -175,74 +177,77 @@ export const createListingSteps = [
 export const listingTypes = ["rent", "sale"] as const;
 
 export const propertyTypes = [
-  "Single-family Home",
-  "Multi-family Home",
-  "Condominium",
-  "Townhouse",
-  "Apartment",
-  "Co-op",
-  "Loft",
-  "Duplex",
-  "Triplex",
-  "Quadruplex",
-  "Studio",
-  "Penthouse",
-  "Villa",
-  "Cottage",
-  "Cabin",
-  "Ranch",
-  "Farm",
-  "Land",
-  "Commercial Property",
-  "Industrial Property",
-  "Retail Space",
-  "Office Space",
-  "Mixed-use Property",
-  "Hotel",
-  "Motel",
-  "Resort",
-  "Mobile Home",
-  "Modular Home",
-  "Tiny House",
-  "Boat House",
-  "Farmhouse",
-  "Luxury Home",
-  "Historic Property",
-  "New Construction",
-  "Vacation Home",
-  "Investment Property",
-  "Bungalow",
-  "Castle",
-  "Manor",
-  "Eco-friendly Home",
-  "Prefab Home",
-  "Houseboat",
-  "Log Cabin",
-  "Beachfront Property",
-  "Mountain Property",
-  "Agricultural Land",
-  "Warehouse",
-  "Data Center",
-  "Storage Unit",
-  "Parking Lot",
-  "Healthcare Facility",
-  "Assisted Living Facility",
-  "Senior Living Community",
-  "Mixed Development Complex",
-  "Recreational Property",
-  "Sports Facility",
-  "RV Lot",
-  "Timeshare",
-  "Student Housing",
-  "Guest House",
+  {
+    value: "residential",
+    label: "Residential Property",
+  },
+  {
+    value: "commercial",
+    label: "Commercial Property",
+  },
+  {
+    value: "industrial",
+    label: "Industrial Property",
+  },
+  {
+    value: "land",
+    label: "Land",
+  },
+  {
+    value: "mixed-use",
+    label: "Mixed-use Property",
+  },
 ] as const;
+
+export const status = [
+  {
+    value: "active",
+    label: "Active",
+  },
+  {
+    value: "pending",
+    label: "Pending",
+  },
+  {
+    value: "contingent",
+    label: "Contingent",
+  },
+  {
+    value: "solid",
+    label: "Solid",
+  },
+  {
+    value: "expired",
+    label: "Expired",
+  },
+  {
+    value: "solid-off-market",
+    label: "Solid Off Market",
+  },
+  {
+    value: "leased",
+    label: "Leased",
+  },
+] as const;
+
+export const countryOptions = countries.map((country) => ({
+  code: country.cca2,
+  name: country.name.common,
+  flag: country.flag,
+  latitude: country.latlng[0],
+  longitude: country.latlng[1],
+}));
+
+export function getCountryByCode(code: string) {
+  return countryOptions.find((country) => country.code === code);
+}
 
 export const initialCreateListing = {
   email: "email@gmail.com",
   phone: "1234567890",
   social: "https://twitter.com/_COiTON",
   occupation: "Real-Estate Trading Platform",
-  propertyType: propertyTypes[0],
+  propertyType: propertyTypes[0].label,
   listingType: listingTypes[0],
   title: "Villa in Rizal, Phillippines",
   location: {
@@ -277,10 +282,10 @@ export const connectorsInfo = [
     installLink:
       "https://chromewebstore.google.com/detail/argent-x-starknet-wallet/dlcobpjiigpikoobohmabehhmhfoodbb",
   },
-  {
-    id: "braavos",
-    name: "Braavos",
-    installLink:
-      "https://chromewebstore.google.com/detail/braavos-starknet-wallet/jnlgamecbpmbajjfhmmmlhejkemejdma",
-  },
+  // {
+  //   id: "braavos",
+  //   name: "Braavos",
+  //   installLink:
+  //     "https://chromewebstore.google.com/detail/braavos-starknet-wallet/jnlgamecbpmbajjfhmmmlhejkemejdma",
+  // },
 ];

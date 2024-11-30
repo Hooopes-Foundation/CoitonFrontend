@@ -1,6 +1,5 @@
 import { assets } from "@/assets";
 import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
 import { Fragment, memo, useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -383,31 +382,30 @@ const Sidebar = () => {
                     },
                   )
                 }
-                children={({ isActive }) => {
-                  if (isActive) setActiveParent(label);
-                  return (
-                    <Fragment>
-                      {icon(
-                        isActive
-                          ? "stroke-[#056F67]"
-                          : "stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]",
+                onClick={() => setActiveParent(label)} // Update active parent on click
+              >
+                {({ isActive }) => (
+                  <Fragment>
+                    {icon(
+                      isActive
+                        ? "stroke-[#056F67]"
+                        : "stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]",
+                    )}
+                    <p
+                      className={cn(
+                        "font-sans_normal text-lg text-foreground",
+                        {
+                          "font-sans_medium text-primary": isActive,
+                          "text-muted-foreground transition-colors group-hover:text-foreground":
+                            !isActive,
+                        },
                       )}
-                      <p
-                        className={cn(
-                          "font-sans_normal text-lg text-foreground",
-                          {
-                            "font-sans_medium text-primary": isActive,
-                            "text-muted-foreground transition-colors group-hover:text-foreground":
-                              !isActive,
-                          },
-                        )}
-                      >
-                        {label}
-                      </p>
-                    </Fragment>
-                  );
-                }}
-              />
+                    >
+                      {label}
+                    </p>
+                  </Fragment>
+                )}
+              </NavLink>
 
               {sublinks && activeParent === label && (
                 <div className="flex flex-col gap-2 pl-16">
@@ -425,30 +423,29 @@ const Sidebar = () => {
                           },
                         )
                       }
-                      children={({ isActive }) => {
-                        return (
-                          <Fragment>
-                            {icon(
-                              isActive
-                                ? "stroke-[#056F67]"
-                                : "stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]",
+                    >
+                      {({ isActive }) => (
+                        <Fragment>
+                          {icon(
+                            isActive
+                              ? "stroke-[#056F67]"
+                              : "stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]",
+                          )}
+                          <p
+                            className={cn(
+                              "font-sans_normal text-lg text-foreground",
+                              {
+                                "font-sans_medium text-primary": isActive,
+                                "text-muted-foreground transition-colors group-hover:text-foreground":
+                                  !isActive,
+                              },
                             )}
-                            <p
-                              className={cn(
-                                "font-sans_normal text-lg text-foreground",
-                                {
-                                  "font-sans_medium text-primary": isActive,
-                                  "text-muted-foreground transition-colors group-hover:text-foreground":
-                                    !isActive,
-                                },
-                              )}
-                            >
-                              {label}
-                            </p>
-                          </Fragment>
-                        );
-                      }}
-                    />
+                          >
+                            {label}
+                          </p>
+                        </Fragment>
+                      )}
+                    </NavLink>
                   ))}
                 </div>
               )}
@@ -457,7 +454,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <div className="flex items-center justify-between border-t border-[#EAECF0] px-8 py-4">
           <p>Value</p>
 
@@ -490,7 +487,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

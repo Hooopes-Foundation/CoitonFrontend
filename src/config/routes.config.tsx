@@ -49,10 +49,6 @@ export const routes = createBrowserRouter([
         element: views.stepFive,
       },
       {
-        path: "/onboarding/step-six",
-        element: views.stepSix,
-      },
-      {
         path: "/onboarding/account",
         element: views.account,
       },
@@ -102,7 +98,7 @@ export const routes = createBrowserRouter([
         element: views.propertyDetails,
       },
       {
-        path: "/profile",
+        path: "/profile/:user",
         element: views.profile,
       },
       {
