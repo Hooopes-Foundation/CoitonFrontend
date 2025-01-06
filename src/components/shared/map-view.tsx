@@ -1,12 +1,13 @@
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const icon = new Icon({
   iconUrl: "/marker.svg",
-  iconSize: [30, 50],
+  iconSize: [35, 51],
   iconAnchor: [12, 41],
+  popupAnchor: [5, -34],
 });
 
 interface MapViewProps {
@@ -25,7 +26,7 @@ function MapUpdater({ center }: { center: [number, number] }) {
   return null;
 }
 
-export function MapView({ center, zoom = 10 }: MapViewProps) {
+export function MapView({ center, location, zoom = 10 }: MapViewProps) {
   return (
     <MapContainer
       center={center}
@@ -33,11 +34,10 @@ export function MapView({ center, zoom = 10 }: MapViewProps) {
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={center} icon={icon} />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Marker position={center} icon={icon}>
+        <Popup>{location}</Popup>
+      </Marker>
       <MapUpdater center={center} />
     </MapContainer>
   );

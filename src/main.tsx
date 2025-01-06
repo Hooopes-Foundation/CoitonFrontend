@@ -1,17 +1,18 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
 
-import "@/assets/styles/index.css";
-import { routes } from "./config/routes.config";
-import { StarknetProvider } from "./components/providers/starknet";
-import { Toaster } from "./components/ui/sonner";
+import "@/styles/index.css";
+import store from "./store";
+import { StarknetProvider } from "./components/providers/starknet.provider";
+import App from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <StarknetProvider>
-      <Toaster richColors theme="light" />
-      <RouterProvider router={routes} />
-    </StarknetProvider>
-  </StrictMode>,
+    <Provider store={store}>
+      <StarknetProvider>
+        <App />
+      </StarknetProvider>
+    </Provider>
+  </StrictMode>
 );

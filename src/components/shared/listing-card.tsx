@@ -1,17 +1,16 @@
+import { Listing } from "@/pages/(app)/dashboard/dashboard.page";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 
-const ListingCard = ({ listing }: { listing: any }) => {
+const ListingCard = ({ listing }: { listing: Listing }) => {
+  const { details, id } = listing;
+
   return (
     <div className="group rounded-[24px] border bg-white">
-      <div className="relative h-[240px] overflow-hidden rounded-[inherit] bg-secondary">
+      <div className="relative w-full aspect-[1.6] overflow-hidden rounded-[inherit] bg-secondary">
         <img
-          src={
-            listing?.details?.banner ??
-            listing?.details?.images[0] ??
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-          alt={listing?.details?.title}
+          src={`https://ipfs.io/ipfs/${details?.banner?.path}`}
+          alt={details?.title}
           className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
         />
         <div className="absolute right-4 top-4 flex items-center gap-2 rounded-[12px] border bg-white px-3 py-2">
@@ -28,21 +27,23 @@ const ListingCard = ({ listing }: { listing: any }) => {
             />
           </svg>
 
-          <span className="text-sm">For Sale</span>
+          <span className="text-sm">
+            For {details?.listingType === "rent" ? "Rent" : "Sale"}
+          </span>
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 p-6">
-        <h4 className="font-sans_bold text-2xl leading-none tracking-wide text-primary">
-          ${Number(listing?.details?.price).toLocaleString()}
-        </h4>
+      <div className="flex flex-col gap-4 md:gap-6 p-6">
+        <p className="font-bold text-xl md:text-2xl leading-none tracking-wide text-primary">
+          ${Number(details?.price).toLocaleString()}
+        </p>
 
-        <Link to={`/property/${listing?.id}`} className="flex flex-col gap-2">
-          <span className="font-sans_medium text-xl leading-none text-[#1D2939]">
-            {listing?.details?.title}
+        <Link to={`/property/${id}`} className="flex flex-col gap-2">
+          <span className="font-medium text-lg md:text-xl leading-none text-[#1D2939]">
+            {details?.title}
           </span>
-          <span className="font-sans_light text-base leading-none text-[#475467]">
-            {listing?.details?.location}
+          <span className="font-light text-sm sm:text-base leading-none text-[#475467]">
+            {details?.location?.name}
           </span>
         </Link>
 
@@ -61,8 +62,8 @@ const ListingCard = ({ listing }: { listing: any }) => {
               />
             </svg>
 
-            <span className="font-sans_normal text-sm text-[#4D5761]">
-              Beds: {listing?.details?.size?.bedrooms}
+            <span className="font-normal text-sm md:text-base text-muted-foreground">
+              Beds: {details?.bedrooms ?? 0}
             </span>
           </p>
           <p className="flex flex-1 items-center justify-center gap-2">
@@ -79,8 +80,8 @@ const ListingCard = ({ listing }: { listing: any }) => {
               />
             </svg>
 
-            <span className="font-sans_normal text-sm text-[#4D5761]">
-              Baths: {listing?.details?.size?.bathrooms}
+            <span className="font-normal text-sm md:text-base text-muted-foreground">
+              Baths: {details?.bathrooms ?? 0}
             </span>
           </p>
           <p className="flex flex-1 items-center justify-end gap-2 border-l">
@@ -97,8 +98,8 @@ const ListingCard = ({ listing }: { listing: any }) => {
               />
             </svg>
 
-            <span className="tenormal font-sans_light text-[#4D5761]">
-              {listing?.details?.size?.area} sqft
+            <span className="font-normal text-sm md:text-base text-muted-foreground">
+              {details?.sizeSqft ?? 0} sqft
             </span>
           </p>
         </div>

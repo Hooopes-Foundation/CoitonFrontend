@@ -1,11 +1,20 @@
 import { cn } from "@/lib/utils";
+import { forwardRef } from "react";
 
-export default function MaxWrapper({ children, className }: MAX_WRAPPER) {
-  return (
-    <section
-      className={cn("mx-auto w-full max-w-[1404px] px-4 sm:px-5", className)}
-    >
-      {children}
-    </section>
-  );
-}
+const MaxWrapper = forwardRef<HTMLElement, React.ComponentProps<"section">>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <section
+        ref={ref}
+        className={cn("mx-auto w-full max-w-[1510px] px-5 md:px-6", className)}
+        {...props}
+      >
+        {children}
+      </section>
+    );
+  }
+);
+
+MaxWrapper.displayName = "MaxWrapper";
+
+export default MaxWrapper;

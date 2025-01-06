@@ -1,22 +1,17 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans_light: ["Satoshi-Light", "sans-serif"],
-        sans_light_italic: ["Satoshi-LightItalic", "sans-serif"],
-        sans_regular: ["Satoshi-Regular", "sans-serif"],
-        sans_italic: ["Satoshi-Italic", "sans-serif"],
-        sans_medium: ["Satoshi-Medium", "sans-serif"],
-        sans_medium_italic: ["Satoshi-MediumItalic", "sans-serif"],
-        sans_bold: ["Satoshi-Bold", "sans-serif"],
-        sans_bold_italic: ["Satoshi-BoldItalic", "sans-serif"],
-        sans_black: ["Satoshi-Black", "sans-serif"],
-        sans_black_italic: ["Satoshi-BlackItalic", "sans-serif"],
-        serif_regular: ["InstrumentSerif-Regular", "serif"],
-        serif_italic: ["InstrumentSerif-Italic", "serif"],
+        satoshi: ['"Satoshi"', ...defaultTheme.fontFamily.sans],
+        instrumentSerif: [
+          '"InstrumentSerif"',
+          ...defaultTheme.fontFamily.serif,
+        ],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -24,6 +19,22 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -33,10 +44,6 @@ export default {
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

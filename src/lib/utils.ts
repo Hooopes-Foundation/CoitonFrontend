@@ -1,32 +1,23 @@
-import { BN } from "bn.js";
-import BNType from "bn.js";
 import { clsx, type ClassValue } from "clsx";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import { toBN } from "./dontpanicdao";
-import {
-  feltArrToStr,
-  shortStringFeltToStr,
-  strToFeltArr,
-  strToShortStringFelt,
-} from "./cairoStringUtils.sekaiStudio";
-
-const FELT_MAX_VAL = new BN(
-  "3618502788666131106986593281521497120414687020801267626233049500247285301248",
-  10,
-);
-
-const DEFAULT_RESULT_OBJECT = {
-  output: null,
-  isValid: true,
-};
-
-export interface ConvertOutput<T> {
-  output: T;
-  isValid: boolean | null;
-}
+import countries from "world-countries";
+import { Country, State, City } from "country-state-city";
+import axios from "axios";
+import { variables } from "@/utils/variables";
+import { SOCIAL_TYPES } from "@/pages/(app)/onboarding/_components/social-input";
+import { createAvatar } from "@dicebear/core";
+import { thumbs } from "@dicebear/collection";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function truncateAddr(str: string | undefined, n: number = 6): string {
+  if (!str) return "";
+  return str?.length > n
+    ? str.slice(0, n) + "..." + str.slice(str.length - 4)
+    : str;
 }
 
 export function formatBytes(
@@ -44,397 +35,166 @@ export function formatBytes(
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
     sizeType === "accurate"
-      ? (accurateSizes[i] ?? "Bytest")
+      ? (accurateSizes[i] ?? "Bytes")
       : (sizes[i] ?? "Bytes")
   }`;
 }
 
-export function truncateAddr(str: string | undefined, n: number = 6): string {
-  if (!str) return "";
-  return str?.length > n
-    ? str.slice(0, n) + "..." + str.slice(str.length - 4)
-    : str;
-}
-
-export function generateValidatorId(length: number): number {
-  const upperLimit = Math.pow(10, length) - 1;
-  const lowerLimit = Math.pow(10, length - 1);
-
-  return Math.floor(Math.random() * (upperLimit - lowerLimit + 1)) + lowerLimit;
-}
-
-export function toBigNumber(input: any): BNType | null {
-  const number = toBN(input);
-  return BN.isBN(number) ? number : null;
-}
-
-export function decimalToFelt(input: string): ConvertOutput<BNType | null> {
-  const inputInt = Number(input);
-  if (isNaN(inputInt)) {
-    return DEFAULT_RESULT_OBJECT;
-  }
-  const value = toBigNumber(input);
-  return {
-    output: value,
-    isValid: value ? value.lt(FELT_MAX_VAL) : null,
-  };
-}
-
-export function shortStringToFelt(input: string): ConvertOutput<BNType | null> {
-  if (typeof input !== "string" || input === "") {
-    return DEFAULT_RESULT_OBJECT;
-  }
-
-  const value = strToShortStringFelt(input);
-  const valueBN = toBigNumber(value.toString());
-  return {
-    output: valueBN ? valueBN : null,
-    isValid: valueBN ? valueBN.lt(FELT_MAX_VAL) : null,
-  };
-}
-
-export function feltToShortString(input: string): ConvertOutput<string | null> {
-  const inputInt = Number(input);
-  if (isNaN(inputInt)) {
-    return DEFAULT_RESULT_OBJECT;
-  }
-  const number = BigInt(input);
-  const value = shortStringFeltToStr(number);
-  const numberBN = toBigNumber(value);
-  return {
-    output: value,
-    isValid: numberBN ? numberBN.lt(FELT_MAX_VAL) : null,
-  };
-}
-
-export function stringToFeltArray(
-  input: string,
-): ConvertOutput<string[] | null> {
-  const value = strToFeltArr(input).map((val) => val.toString());
-  return {
-    output: value ? value : null,
-    isValid: true,
-  };
-}
-
-export function feltArrayToString(input: string): ConvertOutput<string | null> {
-  if (typeof input !== "string" || input === "") {
-    return DEFAULT_RESULT_OBJECT;
-  }
-  const valueArr = input
-    .replaceAll(" ", "")
-    .split(",")
-    .map((val) => BigInt(val));
-  const value = feltArrToStr(valueArr);
-  return {
-    output: value ? value : null,
-    isValid: true,
-  };
-}
-
-export function stringToByteArray(str: string): string {
-  let utf8: number[] = [];
-  for (let i = 0; i < str.length; i++) {
-    let charcode = str.charCodeAt(i);
-    if (charcode < 0x80) {
-      utf8.push(charcode);
-    } else if (charcode < 0x800) {
-      utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
-    } else if (charcode < 0xd800 || charcode >= 0xe000) {
-      utf8.push(
-        0xe0 | (charcode >> 12),
-        0x80 | ((charcode >> 6) & 0x3f),
-        0x80 | (charcode & 0x3f),
-      );
-    } else {
-      i++;
-      charcode =
-        0x10000 + (((charcode & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
-      utf8.push(
-        0xf0 | (charcode >> 18),
-        0x80 | ((charcode >> 12) & 0x3f),
-        0x80 | ((charcode >> 6) & 0x3f),
-        0x80 | (charcode & 0x3f),
-      );
-    }
-  }
-
-  // Convert the array to comma-separated string
-  return utf8.join(",");
-}
-
-// Function to convert Starknet ByteArray back to original value
-export function byteArrayToString(data: string) {
-  if (!Array.isArray(data)) {
-    console.error("Invalid input: Expected a byte array");
-    return null;
-  }
-
+export async function copyToClipboard(text: string): Promise<void> {
   try {
-    // Convert byte array to string
-    const jsonString = String.fromCharCode(...data);
-
-    return JSON.parse(jsonString);
+    await navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
   } catch (error) {
-    console.error("Error converting byte array to string:", error);
-    return null;
-  }
-}
-
-export function generateRandomListings() {
-  const cities = [
-    "Cairo",
-    "Alexandria",
-    "Giza",
-    "Luxor",
-    "Aswan",
-    "Hurghada",
-    "Sharm El Sheikh",
-    "Dahab",
-    "Siwa",
-    "Marsa Matruh",
-    "Suez",
-    "Port Said",
-    "Ismailia",
-    "El Gouna",
-  ];
-
-  const areas = [
-    "Downtown",
-    "Waterfront",
-    "Suburb",
-    "City Center",
-    "Historical District",
-    "Old Town",
-    "Financial District",
-    "Beachfront",
-    "Mountain View",
-    "Residential Area",
-    "Industrial Zone",
-    "Countryside",
-    "Seaside Village",
-    "Urban Park",
-  ];
-
-  const ownerNames = [
-    "John Doe",
-    "Jane Smith",
-    "Ahmed Hassan",
-    "Sara Mohamed",
-    "Omar Ali",
-    "Mona Khalil",
-    "Youssef Karim",
-    "Layla Hussein",
-    "Hassan Fathy",
-    "Fatima El-Sayed",
-    "Kareem Naguib",
-    "Nadia Saad",
-    "Sami Hani",
-    "Noor Abdallah",
-  ];
-
-  const randomAmenities = () => {
-    const all = [
-      "WiFi",
-      "Air Conditioning",
-      "Swimming Pool",
-      "Gym",
-      "Parking",
-      "Laundry",
-      "Pets Allowed",
-      "Cable TV",
-      "Heating",
-      "Balcony",
-      "Garden",
-      "BBQ Area",
-      "Fireplace",
-      "Concierge Service",
-      "Bicycle Rental",
-      "Room Service",
-      "Spa",
-      "Hot Tub",
-      "Tennis Court",
-      "Electric Vehicle Charger",
-    ];
-    return all.filter(() => Math.random() > 0.3);
-  };
-
-  const randomDate = (start: string, end: string) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    return new Date(
-      startDate.getTime() +
-        Math.random() * (endDate.getTime() - startDate.getTime()),
-    )
-      .toISOString()
-      .split("T")[0];
-  };
-
-  const randomDescription = () => {
-    const propertyTypes = [
-      "apartment",
-      "villa",
-      "studio",
-      "penthouse",
-      "townhouse",
-    ];
-    const adjectives = [
-      "spacious",
-      "cozy",
-      "modern",
-      "luxurious",
-      "charming",
-      "elegant",
-      "stylish",
-    ];
-    const views = ["cityscape", "sea", "garden", "mountain", "pool"];
-    const nearby = [
-      "shopping malls",
-      "restaurants",
-      "public transport",
-      "schools",
-      "parks",
-      "beaches",
-      "nightlife",
-    ];
-
-    // Randomly select items from each array
-    const city = cities[Math.floor(Math.random() * cities.length)];
-    const area = areas[Math.floor(Math.random() * areas.length)];
-    const ownerName = ownerNames[Math.floor(Math.random() * ownerNames.length)];
-    const propertyType =
-      propertyTypes[Math.floor(Math.random() * propertyTypes.length)];
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const view = views[Math.floor(Math.random() * views.length)];
-    const amenities = randomAmenities();
-    const nearbyLocation = nearby[Math.floor(Math.random() * nearby.length)];
-
-    return `Discover a ${adjective} ${propertyType} located in the heart of ${city}, in the ${area} area. This property offers stunning ${view} views and includes amenities such as ${amenities.join(
-      ", ",
-    )}. Perfect for those who want to be close to ${nearbyLocation}. Contact ${ownerName} today to arrange a viewing!`;
-  };
-
-  const city = cities[Math.floor(Math.random() * cities.length)];
-  const area = areas[Math.floor(Math.random() * areas.length)];
-
-  const listingDetails = {
-    title: `${city} Apartment`,
-    price: Math.floor(Math.random() * 4000) + 1000,
-    description: randomDescription(),
-    location: `${area} ${city}`,
-    amenities: randomAmenities(),
-    images: Array(Math.floor(Math.random() * 8))
-      .fill(null)
-      .map(
-        (_) =>
-          `https://picsum.photos/${Math.floor(
-            Math.random() * 250,
-          )}/${Math.floor(Math.random() * 350)}`,
-      ),
-    owner: {
-      name: ownerNames[Math.floor(Math.random() * ownerNames.length)],
-      contact: `owner${Math.floor(Math.random() * 100)}@example.com`,
-      phone: `+20 ${Math.floor(Math.random() * 1000)} ${Math.floor(
-        Math.random() * 1000,
-      )} ${Math.floor(Math.random() * 10000)}`,
-    },
-    availability: {
-      availableFrom: randomDate("2024-10-15", "2024-12-31"),
-      availableTo: randomDate("2025-01-01", "2025-12-31"),
-    },
-    size: {
-      area: Math.floor(Math.random() * 150) + 50,
-      bedrooms: Math.floor(Math.random() * 4) + 1,
-      bathrooms: Math.floor(Math.random() * 3) + 1,
-    },
-    optionalFeatures: {
-      furnished: Math.random() > 0.5,
-      petFriendly: Math.random() > 0.5,
-      smokingAllowed: Math.random() > 0.7,
-    },
-    ratings: {
-      averageRating: Number((Math.random() * 2 + 3).toFixed(1)),
-      numberOfReviews: Math.floor(Math.random() * 50) + 1,
-    },
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-
-  return listingDetails;
-}
-
-export function bigintReplacer(_key: string, value: any) {
-  if (typeof value === "bigint") {
-    return value.toString(); // Convert BigInt to string
-  }
-  return value; // Return other types unchanged
-}
-
-export function serializeData(data: any): any {
-  // If the value is an array, serialize each item
-  if (Array.isArray(data)) {
-    return data.map(serializeData);
-  }
-
-  // If the value is an object, serialize each key-value pair
-  if (data !== null && typeof data === "object") {
-    return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => [key, serializeData(value)]),
+    toast.error(
+      error instanceof Error
+        ? error.message
+        : "Failed to copy text to clipboard",
     );
   }
-
-  // For all other data types, return the value as is
-  return data;
 }
 
-export const onUpload = async (files: File[]) => {
-  const uploadedFiles: string[] = [];
+// Function to structure data: country -> states -> cities
+export const getCountries = () => {
+  return Country.getAllCountries().map((country) => ({
+    countryName: country.name,
+    countryCode: country.isoCode,
+    countryFlag: country.flag,
+    countryLat: Number(country.latitude),
+    countryLong: Number(country.longitude),
+  }));
+};
 
+export interface CountryData {
+  countryName: string;
+  countryCode: string;
+  countryFlag: string;
+  countryLat: number;
+  countryLong: number;
+}
+
+export const getStatesByCountry = (countryCode: string) => {
+  return State.getStatesOfCountry(countryCode).map((state) => ({
+    stateName: state.name,
+    stateCode: state.isoCode,
+    countryCode: state.countryCode,
+    stateLat: Number(state.latitude),
+    stateLong: Number(state.longitude),
+  }));
+};
+
+export interface StateData {
+  stateName: string;
+  stateCode: string;
+  countryCode: string;
+  stateLat: number;
+  stateLong: number;
+}
+
+export const getCitiesByState = (countryCode: string, stateCode: string) => {
+  return City.getCitiesOfState(countryCode, stateCode).map((city) => ({
+    cityName: city.name,
+    stateCode: city.stateCode,
+    countryCode: city.countryCode,
+    cityLat: Number(city.latitude),
+    cityLong: Number(city.longitude),
+  }));
+};
+
+export interface CityData {
+  cityName: string;
+  stateCode: string;
+  countryCode: string;
+  cityLat: number;
+  cityLong: number;
+}
+
+export const countryOptions = countries.map((country) => ({
+  code: country.cca2,
+  name: country.name.common,
+  flag: country.flag,
+  latitude: country.latlng[0],
+  longitude: country.latlng[1],
+}));
+
+export function getCountryByCode(code: string) {
+  return countryOptions.find((country) => country.code === code);
+}
+
+export const makePayment = async (paymentData: {
+  receipt: number;
+  address: string;
+}) => {
   try {
-    for (const file of files) {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const options = {
-        method: "POST",
+    const response = await axios.post(
+      `${variables.renderEndpoint}/api/v1/payment`,
+      paymentData,
+      {
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
+          "Content-Type": "application/json",
         },
-        body: formData,
-      };
-
-      const response = await fetch(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        options,
-      );
-      const pinataResponse = await response.json();
-      const fileUrl = pinataResponse.IpfsHash;
-
-      if (!pinataResponse) {
-        throw new Error("Failed to upload file(s) to Pinata");
-      }
-
-      uploadedFiles.push(fileUrl);
-    }
-
-    return uploadedFiles; // Return the array of uploaded files
+      },
+    );
+    return response;
   } catch (error) {
-    console.error("Error uploading file(s) to Pinata:", error);
-    throw new Error("Failed to upload file(s) to Pinata");
+    console.error("Payment API error:", error);
+    throw error;
   }
 };
 
-/**
- * Converts a string into a URL-friendly slug.
- * @param {string} text - The text to be slugified.
- * @returns {string} - The slugified string.
- */
-export const slugify = (text: string): string => {
-  if (!text) return ""; // Handle empty or undefined input
-  return text
-    .toLowerCase() // Convert to lowercase
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^\w-]+/g, "") // Remove non-word characters
-    .replace(/--+/g, "-") // Replace multiple hyphens with a single hyphen
-    .trim(); // Remove trailing or leading spaces
+export const lcStorage = {
+  save: <T>(key: string, data: T) => {
+    localStorage.setItem(key, JSON.stringify(data));
+  },
+  load: <T>(key: string): T | null => {
+    const storedData = localStorage.getItem(key);
+    return storedData ? (JSON.parse(storedData) as T) : null;
+  },
+  clear: (key: string) => {
+    localStorage.removeItem(key);
+  },
 };
+
+export function detectSocialType(url: string): SOCIAL_TYPES {
+  const lowercaseUrl = url.toLowerCase();
+  if (lowercaseUrl.includes("twitter.com") || lowercaseUrl.includes("x.com"))
+    return "twitter";
+  if (lowercaseUrl.includes("instagram.com")) return "instagram";
+  if (lowercaseUrl.includes("t.me") || lowercaseUrl.includes("telegram"))
+    return "telegram";
+  if (
+    lowercaseUrl.includes("linkedin.com/in") ||
+    lowercaseUrl.includes("linkedin")
+  )
+    return "linkedin";
+  if (
+    lowercaseUrl.includes("facebook.com") ||
+    lowercaseUrl.includes("facebook")
+  )
+    return "facebook";
+  return "other";
+}
+
+export function getSocialIcon(type: SOCIAL_TYPES) {
+  switch (type) {
+    case "twitter":
+      return "twitter";
+    case "instagram":
+      return "instagram";
+    case "telegram":
+      return "telegram";
+    case "linkedin":
+      return "linkedin";
+    default:
+      return "link";
+  }
+}
+
+export function generateAvatarFromAddress(address: string) {
+  const avatar = createAvatar(thumbs, {
+    seed: `address-${address?.toLowerCase()}`,
+  });
+
+  const svg = avatar.toDataUri();
+
+  return svg;
+}

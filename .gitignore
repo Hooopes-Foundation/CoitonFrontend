@@ -23,8 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
+
 .env
-.env.local
 .txt
-tsconfig.app.tsbuildinfo
-tsconfig.node.tsbuildinfo
