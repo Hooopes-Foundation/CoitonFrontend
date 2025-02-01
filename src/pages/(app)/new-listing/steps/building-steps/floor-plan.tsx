@@ -51,7 +51,7 @@ export default function FloorPlanForm() {
   const { onUpload, isUploading } = useUploadFileToPinataHook();
 
   const { getContractInstance } = useContractInstance();
-  const contractInstance: Contract = getContractInstance();
+  const contractInstance = getContractInstance();
 
   //   const { hasStaked, isCheckingStakedStatus } = useHasStaked();
 
@@ -86,7 +86,7 @@ export default function FloorPlanForm() {
     // const hashFelt = shortStringToFelt(hash)?.output?.toString(10);
 
     return [
-      contractInstance.populate("create_listing", [
+      contractInstance!.populate("create_listing", [
         regionBytes,
         detailsBytes,
         hash,
@@ -98,10 +98,10 @@ export default function FloorPlanForm() {
     calls: calls,
   });
 
-  const listingReceipt = useTransactionReceipt({
-    hash: listingTx?.data?.transaction_hash,
-    watch: !!listingTx?.data?.transaction_hash,
-  });
+  // const listingReceipt = useTransactionReceipt({
+  //   hash: listingTx?.data?.transaction_hash,
+  //   watch: !!listingTx?.data?.transaction_hash,
+  // });
 
   const onSubmit = async (data: Partial<BuildingFormSchemaTypes>) => {
     const formFields = {
@@ -170,9 +170,19 @@ export default function FloorPlanForm() {
 
       // Send transaction
       try {
-        await listingTx.sendAsync();
+        // await listingTx.sendAsync();
+        const regionBytes = stringToByteArray(JSON.stringify(formData?.region));
+        const detailsBytes = stringToByteArray(JSON.stringify(formData));
+        const call = contractInstance!.populate("create_listing", [
+          regionBytes,
+          detailsBytes,
+          hash!,
+        ])
 
-        if (listingReceipt?.isSuccess) {
+        const tx = await window.Wallet.Account!.execute([call]);
+        const response = await window.Wallet.Account?.waitForTransaction(tx.transaction_hash)
+
+        if (response?.isSuccess()) {
           toast.success("Listing created successfully!");
           dispatch(resetForm());
           navigate("/dashboard");
@@ -198,7 +208,7 @@ export default function FloorPlanForm() {
 
   const isCreating =
     listingTx?.isPending ||
-    listingReceipt?.isLoading ||
+    // listingReceipt?.isLoading ||
     isSubmitting ||
     isUploading;
 

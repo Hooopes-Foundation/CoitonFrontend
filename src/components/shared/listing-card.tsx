@@ -1,6 +1,7 @@
 import { Listing } from "@/pages/(app)/dashboard/dashboard.page";
 import { memo } from "react";
 import { Link } from "react-router-dom";
+import { cairo } from "starknet";
 
 const ListingCard = ({ listing }: { listing: Listing }) => {
   const { details, id } = listing;
@@ -9,7 +10,9 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
     <div className="group rounded-[24px] border bg-white">
       <div className="relative w-full aspect-[1.6] overflow-hidden rounded-[inherit] bg-secondary">
         <img
-          src={`https://ipfs.io/ipfs/${details?.banner?.path}`}
+          src={`${import.meta.env.VITE_PINATA_GATEWAY}/${details.imagesCid[0]}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
+
+          // src={`https://ipfs.io/ipfs/${details?.banner?.path}`}
           alt={details?.title}
           className="size-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
         />
@@ -35,10 +38,10 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
 
       <div className="flex flex-col gap-4 md:gap-6 p-6">
         <p className="font-bold text-xl md:text-2xl leading-none tracking-wide text-primary">
-          ${Number(details?.price).toLocaleString()}
+          ${Number(details?.rangeTo).toLocaleString()}
         </p>
 
-        <Link to={`/property/${id}`} className="flex flex-col gap-2">
+        <Link to={`/property?type=${cairo.felt("other")}`} state={listing} className="flex flex-col gap-2">
           <span className="font-medium text-lg md:text-xl leading-none text-[#1D2939]">
             {details?.title}
           </span>

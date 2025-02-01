@@ -28,7 +28,7 @@ export const routes = createBrowserRouter([
         element: pages.listPropertyPage,
       },
       {
-        path: "/property/:id",
+        path: "/property",
         element: pages.propertyDetailsPage,
       },
       {

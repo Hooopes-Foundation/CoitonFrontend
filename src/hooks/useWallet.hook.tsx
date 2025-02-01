@@ -10,18 +10,22 @@ import { Connector, useConnect, useDisconnect } from "@starknet-react/core";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import {
-  type StarknetkitConnector,
-  useStarknetkitConnectModal,
-} from "starknetkit";
+import { WalletAccount } from "starknet";
+// import {
+//   type StarknetkitConnector,
+//   useStarknetkitConnectModal,
+// } from "starknetkit";
+
+import { connect, disconnect } from "starknetkit";
+
 
 export const useWalletHook = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
-  const { starknetkitConnectModal } = useStarknetkitConnectModal({
-    connectors: availableConnectors as StarknetkitConnector[],
-  });
+  // const { starknetkitConnectModal } = useStarknetkitConnectModal({
+  //   connectors: availableConnectors as StarknetkitConnector[],
+  // });
 
   const handleConnectWallet = useCallback(
     async (cntr: Connector) => {
@@ -61,16 +65,31 @@ export const useWalletHook = () => {
   );
 
   async function connectWalletWithModal() {
-    const { connector } = await starknetkitConnectModal();
-    if (!connector) {
-      return;
-    }
-    await connectAsync({ connector: connector as Connector });
+    const {wallet,connector} = await connect()
+     const myFrontendProviderUrl =
+            "https://free-rpc.nethermind.io/sepolia-juno/v0_7";
+
+          const myWalletAccount = new WalletAccount(
+            { nodeUrl: myFrontendProviderUrl },
+            wallet as any
+          );
+          window.Wallet = {
+            Account: myWalletAccount as any,
+            IsConnected: true,
+          };
+    // const { connector } = await starknetkitConnectModal();
+    // if (!connector) {
+    //   return;
+    // }
+    // await connectAsync({ connector: connector as Connector });
     dispatch(
       setCurrentConnector({
         id: connector?.id,
         name: connector?.name,
-        icon: connector?.icon,
+        icon: {
+          dark:connector?.icon.dark!,
+          light:connector?.icon.light!
+        },
       })
     );
     dispatch(setIsWalletConnected(true));

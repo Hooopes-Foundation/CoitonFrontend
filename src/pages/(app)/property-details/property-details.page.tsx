@@ -1,5 +1,6 @@
 import {
   Link,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -40,6 +41,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useContractInstance } from "@/hooks/useContractInstance.hook";
 import { Loader } from "lucide-react";
 import { BiLeaf } from "react-icons/bi";
+import { cairo } from "starknet";
+import { toast } from "sonner";
 
 const images = Array.from(
   { length: 5 },
@@ -130,9 +133,190 @@ const listingFormData = {
 
 export default function PropertyDetailsPage() {
   const [showMore, setShowMore] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(
-    listingFormData?.imagesCid[0],
+  const [selectedImage, setSelectedImage] = useState<any>(
+    null
+
   );
+
+  const { daoAddress, daoABI } = contract;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const appTx = location.state ? useReadContract({
+    address: daoAddress,
+    functionName: "get_user",
+    abi: daoABI,
+    args: [location.state.owner],
+    watch: false,
+  }) : null;
+
+  const [type, setType] = useState<any>(null)
+  const [property, setProperty] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true);
+  const [addresses, setAddresses] = useState<any>([]);
+  const [details, setDetails] = useState<any>([]);
+  const [searchParams] = useSearchParams();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const { getContractInstance } = useContractInstance();
+
+
+  const unaproveListing = async () => {
+    try {
+      if (loading) return;
+      setLoading(true)
+      if (!window.Wallet?.Account) {
+        toast.error("Wallet not connected");
+        return;
+      }
+      const account = window.Wallet.Account;
+      const contractInstance = getContractInstance();
+      const call = contractInstance!.populate("create_listing", [
+
+      ])
+
+    } catch (error: any) {
+      console.log(error)
+      setLoading(false)
+      toast.error(error.message || "OOPPSS!! an error occured")
+    }
+  }
+
+
+
+  const approveListing = async () => {
+    try {
+      if (loading) return;
+      setLoading(true)
+      if (!window.Wallet?.Account) {
+        toast.error("Wallet not connected");
+        return;
+      }
+      const account = window.Wallet.Account;
+      const contractInstance = getContractInstance();
+      const call = contractInstance!.populate("approve_listing", [
+        property.id,
+        property.hash
+      ])
+
+      const tx = await account.execute([call]);
+
+      const response = await account.waitForTransaction(tx.transaction_hash);
+      if (response.isSuccess()) {
+        toast.success("Listing approved");
+        navigate(-1)
+      } else {
+        toast.error("OOOPPSSS Something went wrong")
+      }
+
+      setLoading(false);
+
+    } catch (error: any) {
+      console.log(error)
+      setLoading(false)
+      toast.error(error.message || "OOPPSS!! an error occured")
+    }
+  }
+
+  useEffect(() => {
+    (async function () {
+      const type_params = searchParams.get("type")
+      const state = location.state;
+
+      if (!state || !type_params) {
+        navigate(-1);
+        return;
+      }
+
+
+      if (type_params !== cairo.felt("dao") && type_params !== cairo.felt("other")) {
+        navigate(-1);
+        return;
+      }
+
+      setType(type_params)
+
+
+      const data = {
+        ...state, ownerDetails: {
+          ...appTx?.data,
+          region: undefined,
+          details: byteArrayToString(appTx?.data?.details!)
+        }
+      };
+      console.log({ data })
+      setProperty(data)
+      setAddresses([
+        {
+          label: "Address",
+          value: state.details.area,
+        },
+        {
+          label: "Area /Landmark",
+          value: state.details?.landmark,
+        },
+        {
+          label: "City",
+          value: state.details?.region?.city?.cityName,
+        },
+        {
+          label: "State",
+          value: state.details?.region?.state?.stateName,
+        },
+        {
+          label: "ZIP",
+          value: state.details?.zip,
+        },
+        {
+          label: "Country",
+          value: state.details?.region?.country?.countryName,
+        },
+      ])
+      setDetails([
+        {
+          label: "Property ID",
+          value: state.details.id,
+        },
+        {
+          label: "Price; from - to",
+          value: `$${state.details?.rangeFrom.toLocaleString()} - $${state.details?.rangeTo.toLocaleString()}`,
+        },
+        {
+          label: "Rooms",
+          value: state.details?.rooms,
+        },
+        {
+          label: "Bedrooms",
+          value: state.details?.bedrooms,
+        },
+        {
+          label: "Bathrooms",
+          value: state.details?.bathrooms,
+        },
+        {
+          label: "Year built",
+          value: new Date(state.details?.yearBuilt).toDateString(),
+        },
+        {
+          label: "Structure type",
+          value: state.details?.structureType,
+        },
+        // {
+        //   label: "Property type",
+        //   value: state.details?.propertyType,
+        // },
+        {
+          label: "Property Sizes",
+          value: state.details?.propertySize,
+        },
+      ])
+      setSelectedImage(state.details.imagesCid[0])
+      setIsLoading(false)
+
+    }())
+  }, [location]);
+
+
 
   // const navigate = useNavigate();
 
@@ -167,85 +351,85 @@ export default function PropertyDetailsPage() {
 
   // const listing = data.find((lst) => lst.id === Number(id));
 
-  // if (isLoading)
-  //   return (
-  //     <div className="flex flex-col gap-4 py-4">
-  //       <Skeleton className="aspect-video bg-background" />
-  //       <Separator className="my-2 h-px w-full" />
-  //       <Skeleton className="aspect-video bg-background" />
-  //     </div>
-  //   );
+  if (isLoading)
+    return (
+      <div className="flex flex-col gap-4 py-4">
+        <Skeleton className="aspect-video bg-background" />
+        <Separator className="my-2 h-px w-full" />
+        <Skeleton className="aspect-video bg-background" />
+      </div>
+    );
 
   // if (!isLoading && !listing) {
   //   navigate("/dashboard");
   //   return null;
   // }
 
-  const addresses = [
-    {
-      label: "Address",
-      value: listingFormData?.area,
-    },
-    {
-      label: "Area /Landmark",
-      value: listingFormData?.landmark,
-    },
-    {
-      label: "City",
-      value: listingFormData?.region?.city?.cityName,
-    },
-    {
-      label: "State",
-      value: listingFormData?.region?.state?.stateName,
-    },
-    {
-      label: "ZIP",
-      value: listingFormData?.zip,
-    },
-    {
-      label: "Country",
-      value: listingFormData?.region?.country?.countryName,
-    },
-  ];
+  // const addresses = [
+  //   {
+  //     label: "Address",
+  //     value: listingFormData?.area,
+  //   },
+  //   {
+  //     label: "Area /Landmark",
+  //     value: listingFormData?.landmark,
+  //   },
+  //   {
+  //     label: "City",
+  //     value: listingFormData?.region?.city?.cityName,
+  //   },
+  //   {
+  //     label: "State",
+  //     value: listingFormData?.region?.state?.stateName,
+  //   },
+  //   {
+  //     label: "ZIP",
+  //     value: listingFormData?.zip,
+  //   },
+  //   {
+  //     label: "Country",
+  //     value: listingFormData?.region?.country?.countryName,
+  //   },
+  // ];
 
-  const details = [
-    {
-      label: "Property ID",
-      value: "089123",
-    },
-    {
-      label: "Price; from - to",
-      value: `$${listingFormData?.rangeFrom.toLocaleString()} - $${listingFormData?.rangeTo.toLocaleString()}`,
-    },
-    {
-      label: "Rooms",
-      value: listingFormData?.rooms,
-    },
-    {
-      label: "Bedrooms",
-      value: listingFormData?.bedrooms,
-    },
-    {
-      label: "Bathrooms",
-      value: listingFormData?.bathrooms,
-    },
-    {
-      label: "Year built",
-      value: listingFormData?.yearBuilt,
-    },
-    {
-      label: "Structure type",
-      value: listingFormData?.structureType,
-    },
-    {
-      label: "Property type",
-      value: listingFormData?.propertyType,
-    },
-    {
-      label: "Property Sizes",
-      value: listingFormData?.propertySize,
-    },
-  ];
+  // const details = [
+  //   {
+  //     label: "Property ID",
+  //     value: "089123",
+  //   },
+  //   {
+  //     label: "Price; from - to",
+  //     value: `$${listingFormData?.rangeFrom.toLocaleString()} - $${listingFormData?.rangeTo.toLocaleString()}`,
+  //   },
+  //   {
+  //     label: "Rooms",
+  //     value: listingFormData?.rooms,
+  //   },
+  //   {
+  //     label: "Bedrooms",
+  //     value: listingFormData?.bedrooms,
+  //   },
+  //   {
+  //     label: "Bathrooms",
+  //     value: listingFormData?.bathrooms,
+  //   },
+  //   {
+  //     label: "Year built",
+  //     value: listingFormData?.yearBuilt,
+  //   },
+  //   {
+  //     label: "Structure type",
+  //     value: listingFormData?.structureType,
+  //   },
+  //   {
+  //     label: "Property type",
+  //     value: listingFormData?.propertyType,
+  //   },
+  //   {
+  //     label: "Property Sizes",
+  //     value: listingFormData?.propertySize,
+  //   },
+  // ];
 
   return (
     <div className="flex flex-col gap-4 py-4">
@@ -267,10 +451,10 @@ export default function PropertyDetailsPage() {
           <div className="flex flex-col gap-4">
             <p className="flex flex-col gap-2">
               <span className="text-base font-medium leading-none">
-                {listingFormData?.area}
+                {property?.details?.title}
               </span>
               <span className="text-xl font-medium text-primary">
-                Offer from ${listingFormData?.rangeFrom.toLocaleString()}
+                Price ${property?.details.rangeTo.toLocaleString()}
               </span>
             </p>
 
@@ -311,7 +495,7 @@ export default function PropertyDetailsPage() {
                 </svg>
 
                 <span className="text-sm font-normal leading-none text-[#8B8B8B]">
-                  {listingFormData?.bedrooms} Bedroom
+                  {property?.details?.bedrooms} Bedroom
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -355,7 +539,7 @@ export default function PropertyDetailsPage() {
                 </svg>
 
                 <span className="text-sm font-normal leading-none text-[#8B8B8B]">
-                  {listingFormData?.bathrooms} Baths
+                  {property?.details?.bathrooms} Baths
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -448,32 +632,41 @@ export default function PropertyDetailsPage() {
                 </svg>
 
                 <span className="text-sm font-normal leading-none text-[#8B8B8B]">
-                  32 km/sq
+                  {Number(property?.details.propertySize).toLocaleString()} km/sq
                 </span>
               </div>
             </div>
           </div>
 
-          <Button>
-            <BiLeaf className="size-5" />
-            <span>Purchase/Rent</span>
-          </Button>
+          {
+            type === cairo.felt("dao") ? <div className="flex items-center gap-2">
+              <Button disabled={loading} onClick={unaproveListing} variant="destructive">
+                <span>Disapprove</span>
+              </Button>
+              <Button onClick={approveListing} disabled={loading}>
+                <span>Approve</span>
+              </Button>
+            </div> : <Button>
+              <BiLeaf className="size-5" />
+              <span>Purchase/Rent</span>
+            </Button>
+          }
         </div>
 
         <div className="flex w-full flex-col gap-10 xl:flex-row xl:items-start">
           <div className="flex w-full flex-col gap-6 xl:sticky xl:top-24">
             <div className="aspect-[1.4] w-full overflow-hidden rounded-2xl border bg-secondary lg:aspect-[1.3]">
               <img
-                src={selectedImage}
+                src={`${import.meta.env.VITE_PINATA_GATEWAY}/${selectedImage}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
                 alt={`Product image ${selectedImage}`}
                 className="size-full object-cover"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-              {listingFormData?.imagesCid.map((image) => (
+              {property?.details?.imagesCid?.map((image: any, index: number) => (
                 <button
-                  key={image}
+                  key={index}
                   onClick={() => setSelectedImage(image)}
                   className={cn(
                     "relative flex-shrink-0 overflow-hidden rounded-md transition-all hover:opacity-90",
@@ -483,7 +676,8 @@ export default function PropertyDetailsPage() {
                   )}
                 >
                   <img
-                    src={image}
+                    src={`${import.meta.env.VITE_PINATA_GATEWAY}/${image}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
+
                     alt={`Thumbnail ${image}`}
                     className="object-cover"
                   />
@@ -494,14 +688,14 @@ export default function PropertyDetailsPage() {
 
           <div className="flex w-full flex-col gap-12 lg:max-w-[685px]">
             <div className="flex flex-col gap-2">
-              <p className="text-xl font-bold text-primary">Snapshot</p>
+              <p className="text-xl font-bold text-primary">Description</p>
               <pre className="flex flex-col whitespace-pre-wrap text-left font-satoshi text-base md:text-base">
                 <span
                   className={cn("md:font-normal", {
-                    "line-clamp-6": !showMore,
+                    "line-clamp-4": !showMore,
                   })}
                 >
-                  {listingFormData?.description}
+                  {property?.details?.description}
                 </span>
                 <span
                   role="button"
@@ -519,8 +713,8 @@ export default function PropertyDetailsPage() {
               </p>
 
               <div className="grid grid-cols-2 gap-12">
-                {addresses.map((addr) => (
-                  <div key={addr.label} className="flex flex-col">
+                {addresses.map((addr: any, index: number) => (
+                  <div key={index} className="flex flex-col">
                     <span className="text-base font-medium text-muted-foreground">
                       {addr.label}
                     </span>
@@ -536,7 +730,7 @@ export default function PropertyDetailsPage() {
               </p>
 
               <div className="grid grid-cols-2 gap-12">
-                {details.map((dtls) => (
+                {details.map((dtls: any) => (
                   <div key={dtls.label} className="flex flex-col">
                     <span className="text-base font-medium text-muted-foreground">
                       {dtls.label}
@@ -547,7 +741,7 @@ export default function PropertyDetailsPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-10 sm:gap-6">
+            {/* <div className="flex flex-wrap items-center justify-between gap-10 sm:gap-6">
               <div className="flex flex-col gap-1">
                 <svg
                   width="24"
@@ -599,7 +793,7 @@ export default function PropertyDetailsPage() {
                 </span>
                 <span className="text-lg font-medium">$410,000</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -612,8 +806,8 @@ export default function PropertyDetailsPage() {
             <p className="text-lg text-muted-foreground">Interior Details</p>
 
             <ul className="flex flex-col gap-2 pl-4">
-              {listingFormData?.interior?.map((int) => (
-                <li key={int.id} className="list-disc text-base font-medium">
+              {property.details?.interior?.map((int: any, key: number) => (
+                <li key={key} className="list-disc text-base font-medium">
                   {int.text}
                 </li>
               ))}
@@ -623,8 +817,8 @@ export default function PropertyDetailsPage() {
             <p className="text-lg text-muted-foreground">Outdoor Details</p>
 
             <ul className="flex flex-col gap-2 pl-4">
-              {listingFormData?.exterior?.map((ext) => (
-                <li key={ext.id} className="list-disc text-base font-medium">
+              {property.details?.exterior?.map((ext: any, key: number) => (
+                <li key={key} className="list-disc text-base font-medium">
                   {ext.text}
                 </li>
               ))}
@@ -634,8 +828,8 @@ export default function PropertyDetailsPage() {
             <p className="text-lg text-muted-foreground">Utilities</p>
 
             <ul className="flex flex-col gap-2 pl-4">
-              {listingFormData?.utilities?.map((utils) => (
-                <li key={utils.id} className="list-disc text-base font-medium">
+              {property.details?.utilities?.map((utils: any, key: number) => (
+                <li key={key} className="list-disc text-base font-medium">
                   {utils.text}
                 </li>
               ))}
@@ -648,7 +842,7 @@ export default function PropertyDetailsPage() {
 
       <div className="flex flex-1 flex-col gap-5 sm:rounded-2xl sm:border sm:bg-background sm:p-6 md:p-10 2xl:flex-row">
         <div className="flex w-full flex-col gap-10 xl:flex-row">
-          <div className="flex flex-1 flex-col gap-3">
+          {/* <div className="flex flex-1 flex-col gap-3">
             <p className="text-base text-muted-foreground">FLOOR PLANS</p>
 
             <p className="text-base">
@@ -660,15 +854,17 @@ export default function PropertyDetailsPage() {
               value look to any listing and can be used in your brochures, email
               and websites.
             </p>
-          </div>
+          </div> */}
 
           <Carousel className="relative aspect-[1.5] flex-1 rounded-xl bg-secondary">
             <CarouselContent>
-              {listingFormData?.floorPlanCid?.map((floorPlanCid, index) => (
+              {property.details?.floorPlanCid?.map((floorPlanCid: any, index: number) => (
                 <CarouselItem key={index} className="aspect-[1.5]">
                   <div className="size-full overflow-hidden rounded-md border bg-secondary md:rounded-xl">
                     <img
-                      src={floorPlanCid}
+                      // src={floorPlanCid}
+                      src={`${import.meta.env.VITE_PINATA_GATEWAY}/${floorPlanCid}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
+
                       alt="floor plan"
                       className="size-full object-cover"
                     />
@@ -687,6 +883,11 @@ export default function PropertyDetailsPage() {
       {listingFormData?.videosCid?.length && (
         <div className="flex aspect-video flex-1 flex-col gap-5 sm:rounded-2xl sm:border sm:bg-background sm:p-6 md:p-10 2xl:flex-row">
           <h1>Video</h1>
+          <video
+            src={`${import.meta.env.VITE_PINATA_GATEWAY}/${property.details.videosCid[0]}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
+            className="size-full h-96 rounded-lg object-cover"
+            controls
+          ></video>
         </div>
       )}
 
@@ -737,7 +938,7 @@ export default function PropertyDetailsPage() {
               <span>Contact Agent</span>
             </Button>
           </div>
-          <div className="flex flex-1 flex-col gap-16 rounded-md border p-6 sm:rounded-xl sm:p-8">
+          {/* <div className="flex flex-1 flex-col gap-16 rounded-md border p-6 sm:rounded-xl sm:p-8">
             <div className="flex flex-col gap-7">
               <p className="text-xl font-medium">Inspection times</p>
 
@@ -781,7 +982,7 @@ export default function PropertyDetailsPage() {
 
               <span>Add to calender</span>
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <div className="-z-0 aspect-[1.4] flex-1 overflow-hidden rounded-xl border bg-secondary sm:rounded-2xl 2xl:aspect-auto">
@@ -799,7 +1000,7 @@ export default function PropertyDetailsPage() {
 
       <div className="flex flex-1 flex-col gap-5 sm:rounded-2xl sm:border sm:bg-background sm:p-6 md:p-10 2xl:flex-row">
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-          {listingFormData?.license.map((license, _index) => (
+          {property.details?.license.map((license: any, _index: number) => (
             <div
               key={_index}
               className="flex items-center gap-4 rounded-2xl bg-secondary p-4"
@@ -810,7 +1011,7 @@ export default function PropertyDetailsPage() {
 
               <div className="flex flex-1 flex-col">
                 <p className="text-base font-medium md:text-lg">
-                  {license?.name}
+                  {license?.path?.replace("./", "").substring(0, 15)}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   PDF - {license?.size}MB
@@ -818,7 +1019,10 @@ export default function PropertyDetailsPage() {
               </div>
 
               <div className="ml-auto mr-2">
-                <Link target="_blank" to="/">
+                <Link target="_blank"
+                  to={`${import.meta.env.VITE_PINATA_GATEWAY}/${property.details.licenseCid[0]}?pinataGatewayToken=${import.meta.env.VITE_PINATA_GATEWAY_TOKEN}`}
+
+                >
                   <RxOpenInNewWindow className="size-6" role="button" />
                 </Link>
               </div>
@@ -845,7 +1049,7 @@ const DaoActions = ({
   const calls = useMemo(() => {
     if (!isDao || !lstHash || !lstId) return undefined;
 
-    return [contractInstance.populate("approve_listing", [lstId, lstHash])];
+    return [contractInstance!.populate("approve_listing", [lstId, lstHash])];
   }, [contractInstance, isDao, lstHash, lstId]);
 
   const transaction = useSendTransaction({

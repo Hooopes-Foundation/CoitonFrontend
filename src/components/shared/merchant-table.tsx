@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Listing } from "@/pages/(app)/dashboard/dashboard.page";
+import { cairo } from "starknet";
 
 const MerchantTable = ({
   filteredListings,
@@ -35,7 +36,8 @@ const MerchantTable = ({
 
       <TableBody>
         {filteredListings.map((listing: Listing) => {
-          const country = getCountryByCode(listing.details?.country);
+          const country = getCountryByCode(listing.details?.region?.country.countryCode);
+
           const avatar = generateAvatarFromAddress(listing.owner);
 
           return (
@@ -77,12 +79,13 @@ const MerchantTable = ({
               </TableCell>
 
               <TableCell className="text-base">
-                ${Number(listing.details?.price ?? 0).toLocaleString()}
+                ${Number(listing.details?.rangeTo ?? 0).toLocaleString()}
               </TableCell>
 
               <TableCell className="text-right text-base">
                 <Link
-                  to={`/property/${listing.id}?from=dao-page`}
+                  to={`/property?type=${cairo.felt("dao")}`}
+                  state={listing}
                   className="flex items-center justify-end gap-2"
                 >
                   <span>View More</span>

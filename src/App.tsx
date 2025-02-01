@@ -9,6 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store";
 import { useEffect } from "react";
 import { setHasRegistered } from "./store/slice/wallet.slice";
+import { WalletAccount } from "starknet";
+
+interface Wallet {
+  IsConnected: boolean;
+  Account:  WalletAccount | typeof undefined;
+}
+
+declare global {
+  interface Window {
+    Wallet: Wallet;
+  }
+}
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +32,7 @@ export default function App() {
     address: daoAddress,
     functionName: "is_user_registered",
     abi: daoABI,
-    args: [wallet.walletAddress],
+    args: [wallet.walletAddress!],
     watch: true,
   });
 
@@ -31,7 +43,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isLoading) {
-      dispatch(setHasRegistered(hasRegistered?.data));
+      dispatch(setHasRegistered(hasRegistered?.data!));
     }
   }, [isLoading]);
 

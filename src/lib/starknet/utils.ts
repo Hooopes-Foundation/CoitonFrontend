@@ -13,8 +13,7 @@ export function byteArrayToString(data: string): any {
 
     // Convert byte array to string
     const jsonString = String.fromCharCode(...byteArray);
-
-    return JSON.parse(jsonString);
+    return jsonString === ""?{}: JSON.parse(jsonString);
   } catch (error) {
     console.error("Error converting byte array to string:", error);
     return null;
@@ -59,6 +58,17 @@ export function asciiToHex(str: string): string {
   }
   return arr1.join("");
 }
+
+export const feltToString = (felt: any) =>
+  felt
+    // To hex
+    .toString(16)
+    // Split into 2 chars
+    .match(/.{2}/g)
+    // Get char from code
+    .map((c: any) => String.fromCharCode(parseInt(c, 16)))
+    // Join to a string
+    .join("");
 
 // Function to convert value to BN instance
 export function toBN(val: string | BN | undefined): BN | string {

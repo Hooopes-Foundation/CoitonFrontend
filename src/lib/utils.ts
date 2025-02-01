@@ -20,6 +20,7 @@ export function truncateAddr(str: string | undefined, n: number = 6): string {
     : str;
 }
 
+
 export function formatBytes(
   bytes: number,
   opts: {

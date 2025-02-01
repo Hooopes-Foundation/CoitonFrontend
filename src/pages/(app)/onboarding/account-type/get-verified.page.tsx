@@ -116,7 +116,7 @@ export default function GetVerifiedPage() {
   const [states, setStates] = useState<StateData[]>([]);
 
   const { getContractInstance } = useContractInstance();
-  const contractInstance: Contract = getContractInstance();
+  const contractInstance: Contract | undefined = getContractInstance();
 
   const { address } = useAccount();
   const walletStore = useSelector((state: RootState) => state.wallet);
@@ -147,57 +147,62 @@ export default function GetVerifiedPage() {
     return data;
   }, [form.getValues, form.watch()]);
 
-  const calls = useMemo(() => {
-    const { region, email, name, phone, isDao } = formData;
 
-    // Validate top-level fields
-    if (!email || !name || !phone?.national || !phone?.national) {
-      return;
-    }
 
-    // Validate `region.country` fields
-    if (
-      !region?.country?.countryLat ||
-      !region.country.countryLong ||
-      !region.country.countryCode ||
-      !region.country.countryName
-    ) {
-      return;
-    }
 
-    // Prepare region and details as byte arrays
-    const regionToBytesArray = stringToByteArray(
-      JSON.stringify(formData.region),
-    );
-    const detailsToBytesArray = stringToByteArray(JSON.stringify(formData));
 
-    // Return the contract calls
-    return [
-      contractInstance.populate("register_user", [
+  // const isLoading = receipt?.isLoading || transaction?.isPending;
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = async (data: DAO_MANAGEMENT_SCHEMA) => {
+    try {
+      if (isLoading) return;
+      const { region, email, name, phone, isDao } = formData;
+
+      // Validate top-level fields
+      if (!email || !name || !phone?.national || !phone?.national) {
+        return;
+      }
+
+      // Validate `region.country` fields
+      if (
+        !region?.country?.countryLat ||
+        !region.country.countryLong ||
+        !region.country.countryCode ||
+        !region.country.countryName
+      ) {
+        return;
+      }
+
+      const account = window.Wallet.Account;
+      if (!account) {
+        toast.error("Wallet not connected");
+        return;
+      }
+
+      setIsLoading(true);
+      // Prepare region and details as byte arrays
+      const regionToBytesArray = stringToByteArray(
+        JSON.stringify(formData.region),
+      );
+      const detailsToBytesArray = stringToByteArray(JSON.stringify(formData));
+
+      const call = contractInstance!.populate("register_user", [
         isDao,
         regionToBytesArray,
         detailsToBytesArray,
-      ]),
-    ];
-  }, [contractInstance, formData]);
+      ])
 
-  const transaction = useSendTransaction({
-    calls,
-  });
+      const tx = await account.execute([call]);
+      await account.waitForTransaction(tx.transaction_hash);
 
-  const receipt = useTransactionReceipt({
-    hash: transaction?.data?.transaction_hash,
-    watch: !!transaction?.data?.transaction_hash,
-    refetchInterval: (query) => (query?.state.isInvalidated ? 5000 : false),
-  });
+      navigate("/dashboard")
 
-  const isLoading = receipt?.isLoading || transaction?.isPending;
-
-  const onSubmit = async (data: DAO_MANAGEMENT_SCHEMA) => {
-    try {
-      await transaction.sendAsync();
-      console.log(data);
+      setIsLoading(false);
+      // await transaction.sendAsync();
+      // console.log(data);
     } catch (error) {
+      setIsLoading(false);
+
       console.error("Unexpected error during transaction:", error);
       toast.error(
         error instanceof Error ? error.message : "An unknown error occurred",
@@ -205,19 +210,19 @@ export default function GetVerifiedPage() {
     }
   };
 
-  useEffect(() => {
-    if (receipt?.status === "success") {
-      console.log("Transaction successful:", receipt.data);
-      toast.success("Transaction completed successfully!");
-      setCountryPopover(false);
-      setStatePopover(false);
-    } else if (receipt?.status === "error") {
-      console.error("Transaction failed:", receipt.error);
-      toast.error(
-        receipt.error?.message || "Transaction failed. Please try again.",
-      );
-    }
-  }, [receipt?.status]);
+  // useEffect(() => {
+  //   if (receipt?.status === "success") {
+  //     console.log("Transaction successful:", receipt.data);
+  //     toast.success("Transaction completed successfully!");
+  //     setCountryPopover(false);
+  //     setStatePopover(false);
+  //   } else if (receipt?.status === "error") {
+  //     console.error("Transaction failed:", receipt.error);
+  //     toast.error(
+  //       receipt.error?.message || "Transaction failed. Please try again.",
+  //     );
+  //   }
+  // }, [receipt?.status]);
 
   useEffect(() => {
     setCountries(getCountries());
@@ -385,10 +390,10 @@ export default function GetVerifiedPage() {
                           >
                             {field.value?.countryName
                               ? countries.find(
-                                  (country) =>
-                                    country.countryName ===
-                                    field.value?.countryName,
-                                )?.countryName
+                                (country) =>
+                                  country.countryName ===
+                                  field.value?.countryName,
+                              )?.countryName
                               : "Select country..."}
                             <ChevronsUpDown className="size-4 opacity-50" />
                           </div>
@@ -454,9 +459,9 @@ export default function GetVerifiedPage() {
                           >
                             {field.value?.stateName
                               ? states.find(
-                                  (state) =>
-                                    state.stateName === field.value?.stateName,
-                                )?.stateName
+                                (state) =>
+                                  state.stateName === field.value?.stateName,
+                              )?.stateName
                               : "Select state..."}
                             <ChevronsUpDown className="size-4 opacity-50" />
                           </div>

@@ -29,15 +29,17 @@ export default function GovernancePage() {
     watch: false,
   });
 
+
   const unapprovedListings =
-    appTx?.data?.length > 0
+    appTx?.data?.length
       ? appTx?.data?.map((lst: any) => ({
-          id: Number(lst.id),
-          details: byteArrayToString(lst?.details),
-          hash: String(lst.hash),
-          owner: toHex(String(lst.owner)),
-        }))
+        id: Number(lst.id),
+        details: byteArrayToString(lst?.details),
+        hash: String(lst.hash),
+        owner: toHex(String(lst.owner)),
+      }))
       : [];
+  console.log(unapprovedListings)
 
   const isLoading = appTx?.isFetching || appTx?.isLoading || appTx?.isPending;
 
